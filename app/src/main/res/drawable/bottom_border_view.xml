@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="@android:color/transparent"/>
+
+    <!-- Esquinas redondeadas solo en la parte inferior -->
+    <corners
+        android:bottomLeftRadius="26dp"
+        android:bottomRightRadius="26dp" />
+
+    <!-- Borde Inferior -->
+    <stroke
+        android:width="2dp"
+        android:color="@color/linkColor"
+        android:dashGap="0dp" />
+
+    <!-- Asegúrate de ajustar el fondo -->
+    <padding
+        android:left="0dp"
+        android:top="0dp"
+        android:right="0dp"
+        android:bottom="2dp"/>
+</layer-list>

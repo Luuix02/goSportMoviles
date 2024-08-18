@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".jugador.viewActivities.activities.activitiesAuth.RegisterActivity">
+
+    <View
+        android:id="@+id/background_view1"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="#11A3BD"
+        app:layout_constraintBottom_toTopOf="@+id/contenedor1"
+        app:layout_constraintDimensionRatio="H,1:1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.524" />
+
+    <ImageView
+        android:id="@+id/logoImageView"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginBottom="16dp"
+        android:src="@drawable/logo"
+        app:layout_constraintBottom_toTopOf="@+id/contenedor1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/background_view1"
+        app:layout_constraintVertical_bias="0.3" />
+
+    <!-- Contenedor con fondo blanco, bordes y centrado dentro del fondo azul -->
+    <LinearLayout
+        android:id="@+id/contenedor1"
+        android:layout_width="297dp"
+        android:layout_height="480dp"
+        android:background="@drawable/border"
+        android:backgroundTint="@color/white"
+        android:orientation="vertical"
+        android:padding="18dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.906"
+        app:layout_constraintWidth_percent="0.85"
+        tools:ignore="MissingConstraints">
+
+        <TextView
+            android:id="@+id/welcome_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            android:text="@string/registro"
+            android:textColor="@color/black"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/num_ficha"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/edit_text_background"
+            android:drawableStart="@drawable/ic_num_ficha"
+            android:drawablePadding="12dp"
+            android:hint="@string/ficha"
+            android:textColor="@color/black" />
+
+        <EditText
+            android:id="@+id/fin_ficha"
+            android:layout_width="match_parent"
+            android:layout_height="51dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/edit_text_background"
+            android:drawableStart="@drawable/ic_calendar"
+            android:drawablePadding="12dp"
+            android:hint="@string/finFicha"
+            android:inputType="date"
+            android:minHeight="48dp"
+            android:textColor="@color/black" />
+
+        <EditText
+            android:id="@+id/correo"
+            android:background="@drawable/edit_text_background"
+            android:drawablePadding="12dp"
+            android:drawableStart="@drawable/ic_correo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:hint="@string/correo"
+            android:minHeight="48dp"
+            android:textColor="@color/black" />
+
+        <EditText
+            android:id="@+id/contrasena"
+            android:background="@drawable/edit_text_background"
+            android:drawableStart="@drawable/ic_contrasena"
+            android:drawablePadding="12dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:hint="@string/contrasena"
+            android:minHeight="48dp" />
+
+        <EditText
+            android:id="@+id/confirmar_contrasena"
+            android:background="@drawable/edit_text_background"
+            android:drawableStart="@drawable/ic_contrasena"
+            android:drawablePadding="12dp"
+            android:layout_width="match_parent"
+            android:layout_height="51dp"
+            android:layout_marginBottom="8dp"
+            android:hint="@string/confirmar_contrasena"
+            android:minHeight="48dp" />
+
+        <Button
+            android:id="@+id/boton_registro"
+            android:layout_width="187dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="16dp"
+            android:backgroundTint="#11A3BD"
+            android:minHeight="48dp"
+            android:text="@string/Regist"
+            android:textColor="@android:color/white" />
+    </LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

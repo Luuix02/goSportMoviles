@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".jugador.viewActivities.fragments.crearEquipoFragments.FragmentCrearEquipo">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Crea tu equipo"
+            android:textSize="24sp"
+            android:layout_marginTop="40dp"
+            android:layout_gravity="center"
+            android:paddingBottom="16dp"/>
+
+
+        <ImageView
+            android:id="@+id/logoEquipo"
+            android:layout_width="185dp"
+            android:layout_height="104dp"
+            android:layout_gravity="center"
+            android:layout_marginBottom="16dp"
+            android:background="#cccccc"
+            android:gravity="center"
+            android:text="Subir foto" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="1dp">
+
+            <EditText
+                android:id="@+id/nombreEquipo"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
+                android:background="@drawable/edit_text_background"
+                android:drawableStart="@drawable/ic_ful_name"
+                android:drawablePadding="12dp"
+                android:hint="@string/nombreEquipo"
+                android:inputType="textPersonName"
+                android:padding="12dp"
+                android:textSize="14dp" />
+
+            <EditText
+                android:id="@+id/nombreCapitan"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
+                android:background="@drawable/edit_text_background"
+                android:drawableStart="@drawable/ic_ful_name"
+                android:drawablePadding="12dp"
+                android:hint="@string/nombreCapitan"
+                android:inputType="textPersonName"
+                android:padding="12dp"
+                android:textSize="14dp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="16dp">
+
+            <EditText
+                android:id="@+id/CelularPrincipal"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/edit_text_background"
+                android:drawableStart="@drawable/ic_ful_name"
+                android:drawablePadding="12dp"
+                android:hint="@string/numeroCel"
+                android:inputType="phone"
+                android:padding="12dp"
+                android:textSize="14dp" />
+
+            <EditText
+                android:id="@+id/CelularSecundario"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:background="@drawable/edit_text_background"
+                android:drawableStart="@drawable/ic_ful_name"
+                android:drawablePadding="12dp"
+                android:hint="@string/numeroCel2"
+                android:inputType="phone"
+                android:padding="12dp"
+                android:textSize="14dp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="16dp">
+
+            <EditText
+                android:id="@+id/buscadorCompañeros"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:drawablePadding="12dp"
+                android:hint="@string/buscarCompañeros"
+                android:inputType="phone"
+                android:padding="12dp"
+                android:textSize="14dp" />
+
+
+            <!--            <Button-->
+            <!--                android:id="@+id/btnBuscarJug"-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_marginStart="8dp"-->
+            <!--                android:text="Buscar jugador" />-->
+
+        </LinearLayout>
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerJugadores"
+            android:layout_width="383dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="30dp"
+            android:layout_marginBottom="0dp"
+            android:scrollbars="vertical" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerJugadoresSeleccionados"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            android:orientation="vertical"/>
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/btnCrearEquipo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Crear equipo"
+            android:backgroundTint="#11A3BD"
+            android:layout_marginTop="16dp"/>
+
+    </LinearLayout>
+
+</FrameLayout>

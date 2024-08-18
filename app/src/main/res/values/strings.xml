@@ -1,0 +1,82 @@
+<resources>
+    <string name="app_name">proyecto</string>
+    <string name="Inicio">Inicio</string>
+    <string name="Equipo">Equipo</string>
+    <string name="Noticias">Noticias\n</string>
+    <string name="Perfil">Perfil</string>
+    <string name="iniciar_sesion">Inicia Sesión\n</string>
+    <string name="iniciarSesion">Iniciar sesión</string>
+    <string name="sinCuenta">No tienes una cuenta? Regístrate</string>
+    <string name="correo">Correo electrónico</string>
+    <string name="contrasena">Contraseña</string>
+    <string name="olvidarContra">Olvidaste tu contraseña?</string>
+    <string name="registro">Regístrate</string>
+    <string name="full_name">Nombres Completos</string>
+    <string name="identificacion">Identificación</string>
+    <string name="phone">Teléfono</string>
+    <string name="jornada">Jornada</string>
+    <string name="programa">Programa de Formación</string>
+    <string name="next">Siguiente</string>
+    <string name="Regist">Registrarse</string>
+    <string name="ficha">Número de ficha\n</string>
+    <string name="finFicha">Finalización ficha\n</string>
+    <string name="confirmar_contrasena">Confirmar contraseña\n</string>
+
+    <string name="profile_image_desc">Imagen de perfil</string>
+    <string name="profile_name">Nombre del Usuario</string>
+    <string name="view_tournaments">Ver Torneos</string>
+    <string name="edit_profile">Editar Perfil</string>
+    <string name="settings">Configuraciones</string>
+    <string name="Dar">Imagen de Argentina</string>
+    <string name="titulogo">Bienvenido a Go Sport</string>
+    <string name="campeonatosdisponibles">Campeonatos Disponibles</string>
+    <string name="Torneo">Torneo del Ascenso Dorado</string>
+    <string name="disciplina">Disciplina: Fútbol</string>
+    <string name="interfichas">Categoría: Interfichas</string>
+    <string name="modalidad">Modalidad: Mixto</string>
+    <string name="integrantes">Máximo de integrantes: 15</string>
+    <string name="unirme">Unirme</string>
+    <string name="home">Home</string>
+    <string name="buscar">Buscar</string>
+    <string name="perfil">Perfil</string>
+    <string name="selecion">Planilla</string>
+    <string name="planilla">Planilla</string>
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+
+    <string name="previous">Previous</string>
+    <string name="holacrearequipo">Hola desde crear equipos\n</string>
+
+
+    <string-array name="jornada_options">
+        <item>mañana</item>
+        <item>tarde</item>
+    </string-array>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="holaVerEquipo">Hola desde ver equipos\n</string>
+    <string name="holaHomeCampeonatos">Hola desde ver campeonatos disponibles\n</string>
+    <string name="holaNoticias">Hola desde noticias\n</string>
+    <string name="holaPerfil">Hola desde perfil\n</string>
+    <string name="nombreEquipo">Nombre del equipo</string>
+    <string name="nombreCapitan">Nombre del capitán\n</string>
+    <string name="numeroCel">Celular Principal\n</string>
+    <string name="numeroCel2">Celular Secundario\n</string>
+    <string name="buscarCompañeros">Identificación del jugador\n</string>
+    <string name="crearEquipo">Crea tu equipo\n</string>
+    <string name="addTeam">Crea tu equipo\n</string>
+    <string name="titleCampeonato">Nombre Camepeonato/n</string>
+    <string name="equipo_1">Equipo 1\n</string>
+    <string name="equipo_2">Equipo 2\n</string>
+    <string name="gosport">GoSport</string>
+    <string name="resultados">Versus</string>
+    <string name="nombre_del_campeonato">nombre del Campeonato :</string>
+    <string name="nombre_del_campeonat">Nombre del Campeonato</string>
+    <string name="descripcion">Descripcion :</string>
+    <string name="descripci_n_del_campeonato">Descripción del Campeonato</string>
+    <string name="cambiar_contrasena">Cambiar Contraseña</string>
+    <string name="editar_perfil">Editar Perfil</string>
+    <string name="mis_equipos">Mis Equipos</string>
+    <string name="salir">Salir</string>
+
+</resources>
