@@ -75,6 +75,7 @@ class RegisterPresenter :  RegisterContract.Presenter {
             correo = combinedData["correo"] ?: "",
             contrasena = combinedData["contrasena"] ?: "",
             rol = combinedData["rol"] ?: "",
+            id = combinedData["id"] ?: "",
             dorsal = combinedData["dorsal"] ?: "",
 
             )

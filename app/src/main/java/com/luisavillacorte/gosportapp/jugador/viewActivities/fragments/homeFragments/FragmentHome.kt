@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -24,7 +25,6 @@ class FragmentHome() : Fragment(), HomeCampeonatosContract.View, Parcelable {
     private lateinit var presenter: HomeCampeonatosPresenter
     private lateinit var recyclerView: RecyclerView
     private lateinit var campeonatosAdapter: CampeonatosAdapter
-
     constructor(parcel: Parcel) : this() {
 
     }
@@ -45,6 +45,8 @@ class FragmentHome() : Fragment(), HomeCampeonatosContract.View, Parcelable {
         presenter = HomeCampeonatosPresenter(campeonatosApiService)
         presenter.attachView(this)
         presenter.getCampeonatos()
+
+
     }
 
     override fun showLoading() {

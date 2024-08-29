@@ -1,12 +1,12 @@
-package com.luisavillacorte.gosportapp.jugador.viewActivities.activities.principalMain
+package com.luisavillacorte.gosportapp.jugador.viewActivities
 
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import com.luisavillacorte.gosportapp.jugador.viewActivities.activities.activitiesAuth.ActivityLogin
 import com.luisavillacorte.gosportapp.R
+import com.luisavillacorte.gosportapp.jugador.viewActivities.activities.activitiesAuth.ActivityLogin
 import com.luisavillacorte.gosportapp.jugador.viewActivities.activities.activitiesAuth.RegisterActivity
 
 class MainActivity : AppCompatActivity() {
@@ -31,4 +31,4 @@ class MainActivity : AppCompatActivity() {
         }
 
     }
-    }
+}

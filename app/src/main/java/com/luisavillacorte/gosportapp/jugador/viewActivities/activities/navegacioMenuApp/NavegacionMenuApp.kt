@@ -6,10 +6,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.luisavillacorte.gosportapp.jugador.viewActivities.fragments.equipoFragments.FragmentEquipo
-import com.luisavillacorte.gosportapp.jugador.viewActivities.fragments.crearEquipoFragments.FragmentCrearEquipo
 import com.luisavillacorte.gosportapp.R
+import com.luisavillacorte.gosportapp.jugador.viewActivities.fragments.crearEquipoFragments.FragmentCrearEquipo
 import com.luisavillacorte.gosportapp.jugador.viewActivities.fragments.homeFragments.FragmentHome
-import com.luisavillacorte.gosportapp.jugador.viewActivities.fragments.noticiasFragments.FragmentNoticias
 import com.luisavillacorte.gosportapp.jugador.viewActivities.fragments.perfilFragments.FragmentPerfil
 
 class NavegacionMenuApp : AppCompatActivity() {
@@ -25,7 +24,6 @@ class NavegacionMenuApp : AppCompatActivity() {
             when (item.itemId) {
                 R.id.navigation_inicio -> selectedFragment = FragmentHome()
                 R.id.navigation_equipo -> selectedFragment = FragmentEquipo()
-                R.id.navigation_noticias -> selectedFragment = FragmentNoticias()
                 R.id.planilla -> selectedFragment = FragmentCrearEquipo()
                 R.id.navigation_perfil -> selectedFragment = FragmentPerfil()
             }
@@ -41,4 +39,4 @@ class NavegacionMenuApp : AppCompatActivity() {
             bottomNavigationView.selectedItemId = R.id.navigation_inicio
         }
     }
-    }
+}

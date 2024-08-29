@@ -2,7 +2,9 @@ package com.luisavillacorte.gosportapp.jugador.adapters.model.homeCampeonatos
 
 import android.util.Log
 import com.luisavillacorte.gosportapp.jugador.adapters.apiService.homeCampeonatosService.HomeApiService
+import com.luisavillacorte.gosportapp.jugador.adapters.model.crearEquipo.ValidarInscripcionResponse
 import retrofit2.Call
+import retrofit2.Callback
 import retrofit2.Response
 
 class HomeCampeonatosPresenter(private val campeonatosService: HomeApiService) : HomeCampeonatosContract.Presenter {
@@ -16,6 +18,7 @@ class HomeCampeonatosPresenter(private val campeonatosService: HomeApiService) :
     override fun detachView() {
         view = null
     }
+
 
     override fun getCampeonatos() {
         view?.showLoading()
@@ -49,4 +52,6 @@ class HomeCampeonatosPresenter(private val campeonatosService: HomeApiService) :
         })
     }
 
+
 }
+

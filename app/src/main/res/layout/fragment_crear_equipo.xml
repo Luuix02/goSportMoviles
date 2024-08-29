@@ -5,6 +5,9 @@
     android:layout_height="match_parent"
     tools:context=".jugador.viewActivities.fragments.crearEquipoFragments.FragmentCrearEquipo">
 
+
+
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -22,15 +25,33 @@
             android:paddingBottom="16dp"/>
 
 
-        <ImageView
-            android:id="@+id/logoEquipo"
-            android:layout_width="185dp"
-            android:layout_height="104dp"
+
+        <RelativeLayout
+            android:layout_width="166dp"
+            android:layout_height="128dp"
             android:layout_gravity="center"
-            android:layout_marginBottom="16dp"
-            android:background="#cccccc"
-            android:gravity="center"
-            android:text="Subir foto" />
+            android:layout_marginBottom="16dp">
+
+            <!-- Contenedor circular para la imagen -->
+            <ImageView
+                android:id="@+id/logoEquipo"
+                android:layout_width="match_parent"
+                android:layout_height="124dp"
+                android:layout_centerInParent="true"
+                android:background="@drawable/circular_background"
+                android:scaleType="centerCrop" />
+
+            <!-- Icono de cámara para seleccionar una foto -->
+            <ImageView
+                android:id="@+id/iconoCamara"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:layout_margin="8dp"
+                android:background="@drawable/circular_background"
+                android:src="@drawable/ic_camara" />
+        </RelativeLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -101,6 +122,15 @@
                 android:padding="12dp"
                 android:textSize="14dp" />
 
+            <Button
+                android:id="@+id/btnCrearEquipo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:backgroundTint="#11A3BD"
+                android:text="Crear equipo" />
+
+
         </LinearLayout>
 
         <LinearLayout
@@ -139,13 +169,55 @@
             android:layout_marginBottom="0dp"
             android:scrollbars="vertical" />
 
+<!--        <LinearLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:orientation="horizontal"-->
+<!--            android:padding="8dp">-->
+
+<!--            <TextView-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_weight="1"-->
+<!--                android:text="Nombres"-->
+<!--                android:textStyle="bold"-->
+<!--                android:textColor="@color/black" />-->
+
+<!--            <TextView-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_weight="1"-->
+<!--                android:text="Ficha"-->
+<!--                android:textStyle="bold"-->
+<!--                android:textColor="@color/black" />-->
+
+<!--            <TextView-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_weight="1"-->
+<!--                android:text="Dorsal"-->
+<!--                android:textStyle="bold"-->
+<!--                android:textColor="@color/black" />-->
+
+<!--            <TextView-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_weight="1"-->
+<!--                android:text="Acción"-->
+<!--                android:textStyle="bold"-->
+<!--                android:textColor="@color/black" />-->
+<!--        </LinearLayout>-->
+
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerJugadoresSeleccionados"
-            android:layout_width="match_parent"
+            android:layout_width="383dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:layout_marginBottom="16dp"
-            android:orientation="vertical"/>
+            android:layout_marginRight="30dp"
+            android:layout_marginBottom="0dp"
+            android:scrollbars="vertical"/>
+        <!--            android:orientation="vertical"/>-->
 
         <ProgressBar
             android:id="@+id/progressBar"
@@ -154,13 +226,7 @@
             android:layout_centerInParent="true"
             android:visibility="gone" />
 
-        <Button
-            android:id="@+id/btnCrearEquipo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Crear equipo"
-            android:backgroundTint="#11A3BD"
-            android:layout_marginTop="16dp"/>
+
 
     </LinearLayout>
 

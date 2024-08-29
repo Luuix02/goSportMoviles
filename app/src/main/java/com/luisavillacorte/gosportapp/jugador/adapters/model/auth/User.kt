@@ -1,9 +1,11 @@
 package com.luisavillacorte.gosportapp.jugador.adapters.model.auth
 
+import com.google.gson.annotations.SerializedName
 import java.util.Date
 
 data class User(
 
+    @SerializedName("_id") val id: String,
     val nombres: String,
     val telefono: String,
     val identificacion: String,

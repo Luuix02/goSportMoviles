@@ -3,36 +3,39 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
+    android:background="@android:color/darker_gray"
     android:padding="8dp">
 
     <TextView
-        android:id="@+id/nombreJugador"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
+        android:text="Nombres"
+        android:textStyle="bold"
         android:gravity="center"/>
 
     <TextView
-        android:id="@+id/fichaJugador"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
+        android:text="Ficha"
+        android:textStyle="bold"
         android:gravity="center"/>
 
     <TextView
-        android:id="@+id/dorsalJugador"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
+        android:text="Dorsal"
+        android:textStyle="bold"
         android:gravity="center"/>
 
-    <Button
-        android:id="@+id/botonEliminar"
-        android:layout_width="95dp"
+    <TextView
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginRight="20dp"
-        android:text="Eliminar"
-        android:backgroundTint="#11A3BD"
-        android:textColor="@color/black"
-        android:textSize="10sp"/>
+        android:layout_weight="1"
+        android:text="Acción"
+        android:textStyle="bold"
+        android:gravity="center"/>
+
 </LinearLayout>

@@ -7,12 +7,14 @@ interface HomeCampeonatosContract {
         fun hideLoading()
         fun showCampeonatos(campeonato: List<Campeonatos>)
         fun showError(message: String)
+
     }
 
     interface Presenter {
         fun attachView(view: View)
         fun detachView()
         fun getCampeonatos()
+
 
 
     }

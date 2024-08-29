@@ -6,6 +6,7 @@
     tools:context=".jugador.viewActivities.fragments.homeFragments.FragmentHome">
 
     <Button
+        android:id="@+id/btnCreaTuEquipo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
