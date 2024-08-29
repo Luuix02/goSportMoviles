@@ -23,6 +23,9 @@
             android:name=".jugador.viewActivities.activities.activitiesAuth.ActivityLogin"
             android:exported="false" />
         <activity
+            android:name=".planillero.viewActivities.EquiposAsignadosPlanillero.PlanilleroFragment"
+            android:exported="false" />
+        <activity
             android:name=".jugador.viewActivities.activities.principalMain.MainActivity"
             android:exported="true">
             <intent-filter>

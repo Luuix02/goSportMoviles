@@ -18,7 +18,7 @@ import com.luisavillacorte.gosportapp.jugador.adapters.apiService.authService.Ap
 import com.luisavillacorte.gosportapp.jugador.adapters.model.login.LoginContract
 import com.luisavillacorte.gosportapp.jugador.adapters.model.login.LoginPresenter
 import com.luisavillacorte.gosportapp.jugador.viewActivities.activities.navegacioMenuApp.NavegacionMenuApp
-import com.luisavillacorte.gosportapp.planillero.viewActivities.PlanilleroFragment
+import com.luisavillacorte.gosportapp.planillero.viewActivities.EquiposAsignadosPlanillero.PlanilleroFragment
 
 class ActivityLogin : AppCompatActivity(), LoginContract.View {
 
