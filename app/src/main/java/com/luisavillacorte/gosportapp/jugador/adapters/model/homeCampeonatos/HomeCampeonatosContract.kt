@@ -11,8 +11,6 @@ interface HomeCampeonatosContract {
     }
 
     interface Presenter {
-        fun attachView(view: View)
-        fun detachView()
         fun getCampeonatos()
 
 

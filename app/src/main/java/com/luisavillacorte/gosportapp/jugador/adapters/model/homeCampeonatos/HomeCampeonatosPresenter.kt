@@ -11,13 +11,6 @@ class HomeCampeonatosPresenter(private val campeonatosService: HomeApiService) :
 
     private var view: HomeCampeonatosContract.View? = null
 
-    override fun attachView(view: HomeCampeonatosContract.View) {
-        this.view = view
-    }
-
-    override fun detachView() {
-        view = null
-    }
 
 
     override fun getCampeonatos() {
