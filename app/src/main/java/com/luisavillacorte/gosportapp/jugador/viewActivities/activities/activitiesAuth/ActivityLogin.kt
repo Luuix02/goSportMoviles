@@ -24,7 +24,7 @@ import com.luisavillacorte.gosportapp.jugador.adapters.model.login.LoginPresente
 import com.luisavillacorte.gosportapp.jugador.adapters.repository.TokenRepository
 import com.luisavillacorte.gosportapp.jugador.adapters.storage.TokenManager
 import com.luisavillacorte.gosportapp.jugador.viewActivities.activities.navegacioMenuApp.NavegacionMenuApp
-import com.luisavillacorte.gosportapp.planillero.viewActivities.PlanilleroFragment
+import com.luisavillacorte.gosportapp.planillero.viewActivities.EquiposAsignadosPlanillero.PlanilleroFragment
 
 class ActivityLogin : AppCompatActivity(), LoginContract.View {
 
