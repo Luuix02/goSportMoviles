@@ -8,9 +8,8 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.luisavillacorte.gosportapp.R
 
-class CampeonatosAdapter(
-    private val campeonatos: List<Campeonatos>
-) : RecyclerView.Adapter<CampeonatosAdapter.CampeonatoViewHolder>() {
+class CampeonatosAdapter(private val campeonatos: List<Campeonatos>) :
+    RecyclerView.Adapter<CampeonatosAdapter.CampeonatoViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CampeonatoViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -30,10 +29,10 @@ class CampeonatosAdapter(
         private val descripcion: TextView = itemView.findViewById(R.id.descripcion)
         private val btnVerDetalles: Button = itemView.findViewById(R.id.btnVerDetalles)
         private val btnincribir: TextView = itemView.findViewById(R.id.btnincribirme)
-        private  val estadocampeonato: TextView =itemView.findViewById(R.id.estado)
-        private val categoria: TextView =itemView.findViewById(R.id.categoria)
-        private val fechaini: TextView =itemView.findViewById(R.id.fechaInicio)
-        private val fechafinal: TextView =itemView.findViewById(R.id.fechaFin)
+        private  val estadocampeonato: TextView=itemView.findViewById(R.id.estado)
+        private val categoria:TextView=itemView.findViewById(R.id.categoria)
+        private val fechaini:TextView=itemView.findViewById(R.id.fechaInicio)
+        private val fechafinal:TextView=itemView.findViewById(R.id.fechaFin)
 
 
 
@@ -68,5 +67,3 @@ class CampeonatosAdapter(
         }
     }
 }
-
-
