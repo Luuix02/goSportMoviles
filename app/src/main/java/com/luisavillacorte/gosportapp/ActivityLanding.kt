@@ -5,11 +5,13 @@ import android.os.Bundle
 import android.view.Menu
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.runtime.savedinstancestate.savedInstanceState
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.luisavillacorte.gosportapp.jugador.viewActivities.MainActivity
+import com.luisavillacorte.gosportapp.jugador.viewActivities.fragments.homeFragments.FragmentHome
 
 class ActivityLanding : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -20,6 +22,13 @@ class ActivityLanding : AppCompatActivity() {
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
         setupNavigation(navView)
         updateMenuTitle(navView, false)
+
+        if (savedInstanceState == null) {
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.fragment_container, FragmentLanding()).commit()
+            navView.selectedItemId = R.id.navigation_inicio
+        }
+
     }
 
     //        val menu : Menu = navView.menu
@@ -37,7 +46,6 @@ class ActivityLanding : AppCompatActivity() {
         navView.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.navigation_inicio -> {
-                    // Redirigir al fragmento de inicio
                     val fragment = FragmentLanding()
                     supportFragmentManager.beginTransaction()
                         .replace(R.id.fragment_container, fragment)
@@ -46,18 +54,19 @@ class ActivityLanding : AppCompatActivity() {
                 }
 
                 R.id.navigation_perfil -> {
-                    // Redirigir a la pantalla de inicio de sesión
                     startActivity(Intent(this, MainActivity::class.java))
                     true
                 }
 
                 else -> false
             }
+
         }
+
     }
 
 
-
-
 }
+
+
 

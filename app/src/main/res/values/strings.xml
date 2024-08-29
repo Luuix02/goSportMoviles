@@ -78,5 +78,19 @@
     <string name="editar_perfil">Editar Perfil</string>
     <string name="mis_equipos">Mis Equipos</string>
     <string name="salir">Salir</string>
+    <string name="agregar">Agregar\n</string>
+    <string name="eliminar">Eliminar</string>
+    <string name="equipo_name">nameEquipo\n</string>
+    <string name="finalizar_partido">Finalizar partido\n</string>
+    <string name="nombreequipo2">Nombre equipo 2\n</string>
+    <string name="nombreequipo1">Nombre equipo 1</string>
+    <string name="_2">0</string>
+    <string name="nombre_del_jugador">nombreJugador\n</string>
+    <string name="_0">0</string>
+    <string name="jugador_destacado">Jugador Destacado\n</string>
+    <string name="resultadossegun">resultados</string>
+    <string name="Marcadores">Mis partidos</string>
+    <string name="profile">Perfil</string>
+    <string name="login">Iniciar Sesión</string>
 
 </resources>
