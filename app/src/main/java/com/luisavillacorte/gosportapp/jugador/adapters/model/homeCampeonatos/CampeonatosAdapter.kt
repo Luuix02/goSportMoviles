@@ -67,3 +67,4 @@ class CampeonatosAdapter(private val campeonatos: List<Campeonatos>) :
         }
     }
 }
+

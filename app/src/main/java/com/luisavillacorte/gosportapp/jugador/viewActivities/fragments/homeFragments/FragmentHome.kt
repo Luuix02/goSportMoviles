@@ -1,16 +1,13 @@
 package com.luisavillacorte.gosportapp.jugador.viewActivities.fragments.homeFragments
 
 import android.os.Bundle
-import android.os.Parcel
-import android.os.Parcelable
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.luisavillacorte.gosportapp.R
@@ -21,7 +18,6 @@ import com.luisavillacorte.gosportapp.jugador.adapters.model.homeCampeonatos.Cam
 import com.luisavillacorte.gosportapp.jugador.adapters.model.homeCampeonatos.CampeonatosAdapter
 import com.luisavillacorte.gosportapp.jugador.adapters.model.homeCampeonatos.HomeCampeonatosContract
 import com.luisavillacorte.gosportapp.jugador.adapters.model.homeCampeonatos.HomeCampeonatosPresenter
-
 
 class FragmentHome : Fragment(), HomeCampeonatosContract.View {
 
@@ -40,19 +36,20 @@ class FragmentHome : Fragment(), HomeCampeonatosContract.View {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // Inicializa las vistas
         recyclerViewCampeonatos = view.findViewById(R.id.recyclerViewCampeonatos)
-        //recyclerViewImages = view.findViewById(R.id.recyclerViewImages)
         nombrejuga = view.findViewById(R.id.nombreusuario)
 
         // Configura el layout manager para mostrar los items horizontalmente
         recyclerViewCampeonatos.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
 
-        // Inicializar presenter con RetrofitInstance
+        // Inicializa el Presenter
         presenter = HomeCampeonatosPresenter(
             this, requireContext(),
             RetrofitInstance.createService(HomeApiService::class.java)
         )
 
+        // Llama a los métodos del Presenter
         presenter.getCampeonatos()
         presenter.getPerfilUsuario()
     }
@@ -75,8 +72,6 @@ class FragmentHome : Fragment(), HomeCampeonatosContract.View {
             } ?: Log.e("HomeFragment", "Context is null, cannot show toast")
         }
     }
-
-
 
     override fun showError(message: String) {
         context?.let {

@@ -21,4 +21,3 @@ class Campeonatos (
     val __v: Int
 ) : Serializable
 
-
