@@ -317,7 +317,7 @@ class FragmentCrearEquipo : Fragment(), CrearEquipoContract.View {
         uri?.let {
             imageUri = uri
             logoEquipo.setImageURI(imageUri)
-            // Muestra una vista previa si es necesario
+
         }
 
     }

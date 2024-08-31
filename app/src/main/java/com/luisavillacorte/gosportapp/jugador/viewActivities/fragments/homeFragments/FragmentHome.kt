@@ -43,7 +43,7 @@ class FragmentHome() : Fragment(), HomeCampeonatosContract.View, Parcelable {
         recyclerView.layoutManager = LinearLayoutManager(context)
         val campeonatosApiService = RetrofitInstance.createService(HomeApiService::class.java)
         presenter = HomeCampeonatosPresenter(campeonatosApiService)
-        presenter.attachView(this)
+//        presenter.attachView(this)
         presenter.getCampeonatos()
 
 
@@ -70,10 +70,10 @@ class FragmentHome() : Fragment(), HomeCampeonatosContract.View, Parcelable {
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        presenter.detachView()
-    }
+//    override fun onDestroyView() {
+//        super.onDestroyView()
+//        presenter.detachView()
+//    }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
 
