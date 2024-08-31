@@ -1,5 +1,6 @@
 package com.luisavillacorte.gosportapp.jugador.adapters.apiService.homeCampeonatosService
 
+import com.luisavillacorte.gosportapp.jugador.adapters.model.auth.PerfilUsuarioResponse
 import com.luisavillacorte.gosportapp.jugador.adapters.model.crearEquipo.ValidarInscripcionResponse
 import com.luisavillacorte.gosportapp.jugador.adapters.model.homeCampeonatos.Campeonatos
 import retrofit2.Call
@@ -11,9 +12,8 @@ interface HomeApiService {
     fun getCampeonato(): Call<List<Campeonatos>>
 
 
-    @GET("/equipoInscripto/validarJugador")
-    fun validarInscripcionIntegrante(
-        @Header("idjugador")
-        idJugador: String
-    ): Call<ValidarInscripcionResponse>
+    @GET("/usuarios/perfil")
+    fun obtenerPerfilUsuario(@Header("Authorization") token: String): Call<PerfilUsuarioResponse>
+
+
 }

@@ -92,5 +92,6 @@
     <string name="Marcadores">Mis partidos</string>
     <string name="profile">Perfil</string>
     <string name="login">Iniciar Sesión</string>
+    <string name="nombrejugador" />
 
 </resources>

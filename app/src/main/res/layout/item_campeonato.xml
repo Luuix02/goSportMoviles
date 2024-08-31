@@ -7,7 +7,9 @@
     card_view:cardElevation="8dp"
     card_view:cardCornerRadius="12dp"
     card_view:cardBackgroundColor="@android:color/white"
+    android:layout_gravity="center_vertical"
     android:background="@drawable/border">
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -15,7 +17,7 @@
         android:padding="16dp"
         android:orientation="vertical">
 
-        <!-- Título y Categoría -->
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -129,6 +131,7 @@
                         android:layout_height="wrap_content"
                         android:text="Ver detalles"
                         android:textSize="14sp"
+                        android:backgroundTint="#11A3BD"
                         android:visibility="gone" />
 
                     <Button
@@ -139,6 +142,8 @@
                         android:visibility="gone"
                         android:textStyle="bold"
                         android:textSize="14sp"
+
+                        android:backgroundTint="#11A3BD"
                         android:layout_marginStart="16dp"
                         />
                 </LinearLayout>
@@ -146,5 +151,4 @@
         </LinearLayout>
 
     </LinearLayout>
-
 </androidx.cardview.widget.CardView>
