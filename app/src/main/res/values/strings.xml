@@ -93,5 +93,14 @@
     <string name="profile">Perfil</string>
     <string name="login">Iniciar Sesión</string>
     <string name="nombrejugador" />
+    <string name="profile_picture" />
+    <string name="label_nombres" />
+    <string name="label_telefono" />
+    <string name="label_correo" />
+    <string name="label_identificacion" />
+    <string name="label_ficha" />
+    <string name="label_programa" />
+    <string name="label_jornada" />
+    <string name="btn_guardar" />
 
 </resources>
