@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="20dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="30dp"
+            android:gravity="center_horizontal">
+
+            <!-- Imagen de perfil -->
+            <ImageView
+                android:id="@+id/imgProfile"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_marginBottom="40dp"
+                android:background="@drawable/copa"
+                android:contentDescription="@string/profile_picture"
+                android:scaleType="centerCrop"
+                android:clipToOutline="true"
+                android:layout_marginTop="20dp"/>
+
+            <!-- Campos de entrada -->
+            <EditText
+                android:id="@+id/etNombres"
+                android:layout_width="280dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:hint="@string/nombreseditarperfil"
+                android:padding="12dp"
+                android:textColor="@color/black"
+                android:background="@drawable/edittext_background"/>
+
+            <EditText
+                android:id="@+id/etTelefono"
+                android:layout_width="280dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:hint="@string/telefonoeditarperfil"
+                android:textColor="@color/black"
+                android:padding="12dp"
+                android:background="@drawable/edittext_background"/>
+
+            <EditText
+                android:id="@+id/etCorreo"
+                android:layout_width="280dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:hint="@string/correoeditarperfil"
+                android:textColor="@color/black"
+                android:padding="12dp"
+                android:background="@drawable/edittext_background"/>
+
+            <EditText
+                android:id="@+id/etIdentificacion"
+                android:layout_width="280dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:hint="@string/identificacioneditarperfil"
+                android:textColor="@color/black"
+                android:padding="12dp"
+                android:background="@drawable/edittext_background"/>
+
+            <EditText
+                android:id="@+id/etFicha"
+                android:layout_width="280dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:hint="@string/fichaeditarperfil"
+                android:textColor="@color/black"
+                android:padding="12dp"
+                android:background="@drawable/edittext_background"/>
+
+            <EditText
+                android:id="@+id/etPrograma"
+                android:layout_width="280dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:hint="@string/programaeditrperfil"
+                android:textColor="@color/black"
+                android:padding="12dp"
+                android:background="@drawable/edittext_background"/>
+
+            <EditText
+                android:id="@+id/etJornada"
+                android:layout_width="280dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp"
+                android:hint="@string/jornadaeditarperfil"
+                android:textColor="@color/black"
+                android:padding="12dp"
+                android:background="@drawable/edittext_background"/>
+
+            <!-- Botón de guardar -->
+            <Button
+                android:id="@+id/btnGuardar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/button_color"
+                android:textColor="@color/white"
+                android:text="@string/guardareditarperfil"
+                android:padding="12dp"
+                android:textSize="16sp"
+                android:layout_marginTop="24dp"/>
+
+        </LinearLayout>
+    </ScrollView>
+</FrameLayout>

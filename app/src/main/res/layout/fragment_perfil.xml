@@ -96,7 +96,7 @@
                 android:padding="16dp">
 
                 <TextView
-                    android:id="@+id/link_editar_perfil"
+                    android:id="@+id/editar_perfil"
                     android:drawableStart="@drawable/baseline_edit_24"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -154,5 +154,11 @@
         </androidx.cardview.widget.CardView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+    <FrameLayout
+        android:id="@+id/fragment_container_perfil"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </FrameLayout>
 
 </FrameLayout>

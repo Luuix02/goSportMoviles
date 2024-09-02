@@ -36,7 +36,6 @@ android {
 }
 
 dependencies {
-
     implementation ( "androidx.activity:activity-ktx:1.6.0")
     implementation ("com.squareup.okhttp3:okhttp:4.9.0")
     implementation ("com.squareup.okhttp3:logging-interceptor:4.9.0")
@@ -57,6 +56,5 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-
     implementation ("com.squareup.picasso:picasso:2.8")
 }
