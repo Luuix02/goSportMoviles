@@ -1,5 +1,6 @@
 package com.luisavillacorte.gosportapp.jugador.viewActivities.fragments.perfilFragments
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -16,12 +17,14 @@ import com.luisavillacorte.gosportapp.jugador.adapters.model.homeCampeonatos.Hom
 import com.luisavillacorte.gosportapp.jugador.adapters.storage.TokenManager
 import com.luisavillacorte.gosportapp.jugador.adapters.model.auth.PerfilUsuarioResponse
 import com.luisavillacorte.gosportapp.jugador.adapters.model.homeCampeonatos.Campeonatos
+import com.luisavillacorte.gosportapp.jugador.viewActivities.fragments.editarPerfil.Editarperfil
 
 class FragmentPerfil : Fragment(), HomeCampeonatosContract.View {
 
     private lateinit var presenter: HomeCampeonatosPresenter
     private lateinit var nombreTextView: TextView
     private lateinit var telefonoTextView: TextView
+    private lateinit var editarperfil: TextView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -31,9 +34,22 @@ class FragmentPerfil : Fragment(), HomeCampeonatosContract.View {
 
         nombreTextView = view.findViewById(R.id.nombre_text_view)
         telefonoTextView = view.findViewById(R.id.telefono_text_view)
+        editarperfil = view.findViewById(R.id.editar_perfil)
+
+        // Configura el click listener para cambiar al fragmento EditarPerfil
+        editarperfil.setOnClickListener {
+            val editarPerfilFragment = Editarperfil()
+            val fragmentManager = parentFragmentManager
+            val fragmentTransaction = fragmentManager.beginTransaction()
+
+            // Reemplaza el fragmento actual con el nuevo
+            fragmentTransaction.replace(R.id.fragment_container, editarPerfilFragment)
+            fragmentTransaction.addToBackStack(null) // Permite volver atrás con el botón de retroceso
+            fragmentTransaction.commit()
+        }
 
         val apiService = RetrofitInstance.createService(HomeApiService::class.java)
-        val tokenManager = TokenManager(requireContext()) // Obtén el TokenManager
+        val tokenManager = TokenManager(requireContext())
 
         presenter = HomeCampeonatosPresenter(this, requireContext(), apiService)
         presenter.getPerfilUsuario()
