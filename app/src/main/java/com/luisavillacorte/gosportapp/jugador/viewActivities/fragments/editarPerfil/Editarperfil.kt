@@ -22,6 +22,10 @@ class Editarperfil : Fragment(), HomeCampeonatosContract.View {
     private lateinit var presenter: HomeCampeonatosPresenter
     private lateinit var nombreTextView: TextView
     private lateinit var identificacio: TextView
+    private lateinit var fichaperfil:TextView
+    private lateinit var telefono:TextView
+    private lateinit var jornada:TextView
+    private lateinit var correo:TextView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -31,6 +35,10 @@ class Editarperfil : Fragment(), HomeCampeonatosContract.View {
 
         nombreTextView = view.findViewById(R.id.edtNombre)
         identificacio = view.findViewById(R.id.edtidentificacionperfil)
+        fichaperfil=view.findViewById(R.id.fichaperfil)
+        telefono=view.findViewById(R.id.edtTelefono)
+        jornada=view.findViewById(R.id.edtjornadaperfil)
+        correo=view.findViewById(R.id.edtEmail)
 
         val apiService = RetrofitInstance.createService(HomeApiService::class.java)
         val tokenManager = TokenManager(requireContext())
@@ -43,7 +51,11 @@ class Editarperfil : Fragment(), HomeCampeonatosContract.View {
     override fun traernombre(perfilUsuarioResponse: PerfilUsuarioResponse) {
         Log.d("Framentoeditar", "Perfil recibido: ${perfilUsuarioResponse.nombres}, Tel: ${perfilUsuarioResponse.telefono}")
         nombreTextView.text = perfilUsuarioResponse.nombres
-        identificacio.text = "Tel: ${perfilUsuarioResponse.telefono}"
+        identificacio.text = "Tel: ${perfilUsuarioResponse.identificacion}"
+        fichaperfil.text=perfilUsuarioResponse.ficha
+        telefono.text=perfilUsuarioResponse.telefono
+        jornada.text=perfilUsuarioResponse.jornada
+        correo.text=perfilUsuarioResponse.correo
     }
 
     override fun showError(message: String) {

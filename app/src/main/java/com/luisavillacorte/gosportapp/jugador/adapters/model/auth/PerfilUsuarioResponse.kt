@@ -9,7 +9,10 @@ data class PerfilUsuarioResponse(
     val nombres: String,
     val telefono: String,
     val correo: String,
+    val ficha:String,
+    val jornada:String,
     val contrasena: String,
     val identificacion: String,
-    val rol: String
+    val rol: String,
+    @SerializedName("url_foto") val url_foto: String
 )

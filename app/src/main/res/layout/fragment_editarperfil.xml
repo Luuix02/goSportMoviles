@@ -68,8 +68,7 @@
                         android:padding="14dp"
                         android:textColor="#555555"
                         android:textSize="18sp"
-                        android:textStyle="bold"
-                        android:text="Juan Giraldo" />
+                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/identificacion"
@@ -85,12 +84,11 @@
                         android:id="@+id/edtidentificacionperfil"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Apellido"
+                        android:hint="Tu numero de cedula"
                         android:padding="14dp"
                         android:textColor="#555555"
                         android:textSize="18sp"
-                        android:textStyle="bold"
-                        android:text="1068216244" />
+                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/ficha"
@@ -106,12 +104,11 @@
                         android:id="@+id/fichaperfil"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Fecha de nacimiento"
+                        android:hint="Numero de ficha"
                         android:padding="14dp"
                         android:textColor="#555555"
                         android:textSize="18sp"
-                        android:textStyle="bold"
-                        android:text="2669739" />
+                        android:textStyle="bold" />
                     <TextView
                         android:id="@+id/tvTelefonoLabel"
                         android:layout_width="wrap_content"
@@ -130,8 +127,7 @@
                         android:padding="14dp"
                         android:textColor="#555555"
                         android:textSize="18sp"
-                        android:textStyle="bold"
-                        android:text="123456789" />
+                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/jornada"
@@ -144,15 +140,14 @@
                         android:textStyle="bold" />
 
                     <EditText
-                        android:id="@+id/jornadaperfil"
+                        android:id="@+id/edtjornadaperfil"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Número de identificación"
+                        android:hint="Tu jornada"
                         android:padding="14dp"
                         android:textColor="#555555"
                         android:textSize="18sp"
-                        android:textStyle="bold"
-                        android:text="tarde" />
+                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/tvEmailLabel"
@@ -172,8 +167,7 @@
                         android:padding="14dp"
                         android:textColor="#555555"
                         android:textSize="18sp"
-                        android:textStyle="bold"
-                        android:text="jugador@example.com" />
+                        android:textStyle="bold" />
 
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
