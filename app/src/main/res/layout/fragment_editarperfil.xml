@@ -23,10 +23,10 @@
                 android:layout_height="120dp"
                 android:layout_marginBottom="40dp"
                 android:background="@drawable/copa"
-            android:contentDescription="@string/profile_picture"
-            android:scaleType="centerCrop"
-            android:clipToOutline="true"
-            android:layout_marginTop="20dp"/>
+                android:contentDescription="@string/profile_picture"
+                android:scaleType="centerCrop"
+                android:clipToOutline="true"
+                android:layout_marginTop="20dp"/>
 
             <!-- CardView con campos de entrada -->
             <androidx.cardview.widget.CardView
@@ -75,7 +75,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
-                        android:text="Identificacion :"
+                        android:text="Identificación:"
                         android:textColor="@color/black"
                         android:textSize="15sp"
                         android:textStyle="bold" />
@@ -84,7 +84,7 @@
                         android:id="@+id/edtidentificacionperfil"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Tu numero de cedula"
+                        android:hint="Tu número de cédula"
                         android:padding="14dp"
                         android:textColor="#555555"
                         android:textSize="18sp"
@@ -104,11 +104,12 @@
                         android:id="@+id/fichaperfil"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Numero de ficha"
+                        android:hint="Número de ficha"
                         android:padding="14dp"
                         android:textColor="#555555"
                         android:textSize="18sp"
                         android:textStyle="bold" />
+
                     <TextView
                         android:id="@+id/tvTelefonoLabel"
                         android:layout_width="wrap_content"
@@ -168,6 +169,88 @@
                         android:textColor="#555555"
                         android:textSize="18sp"
                         android:textStyle="bold" />
+
+                    <!-- Nuevos campos -->
+                    <TextView
+                        android:id="@+id/tvGeneroLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:text="Género:"
+                        android:textColor="@color/black"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:id="@+id/edtGenero"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Género"
+                        android:padding="14dp"
+                        android:textColor="#555555"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tvUrlFotoLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:text="URL de Foto:"
+                        android:textColor="@color/black"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:id="@+id/edtUrlFoto"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="URL de Foto"
+                        android:padding="14dp"
+                        android:textColor="#555555"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tvProgramaLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:text="Programa:"
+                        android:textColor="@color/black"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:id="@+id/edtPrograma"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Programa"
+                        android:padding="14dp"
+                        android:textColor="#555555"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tvContrasenaLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:text="Contraseña:"
+                        android:textColor="@color/black"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:id="@+id/edtContrasena"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Contraseña"
+                        android:padding="14dp"
+                        android:textColor="#555555"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:inputType="textPassword" />
 
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
