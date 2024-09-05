@@ -19,6 +19,7 @@ import com.luisavillacorte.gosportapp.jugador.adapters.model.principalLanding.Im
 import com.luisavillacorte.gosportapp.jugador.adapters.model.principalLanding.ImageContract
 import com.luisavillacorte.gosportapp.jugador.adapters.model.principalLanding.ImageData
 import com.luisavillacorte.gosportapp.jugador.adapters.model.principalLanding.ImagePresenter
+import com.luisavillacorte.gosportapp.jugador.viewActivities.activities.activitiesAuth.ActivityLogin
 
 class FragmentLanding : Fragment(), ImageContract.View {
 
@@ -42,10 +43,11 @@ class FragmentLanding : Fragment(), ImageContract.View {
 
         recyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
 
-//        btnLanding.setOnClickListener {
-//            val intent = Intent(requireContext(), MainActivity::class.java)
-//            startActivity(intent)
-//        }
+        // Al hacer clic en el botón, se inicia la actividad de login.
+        btnLanding.setOnClickListener {
+            val intent = Intent(requireContext(), ActivityLogin::class.java)
+            startActivity(intent)
+        }
 
         imageAdapter = ImageAdapter(emptyList()) { imageData ->
             showModal(imageData)
@@ -113,8 +115,6 @@ class FragmentLanding : Fragment(), ImageContract.View {
 
     override fun showError(message: String) {
         if (isAdded && context != null)
-        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
     }
 }
-
-
