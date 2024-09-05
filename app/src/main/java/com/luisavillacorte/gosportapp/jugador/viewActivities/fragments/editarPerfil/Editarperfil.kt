@@ -28,6 +28,7 @@ class Editarperfil : Fragment(), HomeCampeonatosContract.View {
     private lateinit var telefono: TextView
     private lateinit var jornada: TextView
     private lateinit var correo: TextView
+    private lateinit var programa:TextView
     private lateinit var btnGuardarCambios: Button
 
     private var userId: String? = null
@@ -44,6 +45,7 @@ class Editarperfil : Fragment(), HomeCampeonatosContract.View {
         telefono = view.findViewById(R.id.edtTelefono)
         jornada = view.findViewById(R.id.edtjornadaperfil)
         correo = view.findViewById(R.id.edtEmail)
+        programa=view.findViewById(R.id.edtPrograma)
         btnGuardarCambios = view.findViewById(R.id.btnGuardar)
 
         // Obtener el ID del usuario desde SharedPreferences
@@ -77,9 +79,10 @@ class Editarperfil : Fragment(), HomeCampeonatosContract.View {
                 ficha = fichaperfil.text.toString(),
                 jornada = jornada.text.toString(),
                 identificacion = identificacio.text.toString(),
-                genero = "femenino",
-                programa = "aseador"
-            )
+
+                programa = programa.text.toString()
+
+                )
             presenter.actualizarPerfilUsuario(perfilActualizado)
         }
 
@@ -93,6 +96,7 @@ class Editarperfil : Fragment(), HomeCampeonatosContract.View {
         telefono.text = perfilUsuarioResponse.telefono
         jornada.text = perfilUsuarioResponse.jornada
         correo.text = perfilUsuarioResponse.correo
+        programa.text=perfilUsuarioResponse.programa
 
         // Guardar el ID del usuario en SharedPreferences
         val sharedPreferences = requireActivity().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)

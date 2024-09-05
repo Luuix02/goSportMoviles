@@ -88,6 +88,7 @@
                         android:padding="14dp"
                         android:textColor="#555555"
                         android:textSize="18sp"
+                        android:inputType="number"
                         android:textStyle="bold" />
 
                     <TextView
@@ -108,6 +109,7 @@
                         android:padding="14dp"
                         android:textColor="#555555"
                         android:textSize="18sp"
+                        android:inputType="number"
                         android:textStyle="bold" />
 
                     <TextView
@@ -128,6 +130,7 @@
                         android:padding="14dp"
                         android:textColor="#555555"
                         android:textSize="18sp"
+                        android:inputType="number"
                         android:textStyle="bold" />
 
                     <TextView
@@ -170,46 +173,8 @@
                         android:textSize="18sp"
                         android:textStyle="bold" />
 
-                    <!-- Nuevos campos -->
-                    <TextView
-                        android:id="@+id/tvGeneroLabel"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        android:text="Género:"
-                        android:textColor="@color/black"
-                        android:textSize="15sp"
-                        android:textStyle="bold" />
 
-                    <EditText
-                        android:id="@+id/edtGenero"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="Género"
-                        android:padding="14dp"
-                        android:textColor="#555555"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
 
-                    <TextView
-                        android:id="@+id/tvUrlFotoLabel"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        android:text="URL de Foto:"
-                        android:textColor="@color/black"
-                        android:textSize="15sp"
-                        android:textStyle="bold" />
-
-                    <EditText
-                        android:id="@+id/edtUrlFoto"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="URL de Foto"
-                        android:padding="14dp"
-                        android:textColor="#555555"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/tvProgramaLabel"
@@ -231,26 +196,9 @@
                         android:textSize="18sp"
                         android:textStyle="bold" />
 
-                    <TextView
-                        android:id="@+id/tvContrasenaLabel"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        android:text="Contraseña:"
-                        android:textColor="@color/black"
-                        android:textSize="15sp"
-                        android:textStyle="bold" />
 
-                    <EditText
-                        android:id="@+id/edtContrasena"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="Contraseña"
-                        android:padding="14dp"
-                        android:textColor="#555555"
-                        android:textSize="18sp"
-                        android:textStyle="bold"
-                        android:inputType="textPassword" />
+
+
 
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
