@@ -54,14 +54,13 @@ class Editarperfil : Fragment(), HomeCampeonatosContract.View {
         val apiService = RetrofitInstance.createService(HomeApiService::class.java)
         presenter = HomeCampeonatosPresenter(this, requireContext(), apiService)
 
-        // Si el userId es nulo, llamar a obtenerPerfilUsuario para establecerlo
         if (userId == null) {
             Log.d("Editarperfil", "User ID es nulo, llamando a obtenerPerfilUsuario")
             presenter.getPerfilUsuario()
         } else {
             Log.d("Editarperfil", "User ID ya disponible: $userId")
-            // Puedes cargar el perfil si el userId está disponible
-            // presenter.getPerfilUsuario()
+            // Cargar el perfil si el userId está disponible
+            presenter.getPerfilUsuario()
         }
 
         btnGuardarCambios.setOnClickListener {
@@ -95,11 +94,12 @@ class Editarperfil : Fragment(), HomeCampeonatosContract.View {
         jornada.text = perfilUsuarioResponse.jornada
         correo.text = perfilUsuarioResponse.correo
 
-        // Actualizar SharedPreferences con el nuevo userId si es necesario
+        // Guardar el ID del usuario en SharedPreferences
         val sharedPreferences = requireActivity().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
         val editor = sharedPreferences.edit()
         editor.putString("user_id", perfilUsuarioResponse.id)
         editor.apply()
+        Log.d("Editarperfil", "User ID guardado: ${perfilUsuarioResponse.id}")
 
         // Actualizar el userId local
         userId = perfilUsuarioResponse.id
