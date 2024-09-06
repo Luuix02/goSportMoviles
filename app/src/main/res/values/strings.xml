@@ -103,5 +103,6 @@
     <string name="guardareditarperfil">Guardar</string>
 
     <string name="nombrejugador" />
+    <string name="change_password" />
 
 </resources>

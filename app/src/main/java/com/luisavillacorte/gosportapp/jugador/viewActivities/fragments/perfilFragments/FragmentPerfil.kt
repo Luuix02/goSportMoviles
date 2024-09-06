@@ -17,6 +17,7 @@ import com.luisavillacorte.gosportapp.jugador.adapters.model.homeCampeonatos.Hom
 import com.luisavillacorte.gosportapp.jugador.adapters.storage.TokenManager
 import com.luisavillacorte.gosportapp.jugador.adapters.model.auth.PerfilUsuarioResponse
 import com.luisavillacorte.gosportapp.jugador.adapters.model.homeCampeonatos.Campeonatos
+import com.luisavillacorte.gosportapp.jugador.viewActivities.fragments.cambiarContrasena.CambiarContrasena
 import com.luisavillacorte.gosportapp.jugador.viewActivities.fragments.editarPerfil.Editarperfil
 
 class FragmentPerfil : Fragment(), HomeCampeonatosContract.View {
@@ -25,6 +26,7 @@ class FragmentPerfil : Fragment(), HomeCampeonatosContract.View {
     private lateinit var nombreTextView: TextView
     private lateinit var telefonoTextView: TextView
     private lateinit var editarperfil: TextView
+    private lateinit var cambiarcontrasena:TextView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,8 +37,17 @@ class FragmentPerfil : Fragment(), HomeCampeonatosContract.View {
         nombreTextView = view.findViewById(R.id.nombre_text_view)
         telefonoTextView = view.findViewById(R.id.telefono_text_view)
         editarperfil = view.findViewById(R.id.editar_perfil)
+        cambiarcontrasena=view.findViewById(R.id.link_cambiar_contrasena)
 
-        // Configura el click listener para cambiar al fragmento EditarPerfil
+        cambiarcontrasena.setOnClickListener{
+            val cambiarfragment=CambiarContrasena()
+            val fragmentManager=parentFragmentManager
+            val fragmentTransaction=fragmentManager.beginTransaction()
+
+            fragmentTransaction.replace(R.id.fragment_container,cambiarfragment)
+            fragmentTransaction.addToBackStack(null)
+            fragmentTransaction.commit()
+        }
         editarperfil.setOnClickListener {
             val editarPerfilFragment = Editarperfil()
             val fragmentManager = parentFragmentManager
