@@ -10,6 +10,7 @@ interface HomeCampeonatosContract {
         fun showCampeonatos(campeonato: List<Campeonatos>)
         fun showError(message: String)
         fun traernombre(perfilUsuarioResponse: PerfilUsuarioResponse)
+        fun showSuccess(message: String)
     }
 
     interface Presenter {

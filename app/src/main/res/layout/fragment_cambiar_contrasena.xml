@@ -14,48 +14,87 @@
         android:layout_marginTop="180dp">
 
         <!-- Campo de Contraseña actual -->
-        <EditText
-            android:id="@+id/etCurrentPassword"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Contraseña Actual"
-            android:inputType="textPassword"
-            android:padding="12dp"
-            android:background="@drawable/edittext_background"
-            android:drawableEnd="@drawable/ic_ver_contra"/>
+            android:orientation="horizontal"
+            android:layout_marginBottom="16dp">
+
+            <EditText
+                android:id="@+id/etCurrentPassword"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="Contraseña Actual"
+                android:inputType="textPassword"
+                android:padding="12dp"
+                android:background="@drawable/edittext_background"/>
+
+            <ImageView
+                android:id="@+id/ivToggleCurrentPassword"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_ver_contra"
+                android:contentDescription="@string/toggle_password_visibility"/>
+        </LinearLayout>
 
         <!-- Campo de Nueva Contraseña -->
-        <EditText
-            android:id="@+id/etNewPassword"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Nueva Contraseña"
-            android:inputType="textPassword"
-            android:padding="12dp"
-            android:layout_marginTop="16dp"
-            android:background="@drawable/edittext_background"
-            android:drawableEnd="@drawable/ic_ver_contra"/>
+            android:orientation="horizontal"
+            android:layout_marginBottom="16dp">
+
+            <EditText
+                android:id="@+id/etNewPassword"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="Nueva Contraseña"
+                android:inputType="textPassword"
+                android:padding="12dp"
+                android:background="@drawable/edittext_background"/>
+
+            <ImageView
+                android:id="@+id/ivToggleNewPassword"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_ver_contra"
+                android:contentDescription="@string/toggle_password_visibility"/>
+        </LinearLayout>
 
         <!-- Campo de Confirmar Nueva Contraseña -->
-        <EditText
-            android:id="@+id/etConfirmNewPassword"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Confirmar Contraseña"
-            android:inputType="textPassword"
-            android:padding="12dp"
-            android:layout_marginTop="16dp"
-            android:background="@drawable/edittext_background"
-            android:drawableEnd="@drawable/ic_ver_contra"/>
+            android:orientation="horizontal"
+            android:layout_marginBottom="24dp">
+
+            <EditText
+                android:id="@+id/etConfirmNewPassword"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="Confirmar Contraseña"
+                android:inputType="textPassword"
+                android:padding="12dp"
+                android:background="@drawable/edittext_background"/>
+
+            <ImageView
+                android:id="@+id/ivToggleConfirmNewPassword"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_ver_contra"
+                android:contentDescription="@string/toggle_password_visibility"/>
+        </LinearLayout>
 
         <!-- Botón para Cambiar la Contraseña -->
         <Button
-            android:id="@+id/btnChangePassword"
+            android:id="@+id/btnguardarcambios"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Cambiar Contraseña"
             android:textColor="#FFFFFF"
-            android:layout_marginTop="24dp"
             android:backgroundTint="#11A3BD"
             android:padding="12dp" />
 

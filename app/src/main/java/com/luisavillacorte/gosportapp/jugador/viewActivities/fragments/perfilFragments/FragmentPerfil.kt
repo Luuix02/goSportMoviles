@@ -74,6 +74,10 @@ class FragmentPerfil : Fragment(), HomeCampeonatosContract.View {
         telefonoTextView.text = "Tel: ${perfilUsuarioResponse.telefono}"
     }
 
+    override fun showSuccess(message: String) {
+        TODO("Not yet implemented")
+    }
+
     override fun showError(message: String) {
         Log.e("FragmentPerfil", "Error: $message")
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show()

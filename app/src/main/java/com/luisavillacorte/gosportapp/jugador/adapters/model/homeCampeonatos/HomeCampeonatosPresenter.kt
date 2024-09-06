@@ -3,6 +3,7 @@ package com.luisavillacorte.gosportapp.jugador.adapters.model.homeCampeonatos
 import android.content.Context
 import android.util.Log
 import com.luisavillacorte.gosportapp.jugador.adapters.apiService.homeCampeonatosService.HomeApiService
+import com.luisavillacorte.gosportapp.jugador.adapters.model.auth.NuevaContrasenaRequest
 import com.luisavillacorte.gosportapp.jugador.adapters.model.auth.PerfilUsuarioResponse
 import com.luisavillacorte.gosportapp.jugador.adapters.storage.TokenManager
 import retrofit2.Call
@@ -17,10 +18,10 @@ class HomeCampeonatosPresenter(
 
     private val tokenManager = TokenManager(context)
     private val TAG = "HomePresenter"
-    var userId: String? = null
 
     fun actualizarPerfilUsuario(perfilActualizado: PerfilUsuarioResponse) {
         val token = tokenManager.getToken() ?: return view.showError("Token no disponible")
+        val userId = tokenManager.getUserId() // Recupera el userId del TokenManager
         Log.d(TAG, "Token obtenido: $token")
         Log.d(TAG, "User ID en actualizarPerfilUsuario: $userId")
 
@@ -50,6 +51,30 @@ class HomeCampeonatosPresenter(
         } ?: view.showError("User ID no disponible")
     }
 
+    fun cambiarContrasena(nuevaContrasenaRequest: NuevaContrasenaRequest) {
+        val token = tokenManager.getToken() ?: return view.showError("Token no disponible")
+        val userId = tokenManager.getUserId() // Recupera el userId del TokenManager
+        Log.d(TAG, "Token obtenido: $token")
+        Log.d(TAG, "User ID en cambiarContrasena: $userId")
+
+        userId?.let {
+            val call = apiService.cambiarContrasena("Bearer $token", it, nuevaContrasenaRequest)
+            call.enqueue(object : Callback<Void> {
+                override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                    if (response.isSuccessful) {
+                        view.showSuccess("Contraseña cambiada exitosamente")
+                    } else {
+                        view.showError("Error al cambiar la contraseña ${response.code()}: ${response.message()}")
+                    }
+                }
+
+                override fun onFailure(call: Call<Void>, t: Throwable) {
+                    view.showError(t.message ?: "Error desconocido")
+                }
+            })
+        } ?: view.showError("User ID no disponible")
+    }
+
     override fun getPerfilUsuario() {
         val token = tokenManager.getToken() ?: return view.showError("Token no disponible")
         Log.d(TAG, "Token obtenido: $token")
@@ -64,8 +89,8 @@ class HomeCampeonatosPresenter(
                     val perfil = response.body()
                     if (perfil != null) {
                         view.traernombre(perfil)
-                        userId = perfil.id // Guarda el ID del usuario
-                        Log.d(TAG, "User ID guardado: $userId")
+                        tokenManager.saveUserId(perfil.id) // Guarda el userId en TokenManager
+                        Log.d(TAG, "User ID guardado: ${perfil.id}")
                     } else {
                         view.showError("Perfil de usuario vacío")
                     }
@@ -92,12 +117,10 @@ class HomeCampeonatosPresenter(
             ) {
                 if (response.isSuccessful) {
                     response.body()?.let { campeonatos ->
-                        // Filtrar los campeonatos por el estado 'Ejecucion'
                         val campeonatosFiltrados = campeonatos.filter {
                             it.estadoCampeonato == "Ejecucion"
                         }
 
-                        // Mostrar solo los campeonatos filtrados
                         view.showCampeonatos(campeonatosFiltrados)
                         Log.d(TAG, "Campeonatos filtered and shown: ${campeonatosFiltrados.size}")
                     }

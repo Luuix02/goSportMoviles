@@ -84,4 +84,8 @@ class FragmentHome : Fragment(), HomeCampeonatosContract.View {
         nombrejuga.text = "Hola $nombreJugador, Bienvenido a GoSport"
         Log.d("HomeFragment", "Nombre del usuario: $nombreJugador")
     }
+
+    override fun showSuccess(message: String) {
+        TODO("Not yet implemented")
+    }
 }

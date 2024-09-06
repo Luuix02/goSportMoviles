@@ -29,4 +29,15 @@ class TokenManager(context: Context) {
     fun getUserEmail(): String? {
         return sharedPreferences.getString("user_email", null)
     }
+
+    fun saveUserId(userId: String) {
+        with(sharedPreferences.edit()) {
+            putString("user_id", userId)
+            apply()
+        }
+    }
+
+    fun getUserId(): String? {
+        return sharedPreferences.getString("user_id", null)
+    }
 }

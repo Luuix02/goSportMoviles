@@ -1,5 +1,6 @@
 package com.luisavillacorte.gosportapp.jugador.adapters.apiService.homeCampeonatosService
 
+import com.luisavillacorte.gosportapp.jugador.adapters.model.auth.NuevaContrasenaRequest
 import com.luisavillacorte.gosportapp.jugador.adapters.model.auth.PerfilUsuarioResponse
 import com.luisavillacorte.gosportapp.jugador.adapters.model.crearEquipo.ValidarInscripcionResponse
 import com.luisavillacorte.gosportapp.jugador.adapters.model.homeCampeonatos.Campeonatos
@@ -25,6 +26,12 @@ interface HomeApiService {
         @Path("id") id: String,
         @Body perfilActualizado: PerfilUsuarioResponse
     ): Call<PerfilUsuarioResponse>
+    @PATCH("/usuarios/{id}")
+    fun cambiarContrasena(
+        @Header("Authorization") token: String,
+        @Path("id") id: String,
+        @Body nuevaContrasena: NuevaContrasenaRequest
+    ): Call<Void>
 
 }
 

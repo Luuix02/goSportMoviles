@@ -109,6 +109,10 @@ class Editarperfil : Fragment(), HomeCampeonatosContract.View {
         userId = perfilUsuarioResponse.id
     }
 
+    override fun showSuccess(message: String) {
+        TODO("Not yet implemented")
+    }
+
     override fun showError(message: String) {
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
         Log.d("Editarperfil", "Error: $message")

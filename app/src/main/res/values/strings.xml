@@ -104,5 +104,6 @@
 
     <string name="nombrejugador" />
     <string name="change_password" />
+    <string name="toggle_password_visibility">d</string>
 
 </resources>
