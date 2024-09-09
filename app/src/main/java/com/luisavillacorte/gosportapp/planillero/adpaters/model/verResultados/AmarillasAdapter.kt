@@ -35,7 +35,7 @@ class AmarillasAdapter(private val context: Context,
         private val cantidadFaltasTextView: TextView = itemView.findViewById(R.id.NumeroDeCometidas)
 
         fun bind(participante: Participante) {
-            nombreJugadorTextView.text = participante.nombreJugador
+            nombreJugadorTextView.text = participante.nombres
             Dorsal.text = "${participante.dorsal}"
             Ficha.text = "${participante.ficha}"
 //            cantidadFaltasTextView.text = "${participante.cantidadFaltas}"

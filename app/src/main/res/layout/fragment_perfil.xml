@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".jugador.viewActivities.fragments.perfilFragments.FragmentPerfil">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="match_parent">
 
-        >
-
+        <!-- Fondo Superior -->
         <View
             android:layout_width="match_parent"
             android:layout_height="400dp"
@@ -21,7 +20,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-
+        <!-- Imagen de perfil -->
         <ImageView
             android:id="@+id/foto_perfil_image_view"
             android:layout_width="105dp"
@@ -33,8 +32,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <!-- Nombre y Teléfono -->
-
+        <!-- Icono de cámara -->
         <ImageView
             android:id="@+id/camara_icono_image_view"
             android:layout_width="36dp"
@@ -47,6 +45,7 @@
             app:layout_constraintTop_toBottomOf="@+id/foto_perfil_image_view"
             app:layout_constraintVertical_bias="1.0" />
 
+        <!-- Layout para el nombre y el teléfono -->
         <LinearLayout
             android:id="@+id/nombre_telefono_layout"
             android:layout_width="wrap_content"
@@ -57,25 +56,26 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent">
 
+            <!-- TextView para el nombre -->
             <TextView
                 android:id="@+id/nombre_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Fabio Cruz"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 android:textColor="@android:color/black"
                 android:layout_marginBottom="8dp" />
 
+            <!-- TextView para el teléfono -->
             <TextView
                 android:id="@+id/telefono_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Tel: +312-567-9081"
                 android:textSize="16sp"
                 android:textColor="@android:color/black" />
         </LinearLayout>
 
+        <!-- Contenedor con opciones en CardView -->
         <androidx.cardview.widget.CardView
             android:id="@+id/card_container"
             android:layout_width="0dp"
@@ -96,7 +96,7 @@
                 android:padding="16dp">
 
                 <TextView
-                    android:id="@+id/link_editar_perfil"
+                    android:id="@+id/editar_perfil"
                     android:drawableStart="@drawable/baseline_edit_24"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -154,5 +154,11 @@
         </androidx.cardview.widget.CardView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!-- Fragment container para otros fragmentos dentro de este perfil -->
+    <FrameLayout
+        android:id="@+id/fragment_container_perfil"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
 </FrameLayout>

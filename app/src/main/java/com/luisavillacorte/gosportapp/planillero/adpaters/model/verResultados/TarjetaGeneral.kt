@@ -100,4 +100,3 @@ class TarjetaGeneral(private val items: Resultados,
     }
 
 }
-

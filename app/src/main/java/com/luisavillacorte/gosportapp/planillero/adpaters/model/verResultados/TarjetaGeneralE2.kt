@@ -99,4 +99,3 @@ class TarjetaGeneralE2(private val items: Resultados,
     }
 
 }
-

@@ -2,6 +2,7 @@ package com.luisavillacorte.gosportapp.planillero.adpaters.model.verResultados
 
 import com.google.gson.Gson
 import com.luisavillacorte.gosportapp.planillero.adpaters.api.vsEquiposResultados.ApiServiceResultados
+import com.luisavillacorte.gosportapp.planillero.adpaters.model.equiposAsignados.Participantes
 import com.luisavillacorte.gosportapp.planillero.adpaters.model.resultadosEquiposAsignados.EquipoR
 import com.luisavillacorte.gosportapp.planillero.adpaters.model.resultadosEquiposAsignados.Goles
 import com.luisavillacorte.gosportapp.planillero.adpaters.model.resultadosEquiposAsignados.InscripcionEquipos1
@@ -41,11 +42,11 @@ class PresenterVerResultados(
                             val equipo2 = mapearEquipo2(jsonObject.getJSONObject("equipo2"), "Equipo2")
 
                             val resultados = Resultados(
-                                _id = jsonObject.getString("_id"),
+                                //_id = jsonObject.getString("_id"),
                                 equipo1 = equipo1,
                                 equipo2 = equipo2,
                                 IdVs = jsonObject.getString("IdVs"),
-                                IdFase = jsonObject.getString("IdFase"),
+                                //IdFase = jsonObject.getString("IdFase"),
                                 estadoPartido = jsonObject.getBoolean("estadoPartido")
                             )
 
@@ -82,7 +83,7 @@ class PresenterVerResultados(
                         arr.getJSONObject(index).let {
                             Participante(
                                 _id = it.getString("_id"),
-                                nombreJugador = it.getString("nombreJugador"),
+                                nombres = it.getString("nombreJugador"),
                                 ficha = it.getInt("ficha"),
                                 dorsal = it.getInt("dorsal")
                             )
@@ -104,7 +105,7 @@ class PresenterVerResultados(
                             arr.getJSONObject(index).let {
                                 Participante(
                                     _id = it.getString("_id"),
-                                    nombreJugador = it.getString("nombreJugador"),
+                                    nombres = it.getString("nombreJugador"),
                                     ficha = it.getInt("ficha"),
                                     dorsal = it.getInt("dorsal")
                                 )
@@ -133,7 +134,7 @@ class PresenterVerResultados(
                         arr.getJSONObject(index).let {
                             Participante(
                                 _id = it.getString("_id"),
-                                nombreJugador = it.getString("nombreJugador"),
+                                nombres = it.getString("nombreJugador"),
                                 ficha = it.getInt("ficha"),
                                 dorsal = it.getInt("dorsal")
                             )
@@ -155,7 +156,7 @@ class PresenterVerResultados(
                             arr.getJSONObject(index).let {
                                 Participante(
                                     _id = it.getString("_id"),
-                                    nombreJugador = it.getString("nombreJugador"),
+                                    nombres = it.getString("nombreJugador"),
                                     ficha = it.getInt("ficha"),
                                     dorsal = it.getInt("dorsal")
                                 )
@@ -172,7 +173,7 @@ class PresenterVerResultados(
             tarjetasArray.getJSONObject(index).let {
                 Participante(
                     _id = it.getString("_id"),
-                    nombreJugador = it.getString("nombreJugador"),
+                    nombres = it.getString("nombreJugador"),
                     ficha = it.getInt("ficha"),
                     dorsal = it.getInt("dorsal")
                 )

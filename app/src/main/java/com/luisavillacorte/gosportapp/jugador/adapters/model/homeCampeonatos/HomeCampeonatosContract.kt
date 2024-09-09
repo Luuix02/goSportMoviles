@@ -12,6 +12,7 @@ interface HomeCampeonatosContract {
         fun showCampeonatos(campeonato: List<Campeonatos>)
         fun showError(message: String)
         fun traernombre(perfilUsuarioResponse: PerfilUsuarioResponse)
+<<<<<<< HEAD
         fun showInscripcionError(message: String)
         fun navigateToCrearEquipo()
         fun navigateToGestionarEquipo(equipo: Equipo)
@@ -21,6 +22,9 @@ interface HomeCampeonatosContract {
         fun mostrarMensajeSnackBar(message: String)
         fun showValidacionInscripcion(estaInscrito: Boolean, equipo: Equipo?)
 
+=======
+        fun showSuccess(message: String)
+>>>>>>> 43d33cf1a904956998fa4ed20b031981ba8ca7cc
     }
 
     interface Presenter {

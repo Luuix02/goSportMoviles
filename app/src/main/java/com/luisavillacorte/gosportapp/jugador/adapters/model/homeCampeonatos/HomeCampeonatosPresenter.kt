@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.Log
 import com.luisavillacorte.gosportapp.jugador.adapters.apiService.formCrearEquipoService.CrearEquipoApiService
 import com.luisavillacorte.gosportapp.jugador.adapters.apiService.homeCampeonatosService.HomeApiService
+import com.luisavillacorte.gosportapp.jugador.adapters.model.auth.NuevaContrasenaRequest
 import com.luisavillacorte.gosportapp.jugador.adapters.model.auth.PerfilUsuarioResponse
 import com.luisavillacorte.gosportapp.jugador.adapters.model.crearEquipo.ValidarInscripcionResponse
 import com.luisavillacorte.gosportapp.jugador.adapters.storage.TokenManager
@@ -20,9 +21,66 @@ class HomeCampeonatosPresenter(
     private val tokenManager = TokenManager(context)
     private val TAG = "HomePresenter"
 
+    fun actualizarPerfilUsuario(perfilActualizado: PerfilUsuarioResponse) {
+        val token = tokenManager.getToken() ?: return view.showError("Token no disponible")
+        val userId = tokenManager.getUserId() // Recupera el userId del TokenManager
+        Log.d(TAG, "Token obtenido: $token")
+        Log.d(TAG, "User ID en actualizarPerfilUsuario: $userId")
+
+        userId?.let {
+            val call = apiService.actualizarPerfilUsuario("Bearer $token", it, perfilActualizado)
+            call.enqueue(object : Callback<PerfilUsuarioResponse> {
+                override fun onResponse(
+                    call: Call<PerfilUsuarioResponse>,
+                    response: Response<PerfilUsuarioResponse>
+                ) {
+                    if (response.isSuccessful) {
+                        val perfil = response.body()
+                        if (perfil != null) {
+                            view.traernombre(perfil)
+                        } else {
+                            view.showError("Perfil de usuario vacío")
+                        }
+                    } else {
+                        view.showError("Error al actualizar el perfil ${response.code()}: ${response.message()}")
+                    }
+                }
+
+                override fun onFailure(call: Call<PerfilUsuarioResponse>, t: Throwable) {
+                    view.showError(t.message ?: "Error desconocido")
+                }
+            })
+        } ?: view.showError("User ID no disponible")
+    }
+
+    fun cambiarContrasena(nuevaContrasenaRequest: NuevaContrasenaRequest) {
+        val token = tokenManager.getToken() ?: return view.showError("Token no disponible")
+        val userId = tokenManager.getUserId() // Recupera el userId del TokenManager
+        Log.d(TAG, "Token obtenido: $token")
+        Log.d(TAG, "User ID en cambiarContrasena: $userId")
+
+        userId?.let {
+            val call = apiService.cambiarContrasena("Bearer $token", it, nuevaContrasenaRequest)
+            call.enqueue(object : Callback<Void> {
+                override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                    if (response.isSuccessful) {
+                        view.showSuccess("Contraseña cambiada exitosamente")
+                    } else {
+                        view.showError("Error al cambiar la contraseña ${response.code()}: ${response.message()}")
+                    }
+                }
+
+                override fun onFailure(call: Call<Void>, t: Throwable) {
+                    view.showError(t.message ?: "Error desconocido")
+                }
+            })
+        } ?: view.showError("User ID no disponible")
+    }
+
     override fun getPerfilUsuario() {
         val token = tokenManager.getToken() ?: return view.showError("Token no disponible")
         Log.d(TAG, "Token obtenido: $token")
+
         val call = apiService.obtenerPerfilUsuario("Bearer $token")
         call.enqueue(object : Callback<PerfilUsuarioResponse> {
             override fun onResponse(
@@ -33,11 +91,16 @@ class HomeCampeonatosPresenter(
                     val perfil = response.body()
                     if (perfil != null) {
                         view.traernombre(perfil)
+<<<<<<< HEAD
                         if (perfil.esCapitan){
                             view.mostrarBotonGestionarEquipo()
                         } else {
                             validarInscripcionJugador(perfil.id)
                         }
+=======
+                        tokenManager.saveUserId(perfil.id) // Guarda el userId en TokenManager
+                        Log.d(TAG, "User ID guardado: ${perfil.id}")
+>>>>>>> 43d33cf1a904956998fa4ed20b031981ba8ca7cc
                     } else {
                         view.showError("Perfil de usuario vacío")
                     }
@@ -87,6 +150,7 @@ class HomeCampeonatosPresenter(
     override fun getCampeonatos() {
         view.showLoading()
         Log.d(TAG, "Fetching campeonatos from API")
+
         val call = apiService.getCampeonato()
         call.enqueue(object : Callback<List<Campeonatos>> {
             override fun onResponse(
@@ -95,12 +159,10 @@ class HomeCampeonatosPresenter(
             ) {
                 if (response.isSuccessful) {
                     response.body()?.let { campeonatos ->
-                        // Filtrar los campeonatos por los estados 'Inscripción' o 'Ejecución'
                         val campeonatosFiltrados = campeonatos.filter {
                             it.estadoCampeonato == "Ejecucion"
                         }
 
-                        // Mostrar solo los campeonatos filtrados
                         view.showCampeonatos(campeonatosFiltrados)
                         Log.d(TAG, "Campeonatos filtered and shown: ${campeonatosFiltrados.size}")
                     }

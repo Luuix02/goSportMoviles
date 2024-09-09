@@ -25,23 +25,23 @@ import com.squareup.picasso.Picasso
 
 class Fragment_Ver_Resultados : Fragment(), verResultadosContract.View {
 
-        private  lateinit var presenter : PresenterVerResultados
-        private lateinit var equipo1VerResultados: TextView
-        private lateinit var equipo2VerResultados: TextView
-        private lateinit var logoEquipo1VerResultados: ImageView
-        private lateinit var logoEquipo2VerResultados: ImageView
-        private lateinit var marcadorEquipo1VerResultados: TextView
-        private lateinit var marcadorEquipo2VerResultados: TextView
-        private lateinit var cardTitleE1 : TextView;
-        private lateinit var cardTitleE2 : TextView;
+    private  lateinit var presenter : PresenterVerResultados
+    private lateinit var equipo1VerResultados: TextView
+    private lateinit var equipo2VerResultados: TextView
+    private lateinit var logoEquipo1VerResultados: ImageView
+    private lateinit var logoEquipo2VerResultados: ImageView
+    private lateinit var marcadorEquipo1VerResultados: TextView
+    private lateinit var marcadorEquipo2VerResultados: TextView
+    private lateinit var cardTitleE1 : TextView;
+    private lateinit var cardTitleE2 : TextView;
 
-        private lateinit var ResultadosGet : Resultados
+    private lateinit var ResultadosGet : Resultados
 
-        private lateinit var TarjetaGeneralEquipo1: TarjetaGeneral;
+    private lateinit var TarjetaGeneralEquipo1: TarjetaGeneral;
     private lateinit var TarjetaGeneralEquipo2: TarjetaGeneralE2;
 
-        private lateinit var recicleViewE1 : RecyclerView;
-        private lateinit var recicleViewE2 : RecyclerView;
+    private lateinit var recicleViewE1 : RecyclerView;
+    private lateinit var recicleViewE2 : RecyclerView;
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -67,13 +67,13 @@ class Fragment_Ver_Resultados : Fragment(), verResultadosContract.View {
         presenter = PresenterVerResultados(this, resultadosService);
         presenter.obtenerVerResultados(idVs)
 
-      }
+    }
     fun agruparParticipantesConFaltas(participantes: List<Participante>): List<Participante> {
         return participantes.groupBy { it._id }
             .map { (id, participantes) ->
                 Participante(
                     _id = id,
-                    nombreJugador = participantes.first().nombreJugador,
+                    nombres = participantes.first().nombres,
                     ficha = participantes.first().ficha,
                     dorsal = participantes.first().dorsal
                 )
@@ -92,15 +92,13 @@ class Fragment_Ver_Resultados : Fragment(), verResultadosContract.View {
 
     override fun onVerReultados(resultados: Resultados) {
         this.ResultadosGet = resultados;
-        // Agrupar los participantes con tarjetas amarillas y rojas
+
         val participantesConFaltasAmarillas = agruparParticipantesConFaltas(resultados.equipo1.tarjetasAmarillas)
         val participantesConFaltasRojas = agruparParticipantesConFaltas(resultados.equipo1.tarjetasRojas)
 
         val participantesConFaltasAmarillas2 = agruparParticipantesConFaltas(resultados.equipo2.tarjetasAmarillas)
         val participantesConFaltasRojas2 = agruparParticipantesConFaltas(resultados.equipo2.tarjetasRojas)
 
-
-        // Configurar el adaptador
         TarjetaGeneralEquipo1 = TarjetaGeneral(resultados, participantesConFaltasAmarillas, participantesConFaltasRojas)
         recicleViewE1.adapter = TarjetaGeneralEquipo1
         TarjetaGeneralEquipo2 = TarjetaGeneralE2(resultados, participantesConFaltasAmarillas2, participantesConFaltasRojas2)

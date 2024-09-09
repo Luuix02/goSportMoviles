@@ -18,4 +18,26 @@ class TokenManager(context: Context) {
     fun getToken(): String? {
         return sharedPreferences.getString("auth_token", null)
     }
+
+    fun saveUserEmail(email: String) {
+        with(sharedPreferences.edit()) {
+            putString("user_email", email)
+            apply()
+        }
+    }
+
+    fun getUserEmail(): String? {
+        return sharedPreferences.getString("user_email", null)
+    }
+
+    fun saveUserId(userId: String) {
+        with(sharedPreferences.edit()) {
+            putString("user_id", userId)
+            apply()
+        }
+    }
+
+    fun getUserId(): String? {
+        return sharedPreferences.getString("user_id", null)
+    }
 }
