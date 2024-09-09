@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">proyecto</string>
     <string name="Inicio">Inicio</string>
-    <string name="Equipo">Equipo</string>
+    <string name="Equipo">Mi Equipo</string>
     <string name="Noticias">Noticias\n</string>
     <string name="Perfil">Perfil</string>
     <string name="iniciar_sesion">Inicia Sesión\n</string>
@@ -53,7 +53,7 @@
         <item>tarde</item>
     </string-array>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="hello_blank_fragment">Hola desde mi equipo</string>
     <string name="holaVerEquipo">Hola desde ver equipos\n</string>
     <string name="holaHomeCampeonatos">Hola desde ver campeonatos disponibles\n</string>
     <string name="holaNoticias">Hola desde noticias\n</string>
@@ -93,5 +93,7 @@
     <string name="profile">Perfil</string>
     <string name="login">Iniciar Sesión</string>
     <string name="nombrejugador" />
+    <string name="gestiona_tu_equipo">Gestiona tu equipo</string>
+    <string name="Tuequipo">Tu equipo\n</string>
 
 </resources>

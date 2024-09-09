@@ -10,7 +10,7 @@
         android:icon="@drawable/ic_equipo"
         android:title="@string/Equipo"/>
     <item
-        android:id="@+id/planilla"
+        android:id="@+id/misPartidos"
         android:icon="@drawable/ic_mis_partidos"
         android:title="@string/Marcadores" />
     <item

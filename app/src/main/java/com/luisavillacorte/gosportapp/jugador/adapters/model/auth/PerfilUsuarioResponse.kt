@@ -8,8 +8,10 @@ data class PerfilUsuarioResponse(
     @SerializedName("_id") val id: String,
     val nombres: String,
     val telefono: String,
+    val ficha: String,
     val correo: String,
     val contrasena: String,
     val identificacion: String,
-    val rol: String
+    val rol: String,
+    @SerializedName("esCapitan") val esCapitan: Boolean
 )

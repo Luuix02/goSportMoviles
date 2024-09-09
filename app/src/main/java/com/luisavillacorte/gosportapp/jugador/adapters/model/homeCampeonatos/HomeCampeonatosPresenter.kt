@@ -2,8 +2,10 @@ package com.luisavillacorte.gosportapp.jugador.adapters.model.homeCampeonatos
 
 import android.content.Context
 import android.util.Log
+import com.luisavillacorte.gosportapp.jugador.adapters.apiService.formCrearEquipoService.CrearEquipoApiService
 import com.luisavillacorte.gosportapp.jugador.adapters.apiService.homeCampeonatosService.HomeApiService
 import com.luisavillacorte.gosportapp.jugador.adapters.model.auth.PerfilUsuarioResponse
+import com.luisavillacorte.gosportapp.jugador.adapters.model.crearEquipo.ValidarInscripcionResponse
 import com.luisavillacorte.gosportapp.jugador.adapters.storage.TokenManager
 import retrofit2.Call
 import retrofit2.Callback
@@ -12,7 +14,7 @@ import retrofit2.Response
 class HomeCampeonatosPresenter(
     private val view: HomeCampeonatosContract.View,
     private val context: Context,
-    private val apiService: HomeApiService
+    private val apiService: HomeApiService,
 ) : HomeCampeonatosContract.Presenter {
 
     private val tokenManager = TokenManager(context)
@@ -31,6 +33,11 @@ class HomeCampeonatosPresenter(
                     val perfil = response.body()
                     if (perfil != null) {
                         view.traernombre(perfil)
+                        if (perfil.esCapitan){
+                            view.mostrarBotonGestionarEquipo()
+                        } else {
+                            validarInscripcionJugador(perfil.id)
+                        }
                     } else {
                         view.showError("Perfil de usuario vacío")
                     }
@@ -41,6 +48,38 @@ class HomeCampeonatosPresenter(
 
             override fun onFailure(call: Call<PerfilUsuarioResponse>, t: Throwable) {
                 view.showError(t.message ?: "Error desconocido")
+            }
+        })
+    }
+
+    override fun validarInscripcionJugador(idJugador: String) {
+        val call = apiService.validarUsuarioEnEquipo(idJugador)
+        call.enqueue(object : Callback<ValidarInscripcionResponse> {
+            override fun onResponse(
+                call: Call<ValidarInscripcionResponse>,
+                response: Response<ValidarInscripcionResponse>
+            ) {
+                if (response.isSuccessful) {
+                    val validarInscripcionResponse = response.body()
+                    if (validarInscripcionResponse != null && validarInscripcionResponse.equipo.isNotEmpty()) {
+                        val equipo = validarInscripcionResponse.equipo[0]
+                        view.showInscripcionError("Ya estás inscrito en el equipo: ${validarInscripcionResponse.equipo[0].nombreEquipo}")
+                        view.showValidacionInscripcion(true, equipo)
+//                        view.mostrarBotonGestionarEquipo()
+                    //                        view.navigateToGestionarEquipo(equipo)
+                    } else {
+                        view.showValidacionInscripcion(false, null)
+//                        view.mostrarBotonGestionarEquipo()
+//                        view.navigateToCrearEquipo()
+                    }
+                } else {
+                    view.showError("Error en la respuesta del servidor.")
+                }
+            }
+
+            override fun onFailure(call: Call<ValidarInscripcionResponse>, t: Throwable) {
+                // Manejo de fallas en la llamada de red
+                view.showError("Error al conectar con el servidor: ${t.message}")
             }
         })
     }

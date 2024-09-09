@@ -5,9 +5,10 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.luisavillacorte.gosportapp.jugador.viewActivities.fragments.equipoFragments.FragmentEquipo
+import com.luisavillacorte.gosportapp.FragmentMiEquipo
 import com.luisavillacorte.gosportapp.R
-import com.luisavillacorte.gosportapp.jugador.viewActivities.fragments.crearEquipoFragments.FragmentCrearEquipo
+import com.luisavillacorte.gosportapp.jugador.viewActivities.fragments.gestionarMiEquipoFragments.FragmentGestionarMiEquipo
+import com.luisavillacorte.gosportapp.jugador.viewActivities.fragments.misPartidosFragments.FragmentMisPartidos
 import com.luisavillacorte.gosportapp.jugador.viewActivities.fragments.homeFragments.FragmentHome
 import com.luisavillacorte.gosportapp.jugador.viewActivities.fragments.perfilFragments.FragmentPerfil
 
@@ -23,8 +24,10 @@ class NavegacionMenuApp : AppCompatActivity() {
             var selectedFragment: Fragment? = null
             when (item.itemId) {
                 R.id.navigation_inicio -> selectedFragment = FragmentHome()
-                R.id.navigation_equipo -> selectedFragment = FragmentEquipo()
-                R.id.planilla -> selectedFragment = FragmentCrearEquipo()
+
+                R.id.navigation_equipo -> selectedFragment = FragmentMiEquipo()
+
+                R.id.misPartidos -> selectedFragment = FragmentMisPartidos()
                 R.id.navigation_perfil -> selectedFragment = FragmentPerfil()
             }
             selectedFragment?.let {
@@ -39,4 +42,6 @@ class NavegacionMenuApp : AppCompatActivity() {
             bottomNavigationView.selectedItemId = R.id.navigation_inicio
         }
     }
+
+
 }

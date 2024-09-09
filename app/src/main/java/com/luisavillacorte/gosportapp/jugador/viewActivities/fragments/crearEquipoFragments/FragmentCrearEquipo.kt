@@ -176,6 +176,7 @@ class FragmentCrearEquipo : Fragment(), CrearEquipoContract.View {
                             idLogo = "",
                             estado = true,
                             puntos = 0,
+                            id = "",
                             participantes = getSelectedPlayers()
                         )
 
@@ -258,6 +259,19 @@ class FragmentCrearEquipo : Fragment(), CrearEquipoContract.View {
         celularPrincipalEditText.setText(perfil.telefono)
         userId = perfil.id
         cedulaUsuario = perfil.identificacion
+
+        val capitan = User(
+            id = perfil.id,
+            nombres = perfil.nombres,
+            telefono = perfil.telefono,
+            correo = perfil.correo,
+            identificacion = perfil.identificacion,
+            ficha = perfil.ficha,
+            dorsal = "",
+            rol = perfil.rol
+
+        )
+        agregarJugadorSeleccionado(capitan)
     }
 
     override fun showJugadores(jugadores: List<User>) {
@@ -299,6 +313,7 @@ class FragmentCrearEquipo : Fragment(), CrearEquipoContract.View {
             idLogo = imagePublicId ?: "",
             estado = true,
             puntos = 0,
+            id = "",
             participantes = getSelectedPlayers()
         )
         presenter.crearEquipo(equipo)

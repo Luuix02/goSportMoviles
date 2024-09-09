@@ -11,6 +11,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.luisavillacorte.gosportapp.jugador.viewActivities.MainActivity
+import com.luisavillacorte.gosportapp.jugador.viewActivities.activities.activitiesAuth.ActivityLogin
 import com.luisavillacorte.gosportapp.jugador.viewActivities.fragments.homeFragments.FragmentHome
 
 class ActivityLanding : AppCompatActivity() {
@@ -48,13 +49,14 @@ class ActivityLanding : AppCompatActivity() {
                 R.id.navigation_inicio -> {
                     val fragment = FragmentLanding()
                     supportFragmentManager.beginTransaction()
+                        //cambio fragment_container
                         .replace(R.id.fragment_container, fragment)
                         .commit()
                     true
                 }
 
                 R.id.navigation_perfil -> {
-                    startActivity(Intent(this, MainActivity::class.java))
+                    startActivity(Intent(this, ActivityLogin::class.java))
                     true
                 }
 
