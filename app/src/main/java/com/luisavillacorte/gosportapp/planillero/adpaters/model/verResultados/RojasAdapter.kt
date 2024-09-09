@@ -25,7 +25,7 @@ class RojasAdapter(private val items: List<Participante>) : RecyclerView.Adapter
     inner class RojasViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(item: Participante) {
             itemView.findViewById<TextView>(R.id.DorsalGoleadorVerResultados).text = item.dorsal.toString()
-            itemView.findViewById<TextView>(R.id.NombreGoleadorVerResultados).text = item.nombreJugador
+            itemView.findViewById<TextView>(R.id.NombreGoleadorVerResultados).text = item.nombres
             itemView.findViewById<TextView>(R.id.FichaVerResultados).text = item.ficha.toString()
         }
     }

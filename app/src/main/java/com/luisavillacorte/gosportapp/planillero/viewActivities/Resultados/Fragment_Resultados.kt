@@ -18,6 +18,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.luisavillacorte.gosportapp.R
 import com.luisavillacorte.gosportapp.common.apiRetrofit.RetrofitInstance
 import com.luisavillacorte.gosportapp.planillero.adpaters.api.vsEquiposResultados.ApiServiceResultados
+import com.luisavillacorte.gosportapp.planillero.adpaters.model.equiposAsignados.Participantes
+import com.luisavillacorte.gosportapp.planillero.adpaters.model.equiposAsignados.Vs
+import com.luisavillacorte.gosportapp.planillero.adpaters.model.resultadosEquiposAsignados.EquipoR
+import com.luisavillacorte.gosportapp.planillero.adpaters.model.resultadosEquiposAsignados.Goles
+import com.luisavillacorte.gosportapp.planillero.adpaters.model.resultadosEquiposAsignados.InscripcionEquipos1
+import com.luisavillacorte.gosportapp.planillero.adpaters.model.resultadosEquiposAsignados.InscripcionEquipos2
 import com.luisavillacorte.gosportapp.planillero.adpaters.model.resultadosEquiposAsignados.Participante
 import com.luisavillacorte.gosportapp.planillero.adpaters.model.resultadosEquiposAsignados.ParticipanteAdapter
 import com.luisavillacorte.gosportapp.planillero.adpaters.model.resultadosEquiposAsignados.Resultados
@@ -33,8 +39,8 @@ class Fragment_Resultados : Fragment(), ResultadosContract.View {
     private lateinit var adapter: ParticipanteAdapter
     private lateinit var recyclerView: RecyclerView
 
-    private lateinit var ResultadosPrim: Resultados
-
+    //private lateinit var ResultadosPrim: Resultados
+    private lateinit var ResultadosPrim: Vs
     private lateinit var nombreEquipo1Resultados: TextView
     private lateinit var nombreEquipo2Result: TextView
     private lateinit var logoEquipo1Result: ImageView
@@ -96,22 +102,30 @@ class Fragment_Resultados : Fragment(), ResultadosContract.View {
 
         presenter.obtenerResultados(idVs)
 
+        botonGuardarDatos.setOnClickListener {
+            val subirResultados = objetoEnviarResultados();
+            if (subirResultados != null) {
+                presenter.subirDatosResultados(subirResultados)
+            };
+            Toast.makeText(requireContext(), "Resultados guardados correctamente", Toast.LENGTH_SHORT).show()
+        }
+
 
     }
 
-    override fun onResultadosRecibidos(resultados: Resultados) {
+    override fun onResultadosRecibidos(resultados: Vs) {
         this.ResultadosPrim = resultados
         Log.d("Fragment_resultados", "Datos resultados: $resultados")
 
 
-        nombreEquipo1Resultados.text = resultados.equipo1.Equipo1.nombreEquipo
-        nombreEquipo2Result.text = resultados.equipo2.Equipo2.nombreEquipo
-        BotonEquipo1.text = resultados.equipo1.Equipo1.nombreEquipo
-        BotonEquipo2.text = resultados.equipo2.Equipo2.nombreEquipo
-        marcadorEquipo1.text = resultados.equipo1.goles.marcador.toString()
-        marcadorEquipo2.text = resultados.equipo2.goles.marcador.toString()
-        Picasso.get().load(resultados.equipo1.Equipo1.imgLogo).into(logoEquipo1Result)
-        Picasso.get().load(resultados.equipo2.Equipo2.imgLogo).into(logoEquipo2Result)
+        nombreEquipo1Resultados.text = resultados.equipo1.informacion.team1.Equipo.nombreEquipo
+        nombreEquipo2Result.text = resultados.equipo2.informacion.team2.Equipo.nombreEquipo
+        BotonEquipo1.text = resultados.equipo1.informacion.team1.Equipo.nombreEquipo
+        BotonEquipo2.text = resultados.equipo2.informacion.team2.Equipo.nombreEquipo
+//        marcadorEquipo1.text = resultados.equipo1.goles.marcador.toString()
+//        marcadorEquipo2.text = resultados.equipo2.goles.marcador.toString()
+        Picasso.get().load(resultados.equipo1.informacion.team1.Equipo.imgLogo).into(logoEquipo1Result)
+        Picasso.get().load(resultados.equipo2.informacion.team2.Equipo.imgLogo).into(logoEquipo2Result)
 
         BotonEquipo1.setOnClickListener {
             actualizarAdapter(obtenerParticipantesDelEquipo1(resultados), 1)
@@ -131,7 +145,82 @@ class Fragment_Resultados : Fragment(), ResultadosContract.View {
         Toast.makeText(requireContext(), error, Toast.LENGTH_SHORT).show()
     }
 
-    private fun actualizarAdapter(participantes: List<Participante>, equipo: Int) {
+    override fun messageExito(message: String) {
+        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+    }
+    private fun objetoEnviarResultados(): Resultados? {
+        val participantesAmarillasEquipo1 = listOf<Participante>() // Aquí deberías cargar los participantes reales
+        val participantesRojasEquipo1 = listOf<Participante>() // Aquí también los participantes reales
+
+        val participantesAmarillasEquipo2 = listOf<Participante>() // Lo mismo para el equipo 2
+        val participantesRojasEquipo2 = listOf<Participante>() // Lo mismo para el equipo 2
+
+        // Crear el objeto equipo1
+        val equipo1 = ResultadosPrim._id?.let {
+            EquipoR(
+                _id = it, // Asigna el ID real del equipo 1
+                nombreEquipo = ResultadosPrim.equipo1.informacion.team1.Equipo.nombreEquipo,
+                nombreCapitan = ResultadosPrim.equipo1.informacion.team1.Equipo.nombreCapitan,
+                contactoUno =  ResultadosPrim.equipo1.informacion.team1.Equipo.contactoUno,
+                contactoDos =  ResultadosPrim.equipo1.informacion.team1.Equipo.contactoDos,
+                jornada =  ResultadosPrim.equipo1.informacion.team1.Equipo.jornada,
+                cedula =  ResultadosPrim.equipo1.informacion.team1.Equipo.cedula,
+                imgLogo = ResultadosPrim.equipo1.informacion.team1.Equipo.imgLogo,
+                estado = true,
+                participantes = ResultadosPrim.equipo1.informacion.team1.Equipo.participantes.map { participante ->
+                    Participante(
+                        _id = participante._id,
+                        nombres = participante.nombres,
+                        ficha = participante.ficha,
+                        dorsal = participante.dorsal
+                    )
+                })
+        }?.let {
+            InscripcionEquipos1(
+                Equipo1 = it,
+                tarjetasAmarillas = participantesAmarillasEquipo1,
+                tarjetasRojas = participantesRojasEquipo1,
+                goles = Goles(
+                    marcador = marcadorEquipo1.text.toString().toInt(),
+                    jugadorGoleador = listOf()
+                )
+            )
+        }
+
+        // Crear el objeto equipo2
+        val equipo2 = InscripcionEquipos2(
+            Equipo2 = EquipoR(
+                _id = "ID_Equipo2", // Asigna el ID real del equipo 2
+                nombreEquipo = "Nombre del Equipo 2",
+                nombreCapitan = "Capitán Equipo 2",
+                contactoUno = "Contacto 1",
+                contactoDos = "Contacto 2",
+                jornada = "Jornada del partido",
+                cedula = "Cédula equipo",
+                imgLogo = "URL del logo del equipo 2",
+                estado = true,
+                participantes = listOf() // Lista de participantes del equipo 2
+            ),
+            tarjetasAmarillas = participantesAmarillasEquipo2,
+            tarjetasRojas = participantesRojasEquipo2,
+            goles = Goles(
+                marcador = marcadorEquipo2.text.toString().toInt(),
+                jugadorGoleador = listOf() // Lista de goleadores del equipo 2
+            )
+        )
+        val resultado = equipo1?.let {
+            Resultados(
+                equipo1 = it,
+                equipo2 = equipo2,
+                IdVs = "ID del VS",
+                estadoPartido = true
+            )
+        }
+      Log.d("TAG","Resultados ${resultado}")
+        // Devolver el objeto Resultados completo
+        return resultado
+    }
+    private fun actualizarAdapter(participantes: List<Participantes>, equipo: Int) {
         val idVs = arguments?.getString("idVs") ?: "Error"
         Log.d("Fragment_resultados", "ID VS: $idVs")
 
@@ -142,47 +231,55 @@ class Fragment_Resultados : Fragment(), ResultadosContract.View {
         actualizarContadoresGenerales(equipo,idVs)
     }
 
-    private fun obtenerParticipantesDelEquipo1(resultados: Resultados): List<Participante> {
-        return resultados.equipo1.Equipo1.participantes
+    private fun obtenerParticipantesDelEquipo1(resultados: Vs): List<Participantes> {
+        val pa = resultados.equipo1.informacion.team1.Equipo.participantes
+        Log.d("pa", "Participantes : ${pa}")
+        return  pa;
     }
 
-    private fun obtenerParticipantesDelEquipo2(resultados: Resultados): List<Participante> {
-        return resultados.equipo2.Equipo2.participantes
+    private fun obtenerParticipantesDelEquipo2(resultados: Vs): List<Participantes> {
+        return resultados.equipo2.informacion.team2.Equipo.participantes
     }
 
-    fun actualizarContadoresGenerales(equipo: Int, idVs:String) {
-
+    fun actualizarContadoresGenerales(equipo: Int, idVs: String) {
         val idVs = arguments?.getString("idVs") ?: "Error"
         Log.d("Fragment_resultados", "ID VS: $idVs")
 
         viewModel.golesPorJugadorEquipo1PorVs.observe(viewLifecycleOwner, Observer { goles ->
-            marcadorEquipo1.text = viewModel.obtenerTotalGolesEquipo1(idVs).toString()
-            Log.d("ViewModel", "ID VS: $idVs, Equipo: $equipo, Total Goles: ${viewModel.obtenerTotalGolesEquipo1(idVs)}")
-
-
+            val totalGolesEquipo1 = viewModel.obtenerTotalGolesEquipo1(idVs)
+            marcadorEquipo1.text = totalGolesEquipo1.toString()
+            Log.d("ViewModel", "ID VS: $idVs, Equipo: $equipo, Total Goles Equipo 1: $totalGolesEquipo1")
         })
 
         viewModel.golesPorJugadorEquipo2PorVs.observe(viewLifecycleOwner, Observer { goles ->
-            marcadorEquipo2.text = viewModel.obtenerTotalGolesEquipo2(idVs).toString()
-            Log.d("ViewModel", "ID VS: $idVs, Equipo: $equipo, Total Goles: ${viewModel.obtenerTotalGolesEquipo2(idVs)}")
+            val totalGolesEquipo2 = viewModel.obtenerTotalGolesEquipo2(idVs)
+            marcadorEquipo2.text = totalGolesEquipo2.toString()
+            Log.d("ViewModel", "ID VS: $idVs, Equipo: $equipo, Total Goles Equipo 2: $totalGolesEquipo2")
         })
-        viewModel.amarillasEquipo1.observe(viewLifecycleOwner, Observer { goles ->
-            contadorAmarillaEquipo1.text = viewModel.obtenerTotalAmarillasEquipo1(idVs).toString()
-            Log.d("ViewModel", "ID VS: $idVs, Equipo: $equipo, Total Goles: ${viewModel.obtenerTotalAmarillasEquipo1(idVs)}")
-        })
-        viewModel.amarillasEquipo2.observe(viewLifecycleOwner, Observer { goles ->
-            contadorAmarillaEquipo2.text = viewModel.obtenerTotalAmarillasEquipo2(idVs).toString()
-            Log.d("ViewModel", "ID VS: $idVs, Equipo: $equipo, Total Goles: ${viewModel.obtenerTotalAmarillasEquipo2(idVs)}")
 
+        viewModel.amarillasEquipo1.observe(viewLifecycleOwner, Observer { amarillas ->
+            val totalAmarillasEquipo1 = viewModel.obtenerTotalAmarillasEquipo1(idVs)
+            contadorAmarillaEquipo1.text = totalAmarillasEquipo1.toString()
+            Log.d("ViewModel", "ID VS: $idVs, Equipo: $equipo, Total Amarillas Equipo 1: $totalAmarillasEquipo1")
         })
+
+        viewModel.amarillasEquipo2.observe(viewLifecycleOwner, Observer { amarillas ->
+            val totalAmarillasEquipo2 = viewModel.obtenerTotalAmarillasEquipo2(idVs)
+            contadorAmarillaEquipo2.text = totalAmarillasEquipo2.toString()
+            Log.d("ViewModel", "ID VS: $idVs, Equipo: $equipo, Total Amarillas Equipo 2: $totalAmarillasEquipo2")
+        })
+
         viewModel.rojasEquipo1.observe(viewLifecycleOwner, Observer { rojas ->
-            contadorRojaEquipo1.text = viewModel.obtenerTotalRojasEquipo1(idVs).toString()
-            Log.d("ViewModel", "ID VS: $idVs, Equipo: $equipo, Total Goles: ${viewModel.obtenerTotalRojasEquipo1(idVs)}")
-        })
-        viewModel.rojasEquipo2.observe(viewLifecycleOwner, Observer { rojas->
-            contadorRojaEquipo2.text = viewModel.obtenerTotalRojasEquipo2(idVs).toString()
-            Log.d("ViewModel", "ID VS: $idVs, Equipo: $equipo, Total Goles: ${viewModel.obtenerTotalRojasEquipo2(idVs)}")
+            val totalRojasEquipo1 = viewModel.obtenerTotalRojasEquipo1(idVs)
+            contadorRojaEquipo1.text = totalRojasEquipo1.toString()
+            Log.d("ViewModel", "ID VS: $idVs, Equipo: $equipo, Total Rojas Equipo 1: $totalRojasEquipo1")
         })
 
+        viewModel.rojasEquipo2.observe(viewLifecycleOwner, Observer { rojas ->
+            val totalRojasEquipo2 = viewModel.obtenerTotalRojasEquipo2(idVs)
+            contadorRojaEquipo2.text = totalRojasEquipo2.toString()
+            Log.d("ViewModel", "ID VS: $idVs, Equipo: $equipo, Total Rojas Equipo 2: $totalRojasEquipo2")
+        })
     }
+
 }

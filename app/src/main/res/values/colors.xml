@@ -5,6 +5,7 @@
     <color name="selected_color">#020202</color>
     <color name="red">#FF0000</color>
     <color name="unselected_color">#FF00BCD4</color>
+    <color name="botones">#11A3BD</color>
     <color name="grey_background">#F0EFEF</color>
     <color name="light_gray">#F1F1F1</color>
     <color name="linkColor">#1E88E5</color>

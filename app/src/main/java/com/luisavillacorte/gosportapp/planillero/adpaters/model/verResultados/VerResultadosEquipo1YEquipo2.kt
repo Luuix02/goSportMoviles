@@ -35,39 +35,39 @@ class VerResultadosEquipo1YEquipo2 (private val items: Resultados) : RecyclerVie
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-       return when (viewType){
-           Goles -> {
-               val view = LayoutInflater.from(parent.context)
-                   .inflate(R.layout.item_ver_goles_en_ver_resultados, parent, false)
-               GolesViewHolder(view);
-           }
-           Amarillas -> {
-               val view = LayoutInflater.from(parent.context)
-                   .inflate(R.layout.item_amarillas_ver_resultados, parent, false)
-               AmarillasViewHolder(view);
-           }
-           Rojas -> {
-               val view = LayoutInflater.from(parent.context)
-                   .inflate(R.layout.item_rojas_ver_resultados, parent, false)
-               RojasViewHolder(view);
-           }
-           NoGoles -> {
-               val view = LayoutInflater.from(parent.context)
-                   .inflate(R.layout.item_no_goles_ver_resultado, parent, false)
-               NoGolesViewHolder(view);
-           }
-           NoAmarillas -> {
-               val view = LayoutInflater.from(parent.context)
-                   .inflate(R.layout.item_no_goles_ver_resultado, parent, false)
-               NoAmarillasViewHolder(view);
-           }
-           NoRojas -> {
-               val view = LayoutInflater.from(parent.context)
-                   .inflate(R.layout.item_no_goles_ver_resultado, parent, false)
-               NoRojasViewHolder(view);
-           }
-           else -> throw IllegalStateException("Revise")
-       }
+        return when (viewType){
+            Goles -> {
+                val view = LayoutInflater.from(parent.context)
+                    .inflate(R.layout.item_ver_goles_en_ver_resultados, parent, false)
+                GolesViewHolder(view);
+            }
+            Amarillas -> {
+                val view = LayoutInflater.from(parent.context)
+                    .inflate(R.layout.item_amarillas_ver_resultados, parent, false)
+                AmarillasViewHolder(view);
+            }
+            Rojas -> {
+                val view = LayoutInflater.from(parent.context)
+                    .inflate(R.layout.item_rojas_ver_resultados, parent, false)
+                RojasViewHolder(view);
+            }
+            NoGoles -> {
+                val view = LayoutInflater.from(parent.context)
+                    .inflate(R.layout.item_no_goles_ver_resultado, parent, false)
+                NoGolesViewHolder(view);
+            }
+            NoAmarillas -> {
+                val view = LayoutInflater.from(parent.context)
+                    .inflate(R.layout.item_no_goles_ver_resultado, parent, false)
+                NoAmarillasViewHolder(view);
+            }
+            NoRojas -> {
+                val view = LayoutInflater.from(parent.context)
+                    .inflate(R.layout.item_no_goles_ver_resultado, parent, false)
+                NoRojasViewHolder(view);
+            }
+            else -> throw IllegalStateException("Revise")
+        }
     }
 
     class NoRojasViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
@@ -86,14 +86,14 @@ class VerResultadosEquipo1YEquipo2 (private val items: Resultados) : RecyclerVie
     class GolesViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
         fun bind(item : Participante){
             itemView.findViewById<TextView>(R.id.DorsalGoleadorVerResultados).text = item.dorsal.toString();
-            itemView.findViewById<TextView>(R.id.NombreGoleadorVerResultados).text = item.nombreJugador;
+            itemView.findViewById<TextView>(R.id.NombreGoleadorVerResultados).text = item.nombres;
             itemView.findViewById<TextView>(R.id.FichaVerResultados).text = item.ficha.toString();
         }
     }
     class RojasViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
         fun bind(item : Participante){
             itemView.findViewById<TextView>(R.id.DorsalGoleadorVerResultadosTr).text = item.dorsal.toString();
-            itemView.findViewById<TextView>(R.id.NombreGoleadorVerResultadosTR).text = item.nombreJugador;
+            itemView.findViewById<TextView>(R.id.NombreGoleadorVerResultadosTR).text = item.nombres;
             itemView.findViewById<TextView>(R.id.FichaVerResultadosTR).text = item.ficha.toString();
         }
     }
@@ -101,7 +101,7 @@ class VerResultadosEquipo1YEquipo2 (private val items: Resultados) : RecyclerVie
     class AmarillasViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
         fun bind(item : Participante){
             itemView.findViewById<TextView>(R.id.DorsalGoleadorVerResultadosTA).text = item.dorsal.toString();
-            itemView.findViewById<TextView>(R.id.NombreGoleadorVerResultadosTA).text = item.nombreJugador;
+            itemView.findViewById<TextView>(R.id.NombreGoleadorVerResultadosTA).text = item.nombres;
             itemView.findViewById<TextView>(R.id.FichaVerResultadosTA).text = item.ficha.toString();
         }
     }

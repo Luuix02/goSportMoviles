@@ -5,11 +5,12 @@ import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.luisavillacorte.gosportapp.planillero.adpaters.model.resultadosEquiposAsignados.Participante
+import com.luisavillacorte.gosportapp.planillero.adpaters.model.equiposAsignados.Participantes
+
 
 class VerTarjetas:ViewModel() {
-    private val _jugadoresPorVs = MutableLiveData<MutableMap<String, MutableMap<String, Participante>>>()
-    val jugadoresPorVs: LiveData<MutableMap<String, MutableMap<String, Participante>>> get() = _jugadoresPorVs
+    private val _jugadoresPorVs = MutableLiveData<MutableMap<String, MutableMap<String, Participantes>>>()
+    val jugadoresPorVs: LiveData<MutableMap<String, MutableMap<String, Participantes>>> get() = _jugadoresPorVs
     var totalGolesEquipo1PorVs: MutableMap<String, Int> = mutableMapOf()
         private set
     var totalGolesEquipo2PorVs: MutableMap<String, Int> = mutableMapOf()
@@ -72,7 +73,7 @@ class VerTarjetas:ViewModel() {
 
         val jugador = _jugadoresPorVs.value?.get(idVs)?.get(jugadorId)
         jugador?.let {
-            Log.d("TAG", "Gol anotado por: ID=${it._id}, Nombre=${it.nombreJugador}, Dorsal=${it.dorsal}, Ficha=${it.ficha}")
+            Log.d("TAG", "Gol anotado por: ID=${it._id}, Nombre=${it.nombres}, Dorsal=${it.dorsal}, Ficha=${it.ficha}")
         }
     }
 
@@ -94,7 +95,7 @@ class VerTarjetas:ViewModel() {
 
             val jugador = _jugadoresPorVs.value?.get(idVs)?.get(jugadorId)
             jugador?.let {
-                Log.d("TAG", "Gol descontado por: ID=${it._id}, Nombre=${it.nombreJugador}, Dorsal=${it.dorsal}, Ficha=${it.ficha}")
+                Log.d("TAG", "Gol descontado por: ID=${it._id}, Nombre=${it.nombres}, Dorsal=${it.dorsal}, Ficha=${it.ficha}")
             }
             return true
         } else {
@@ -123,28 +124,27 @@ class VerTarjetas:ViewModel() {
         return _rojasPorJugadorEquipo2.value?.get(idVs)?.values?.sum() ?: 0
     }
     fun aumentarTarjetaAmarilla(idVs:String, jugadorId: String, equipo: Int) {
-        val amarillasByjugador = if(equipo ==1) _amarillasPorJugadorEquipo1 else _amarillasPorJugadorEquipo2
-        val amarillas = amarillasByjugador.value?.get(idVs) ?: mutableMapOf()
+        val amarillasByJugador = if (equipo == 1) _amarillasPorJugadorEquipo1 else _amarillasPorJugadorEquipo2
+        val amarillas = amarillasByJugador.value?.get(idVs) ?: mutableMapOf()
 
-        if ((amarillas[jugadorId]?:0)<2){
+        if ((amarillas[jugadorId] ?: 0) < 2) {
             amarillas[jugadorId] = (amarillas[jugadorId] ?: 0) + 1
-            amarillasByjugador.value = amarillasByjugador.value?.apply { put(idVs,amarillas) } ?: mutableMapOf(idVs to amarillas)
+            amarillasByJugador.value = amarillasByJugador.value?.apply { put(idVs, amarillas) } ?: mutableMapOf(idVs to amarillas)
+
             if (equipo == 1) {
                 totalTarjetasAmarillasEquipo1[idVs] = (totalTarjetasAmarillasEquipo1[idVs] ?: 0) + 1
+            } else {
+                totalTarjetasAmarillasEquipo2[idVs] = (totalTarjetasAmarillasEquipo2[idVs] ?: 0) + 1
             }
-            else {
-                totalTarjetasAmarillasEquipo2[idVs] =(totalTarjetasAmarillasEquipo2[idVs] ?: 0) +1
-            }
+
+            // Acceder a la información del jugador
             val jugador = _jugadoresPorVs.value?.get(idVs)?.get(jugadorId)
             jugador?.let {
-                Log.d("TAG", "Tarjeta amarilla anotada por: ID=${it._id}, Nombre=${it.nombreJugador}, Dorsal=${it.dorsal}, Ficha=${it.ficha}")
+                Log.d("TAG", "Tarjeta amarilla anotada por: ID=${it._id}, Nombre=${it.nombres}, Dorsal=${it.dorsal}, Ficha=${it.ficha}")
             }
-        }else{
-          //  Toast.makeText(context, "No se pueden agregar más de dos tarjetas amarillas para ${_jugadores.value?.get(jugadorId)?.nombreJugador}", Toast.LENGTH_SHORT).show()
+        } else {
             Log.d("TAG", "No se puede anotar T.A a ${jugadorId} porque ya tiene 2 tarjetas amarillas.")
-            return
         }
-
 
     }
 
@@ -166,7 +166,7 @@ class VerTarjetas:ViewModel() {
             }
             val jugador = _jugadoresPorVs.value?.get(idVs)?.get(jugadorId);
             jugador?.let {
-                Log.d("TAG", "Tarjeta amarilla descontada por: ID=${it._id}, Nombre=${it.nombreJugador}, Dorsal=${it.dorsal}, Ficha=${it.ficha}")
+                Log.d("TAG", "Tarjeta amarilla descontada por: ID=${it._id}, Nombre=${it.nombres}, Dorsal=${it.dorsal}, Ficha=${it.ficha}")
             }
             return true
         }else{
@@ -186,23 +186,25 @@ class VerTarjetas:ViewModel() {
 
     fun aumentarTarjetaRoja(idVs:String, jugadorId: String, equipo: Int) {
 
-        val rojasByjugador = if(equipo ==1) _rojasPorJugadorEquipo1 else _rojasPorJugadorEquipo2
+        val rojasByjugador = if (equipo == 1) _rojasPorJugadorEquipo1 else _rojasPorJugadorEquipo2
         val rojas = rojasByjugador.value?.get(idVs) ?: mutableMapOf()
-        if((rojas[jugadorId]?:0)<1){
+
+        if ((rojas[jugadorId] ?: 0) < 1) {
             rojas[jugadorId] = (rojas[jugadorId] ?: 0) + 1
-            rojasByjugador.value = rojasByjugador.value?.apply {put(idVs, rojas)} ?: mutableMapOf(idVs to rojas);
+            rojasByjugador.value = rojasByjugador.value?.apply { put(idVs, rojas) } ?: mutableMapOf(idVs to rojas)
+
             if (equipo == 1) {
-                totalTarjetasRojasEquipo1[idVs] = (totalTarjetasRojasEquipo1[idVs] ?: 0)+1;
+                totalTarjetasRojasEquipo1[idVs] = (totalTarjetasRojasEquipo1[idVs] ?: 0) + 1
+            } else {
+                totalTarjetasRojasEquipo2[idVs] = (totalTarjetasRojasEquipo2[idVs] ?: 0) + 1
             }
-            else {
-                totalTarjetasRojasEquipo2[idVs] = (totalTarjetasRojasEquipo2[idVs] ?: 0)+1;
-            }
+
             val jugador = _jugadoresPorVs.value?.get(idVs)?.get(jugadorId)
             jugador?.let {
-                Log.d("TAG", "Tarjeta roja anotada por: ID=${it._id}, Nombre=${it.nombreJugador}, Dorsal=${it.dorsal}, Ficha=${it.ficha}")
+                Log.d("TAG", "Tarjeta roja anotada por: ID=${it._id}, Nombre=${it.nombres}, Dorsal=${it.dorsal}, Ficha=${it.ficha}")
             }
-        }else{
-            Log.d("Roja","No se puede T.R ${jugadorId} porque tiene 2 rojas ")
+        } else {
+            Log.d("TAG", "No se puede anotar T.R a ${jugadorId} porque ya tiene 1 tarjeta roja.")
         }
 
     }
@@ -223,7 +225,7 @@ class VerTarjetas:ViewModel() {
             }
             val jugador = _jugadoresPorVs.value?.get(idVs)?.get(jugadorId);
             jugador?.let {
-                Log.d("TAG", "Tarjeta roja descontada por: ID=${it._id}, Nombre=${it.nombreJugador}, Dorsal=${it.dorsal}, Ficha=${it.ficha}")
+                Log.d("TAG", "Tarjeta roja descontada por: ID=${it._id}, Nombre=${it.nombres}, Dorsal=${it.dorsal}, Ficha=${it.ficha}")
             }
             return true
         }else{

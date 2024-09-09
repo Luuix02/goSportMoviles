@@ -53,6 +53,10 @@ dependencies {
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.leanback)
     implementation(libs.androidx.runtime.saved.instance.state)
+    implementation ("com.github.bumptech.glide:glide:4.15.1")
+    implementation ("com.google.android.material:material:1.10.0")
+    implementation(libs.androidx.foundation.android)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

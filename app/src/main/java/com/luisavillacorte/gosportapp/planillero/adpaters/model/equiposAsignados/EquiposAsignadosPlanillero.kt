@@ -29,11 +29,11 @@ class Equipo(
 ) : Serializable
 
 class Participantes(
-    val id: String,
-    val nombreJugador: String,
+    val _id: String,
+    val nombres: String,
     val ficha: Int,
     val dorsal: Int
-) : Serializable
+)
 
 class Informacion(
     val team1: Team,
