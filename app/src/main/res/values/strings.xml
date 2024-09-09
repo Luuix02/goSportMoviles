@@ -92,9 +92,26 @@
     <string name="Marcadores">Mis partidos</string>
     <string name="profile">Perfil</string>
     <string name="login">Iniciar Sesión</string>
+
     <string name="_57_31025796">+57 31025796</string>
     <string name="aaron">Aaron</string>
     <string name="planillero">planillero</string>
     <string name="contra">********</string>
+    <string name="profile_picture" />
+    <string name="nombreseditarperfil">Darbin Cuene</string>
+    <string name="telefonoeditarperfil">3163221523</string>
+    <string name="correoeditarperfil">cuene@gmail.com</string>
+    <string name="identificacioneditarperfil">1068562346</string>
+    <string name="fichaeditarperfil">123456</string>
+    <string name="programaeditrperfil">Adso</string>
+    <string name="jornadaeditarperfil">Tarde</string>
+    <string name="guardareditarperfil">Guardar</string>
+
+    <string name="nombrejugador" />
+    <string name="change_password" />
+    <string name="toggle_password_visibility">d</string>
+    <string name="nueva_contrasena">Nueva  cotraseña</string>
+    <string name="contrasena_actual">Contrasena Actual</string>
+
 
 </resources>

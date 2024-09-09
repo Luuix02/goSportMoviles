@@ -36,7 +36,6 @@ android {
 }
 
 dependencies {
-
     implementation ( "androidx.activity:activity-ktx:1.6.0")
     implementation ("com.squareup.okhttp3:okhttp:4.9.0")
     implementation ("com.squareup.okhttp3:logging-interceptor:4.9.0")
@@ -46,6 +45,7 @@ dependencies {
     implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
     implementation ("com.google.code.gson:gson:2.8.9")
     implementation ("androidx.cardview:cardview:1.0.0")
+    implementation("com.github.bumptech.glide:glide:4.15.1")
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
@@ -60,6 +60,5 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-
     implementation ("com.squareup.picasso:picasso:2.8")
 }
