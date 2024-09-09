@@ -1,109 +1,105 @@
-<?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
     tools:context=".jugador.viewActivities.fragments.cambiarContrasena.CambiarContrasena">
 
+    <View
+        android:id="@+id/background_view"
+        android:layout_width="419dp"
+        android:layout_height="376dp"
+        android:background="#11A3BD"
+        app:layout_constraintBottom_toTopOf="@+id/contenedor"
+        app:layout_constraintDimensionRatio="H,1:1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
     <LinearLayout
-        android:layout_width="367dp"
+        android:id="@+id/contenedor"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="180dp"
+        android:background="@drawable/border"
+        android:backgroundTint="#FFFFFF"
         android:gravity="center"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:padding="18dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_percent="0.85">
 
-        <!-- Campo de Contraseña actual -->
-        <RelativeLayout
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/welcome_text"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp">
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            android:text="@string/cambiar_contrasena"
+            android:textColor="@color/black"
+            android:textSize="24sp"
+            android:textStyle="bold" />
 
-            <EditText
-                android:id="@+id/etCurrentPassword"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="32dp"
-                android:background="@drawable/edittext_background"
-                android:hint="Contraseña Actual"
-                android:inputType="textPassword"
-                android:padding="12dp" />
-
-            <ImageView
-                android:id="@+id/ivToggleCurrentPassword"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_marginEnd="36dp"
-                android:contentDescription="@string/toggle_password_visibility"
-                android:padding="8dp"
-                android:src="@drawable/ic_ver_contra" />
-        </RelativeLayout>
-
-        <!-- Campo de Nueva Contraseña -->
-        <RelativeLayout
+        <EditText
+            android:id="@+id/etCurrentPassword"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp">
+            android:layout_height="50dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/edit_text_background"
+            android:drawableStart="@drawable/ic_contrasena"
+            android:drawableEnd="@drawable/ic_ver_contra"
+            android:drawablePadding="12dp"
+            android:hint="@string/contrasena_actual"
+            android:inputType="textPassword"
+            android:padding="12dp" />
 
-            <EditText
-                android:id="@+id/etNewPassword"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="32dp"
-                android:background="@drawable/edittext_background"
-                android:hint="Nueva Contraseña"
-                android:inputType="textPassword"
-                android:padding="12dp" />
 
-            <ImageView
-                android:id="@+id/ivToggleNewPassword"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_marginEnd="35dp"
-                android:contentDescription="@string/toggle_password_visibility"
-                android:padding="8dp"
-                android:src="@drawable/ic_ver_contra" />
-        </RelativeLayout>
-
-        <!-- Campo de Confirmar Nueva Contraseña -->
-        <RelativeLayout
+        <EditText
+            android:id="@+id/etNewPassword"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="24dp">
+            android:layout_height="50dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/edit_text_background"
+            android:drawableStart="@drawable/ic_contrasena"
+            android:drawableEnd="@drawable/ic_ver_contra"
+            android:drawablePadding="12dp"
+            android:hint="@string/nueva_contrasena"
+            android:inputType="textPassword"
+            android:padding="12dp" />
 
-            <EditText
-                android:id="@+id/etConfirmNewPassword"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="32dp"
-                android:background="@drawable/edittext_background"
-                android:hint="Confirmar Contraseña"
-                android:inputType="textPassword"
-                android:padding="12dp" />
 
-            <ImageView
-                android:id="@+id/ivToggleConfirmNewPassword"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_marginEnd="37dp"
-                android:contentDescription="@string/toggle_password_visibility"
-                android:padding="8dp"
-                android:src="@drawable/ic_ver_contra" />
-        </RelativeLayout>
 
-        <!-- Botón para Cambiar la Contraseña -->
+        <EditText
+            android:id="@+id/etConfirmNewPassword"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/edit_text_background"
+            android:drawableStart="@drawable/ic_contrasena"
+            android:drawableEnd="@drawable/ic_ver_contra"
+            android:drawablePadding="12dp"
+            android:hint="@string/confirmar_contrasena"
+            android:inputType="textPassword"
+            android:padding="12dp" />
+
+
+
         <Button
             android:id="@+id/btnguardarcambios"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:backgroundTint="#11A3BD"
-            android:padding="12dp"
-            android:text="Cambiar Contraseña"
-            android:textColor="#FFFFFF" />
+            android:layout_height="40dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="16dp"
+            android:backgroundTint="@color/unselected_color"
+            android:textColorHint="@color/white"
+            android:text="@string/cambiar_contrasena" />
 
     </LinearLayout>
 
-</FrameLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

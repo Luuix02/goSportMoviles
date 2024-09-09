@@ -20,7 +20,6 @@ import com.luisavillacorte.gosportapp.jugador.adapters.model.auth.PerfilUsuarioR
 import com.luisavillacorte.gosportapp.jugador.adapters.model.homeCampeonatos.Campeonatos
 import com.luisavillacorte.gosportapp.jugador.adapters.model.homeCampeonatos.HomeCampeonatosContract
 import com.luisavillacorte.gosportapp.jugador.adapters.model.homeCampeonatos.HomeCampeonatosPresenter
-import com.luisavillacorte.gosportapp.jugador.adapters.storage.TokenManager
 
 class CambiarContrasena : Fragment(), HomeCampeonatosContract.View {
 
@@ -40,9 +39,7 @@ class CambiarContrasena : Fragment(), HomeCampeonatosContract.View {
         val etConfirmNewPassword = view.findViewById<EditText>(R.id.etConfirmNewPassword)
         val btnGuardarCambios = view.findViewById<Button>(R.id.btnguardarcambios)
 
-        val ivToggleCurrentPassword = view.findViewById<ImageView>(R.id.ivToggleCurrentPassword)
-        val ivToggleNewPassword = view.findViewById<ImageView>(R.id.ivToggleNewPassword)
-        val ivToggleConfirmNewPassword = view.findViewById<ImageView>(R.id.ivToggleConfirmNewPassword)
+
 
         // Inicializar el presenter
         val apiService = RetrofitInstance.createService(HomeApiService::class.java)
@@ -69,15 +66,7 @@ class CambiarContrasena : Fragment(), HomeCampeonatosContract.View {
             }
         }
 
-        ivToggleCurrentPassword.setOnClickListener {
-            isCurrentPasswordVisible = togglePasswordVisibility(etCurrentPassword, isCurrentPasswordVisible)
-        }
-        ivToggleNewPassword.setOnClickListener {
-            isNewPasswordVisible = togglePasswordVisibility(etNewPassword, isNewPasswordVisible)
-        }
-        ivToggleConfirmNewPassword.setOnClickListener {
-            isConfirmNewPasswordVisible = togglePasswordVisibility(etConfirmNewPassword, isConfirmNewPasswordVisible)
-        }
+
 
         return view
     }
@@ -85,12 +74,10 @@ class CambiarContrasena : Fragment(), HomeCampeonatosContract.View {
     private fun togglePasswordVisibility(editText: EditText, isPasswordVisible: Boolean): Boolean {
         if (isPasswordVisible) {
             editText.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
-            // Cambia a ícono de "mostrar"
             editText.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_ver_contra, 0)
         } else {
             editText.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
-            // Cambia a ícono de "ocultar"
-            //editText.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_ocultar_contra, 0)
+            editText.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_ver_contra, 0) // Asegúrate de usar el drawable correcto
         }
         editText.setSelection(editText.text.length)
         return !isPasswordVisible
