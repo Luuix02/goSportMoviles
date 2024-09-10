@@ -108,15 +108,15 @@
     <string name="guardareditarperfil">Guardar</string>
 
     <string name="nombrejugador" />
-<<<<<<< HEAD
+
     <string name="gestiona_tu_equipo">Gestiona tu equipo</string>
     <string name="Tuequipo">Tu equipo\n</string>
-=======
+
     <string name="change_password" />
     <string name="toggle_password_visibility">d</string>
     <string name="nueva_contrasena">Nueva  cotraseña</string>
     <string name="contrasena_actual">Contrasena Actual</string>
 
->>>>>>> 43d33cf1a904956998fa4ed20b031981ba8ca7cc
+
 
 </resources>
