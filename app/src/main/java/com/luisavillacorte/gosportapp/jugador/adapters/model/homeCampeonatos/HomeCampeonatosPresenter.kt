@@ -6,6 +6,9 @@ import com.luisavillacorte.gosportapp.jugador.adapters.apiService.formCrearEquip
 import com.luisavillacorte.gosportapp.jugador.adapters.apiService.homeCampeonatosService.HomeApiService
 import com.luisavillacorte.gosportapp.jugador.adapters.model.auth.NuevaContrasenaRequest
 import com.luisavillacorte.gosportapp.jugador.adapters.model.auth.PerfilUsuarioResponse
+import com.luisavillacorte.gosportapp.jugador.adapters.model.crearEquipo.CampeonatoInscripcion
+import com.luisavillacorte.gosportapp.jugador.adapters.model.crearEquipo.Equipo
+import com.luisavillacorte.gosportapp.jugador.adapters.model.crearEquipo.EquipoInscriptoResponse
 import com.luisavillacorte.gosportapp.jugador.adapters.model.crearEquipo.ValidacionResponse
 import com.luisavillacorte.gosportapp.jugador.adapters.model.crearEquipo.ValidarInscripcionResponse
 import com.luisavillacorte.gosportapp.jugador.adapters.storage.TokenManager
@@ -130,7 +133,7 @@ class HomeCampeonatosPresenter(
                         view.showInscripcionError("Ya estás inscrito en el equipo: ${validarInscripcionResponse.equipo[0].nombreEquipo}")
                         view.showValidacionInscripcion(true, equipo)
 //                        view.mostrarBotonGestionarEquipo()
-                    //                        view.navigateToGestionarEquipo(equipo)
+                     //                        view.navigateToGestionarEquipo(equipo)
                     } else {
                         view.showValidacionInscripcion(false, null)
 //                        view.mostrarBotonGestionarEquipo()
@@ -210,6 +213,38 @@ class HomeCampeonatosPresenter(
             }
 
             override fun onFailure(call: Call<ValidacionResponse>, t: Throwable) {
+                view.showError("Error al conectar con el servidor: ${t.message}")
+            }
+        })
+    }
+
+    fun inscribirEquipoEnCampeonato(equipo: Equipo, idCampeonato: String) {
+        val inscripcion = CampeonatoInscripcion(
+            id = "",
+            equipo = equipo,
+            idCampeonato = idCampeonato
+        )
+
+
+        val call = apiService.inscribirEquipoCampeonato(inscripcion)
+        call.enqueue(object : Callback<EquipoInscriptoResponse> {
+            override fun onResponse(
+                call: Call<EquipoInscriptoResponse>,
+                response: Response<EquipoInscriptoResponse>
+            ) {
+                if (response.isSuccessful) {
+                    val equipoInscriptoResponse = response.body()
+                    if (equipoInscriptoResponse != null) {
+                        view.showSuccess("Equipo inscrito correctamente al campeonato.")
+                    } else {
+                        view.showError("No se pudo inscribir el equipo. Inténtalo de nuevo.")
+                    }
+                } else {
+                    view.showError("Error en la inscripción del equipo. Código: ${response.code()}")
+                }
+            }
+
+            override fun onFailure(call: Call<EquipoInscriptoResponse>, t: Throwable) {
                 view.showError("Error al conectar con el servidor: ${t.message}")
             }
         })

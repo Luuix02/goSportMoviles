@@ -1,15 +1,26 @@
 package com.luisavillacorte.gosportapp.jugador.adapters.model.homeCampeonatos
 
+import android.sax.EndElementListener
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
 import com.luisavillacorte.gosportapp.R
 
-class CampeonatosAdapter(private val campeonatos: List<Campeonatos>) :
-    RecyclerView.Adapter<CampeonatosAdapter.CampeonatoViewHolder>() {
+class CampeonatosAdapter(
+
+    private val campeonatos: List<Campeonatos>,
+    private val listener: onCampeonatoClickListener
+
+
+    ) : RecyclerView.Adapter<CampeonatosAdapter.CampeonatoViewHolder>() {
+
+        interface onCampeonatoClickListener{
+            fun onInscribirClick(campeonato: Campeonatos)
+        }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CampeonatoViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -35,7 +46,6 @@ class CampeonatosAdapter(private val campeonatos: List<Campeonatos>) :
         private val fechafinal:TextView=itemView.findViewById(R.id.fechaFin)
 
 
-
         fun bind(campeonato: Campeonatos) {
             nombreCampeonato.text = campeonato.nombreCampeonato
             descripcion.text = campeonato.descripcion
@@ -57,6 +67,9 @@ class CampeonatosAdapter(private val campeonatos: List<Campeonatos>) :
                 "Inscripcion" -> {
                     btnincribir.visibility = View.VISIBLE
                     btnVerDetalles.visibility = View.GONE
+                    btnincribir.setOnClickListener{
+                        listener.onInscribirClick(campeonato)
+                    }
                 }
                 else -> {
                     // Si hay otros estados, ocultar ambos
@@ -65,6 +78,7 @@ class CampeonatosAdapter(private val campeonatos: List<Campeonatos>) :
                 }
             }
         }
+
     }
 }
 
