@@ -1,6 +1,5 @@
 package com.luisavillacorte.gosportapp.jugador.viewActivities.fragments.perfilFragments
 
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -27,7 +26,7 @@ class FragmentPerfil : Fragment(), HomeCampeonatosContract.View {
     private lateinit var nombreTextView: TextView
     private lateinit var telefonoTextView: TextView
     private lateinit var editarperfil: TextView
-    private lateinit var cambiarcontrasena:TextView
+    private lateinit var cambiarcontrasena: TextView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,17 +37,18 @@ class FragmentPerfil : Fragment(), HomeCampeonatosContract.View {
         nombreTextView = view.findViewById(R.id.nombre_text_view)
         telefonoTextView = view.findViewById(R.id.telefono_text_view)
         editarperfil = view.findViewById(R.id.editar_perfil)
-        cambiarcontrasena=view.findViewById(R.id.link_cambiar_contrasena)
+        cambiarcontrasena = view.findViewById(R.id.link_cambiar_contrasena)
 
-        cambiarcontrasena.setOnClickListener{
-            val cambiarfragment=CambiarContrasena()
-            val fragmentManager=parentFragmentManager
-            val fragmentTransaction=fragmentManager.beginTransaction()
+        cambiarcontrasena.setOnClickListener {
+            val cambiarfragment = CambiarContrasena()
+            val fragmentManager = parentFragmentManager
+            val fragmentTransaction = fragmentManager.beginTransaction()
 
-            fragmentTransaction.replace(R.id.fragment_container,cambiarfragment)
+            fragmentTransaction.replace(R.id.fragment_container, cambiarfragment)
             fragmentTransaction.addToBackStack(null)
             fragmentTransaction.commit()
         }
+
         editarperfil.setOnClickListener {
             val editarPerfilFragment = Editarperfil()
             val fragmentManager = parentFragmentManager
@@ -76,7 +76,7 @@ class FragmentPerfil : Fragment(), HomeCampeonatosContract.View {
     }
 
     override fun showSuccess(message: String) {
-        TODO("Not yet implemented")
+        // Aquí solo se mostraría un mensaje de éxito, si implementas la lógica
     }
 
     override fun showError(message: String) {
@@ -97,30 +97,30 @@ class FragmentPerfil : Fragment(), HomeCampeonatosContract.View {
     }
 
     override fun navigateToCrearEquipo() {
-
+        // Navegar a la creación de equipo
     }
 
     override fun showInscripcionError(message: String) {
-        TODO("Not yet implemented")
+        // Mostrar un error relacionado con la inscripción
     }
 
     override fun navigateToGestionarEquipo(equipo: Equipo) {
-        TODO("Not yet implemented")
+        // Navegar a la gestión del equipo
     }
 
     override fun mostrarBotonGestionarEquipo() {
-        TODO("Not yet implemented")
+        // Mostrar botón para gestionar equipo
     }
 
     override fun mostrarMensajeSnackBar(message: String) {
-        TODO("Not yet implemented")
+        // Mostrar un Snackbar
     }
 
     override fun mostrarBotonCrearEquipo() {
-        TODO("Not yet implemented")
+        // Mostrar botón para crear equipo
     }
 
     override fun showValidacionInscripcion(estaInscrito: Boolean, equipo: Equipo?) {
-        TODO("Not yet implemented")
+        // Validar la inscripción del usuario y mostrar si está inscrito
     }
 }

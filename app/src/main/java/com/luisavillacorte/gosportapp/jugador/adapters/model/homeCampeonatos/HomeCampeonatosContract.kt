@@ -11,27 +11,22 @@ interface HomeCampeonatosContract {
         fun hideLoading()
         fun showCampeonatos(campeonato: List<Campeonatos>)
         fun showError(message: String)
-        fun traernombre(perfilUsuarioResponse: PerfilUsuarioResponse)
-
         fun showInscripcionError(message: String)
         fun navigateToCrearEquipo()
         fun navigateToGestionarEquipo(equipo: Equipo)
         fun mostrarBotonGestionarEquipo()
-        //        fun ocultarBotonGestionarEquipo()
         fun mostrarBotonCrearEquipo()
         fun mostrarMensajeSnackBar(message: String)
         fun showValidacionInscripcion(estaInscrito: Boolean, equipo: Equipo?)
-
-
         fun showSuccess(message: String)
-
+        fun traernombre(perfil: PerfilUsuarioResponse)
     }
 
     interface Presenter {
         fun getCampeonatos()
+
         fun getPerfilUsuario()
         fun validarInscripcionJugador(idJugador: String)
         fun validarInscripcionEquipo(identificacion: String)
-
     }
 }
