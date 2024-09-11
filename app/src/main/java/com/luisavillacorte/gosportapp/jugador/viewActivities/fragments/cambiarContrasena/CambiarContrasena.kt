@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.luisavillacorte.gosportapp.R
@@ -32,7 +33,6 @@ class CambiarContrasena : Fragment(), HomeCampeonatosContract.View {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
         val view = inflater.inflate(R.layout.fragment_cambiar_contrasena, container, false)
 
         val etCurrentPassword = view.findViewById<EditText>(R.id.etCurrentPassword)
@@ -40,11 +40,12 @@ class CambiarContrasena : Fragment(), HomeCampeonatosContract.View {
         val etConfirmNewPassword = view.findViewById<EditText>(R.id.etConfirmNewPassword)
         val btnGuardarCambios = view.findViewById<Button>(R.id.btnguardarcambios)
 
+
+
         // Inicializar el presenter
         val apiService = RetrofitInstance.createService(HomeApiService::class.java)
         presenter = HomeCampeonatosPresenter(this, requireContext(), apiService)
 
-        // Manejar el evento de clic para guardar los cambios de contraseña
         btnGuardarCambios.setOnClickListener {
             val nuevaContrasena = etNewPassword.text.toString()
             val confirmarContrasena = etConfirmNewPassword.text.toString()
@@ -57,7 +58,7 @@ class CambiarContrasena : Fragment(), HomeCampeonatosContract.View {
 
                 if (userId != null) {
                     val nuevaContrasenaRequest = NuevaContrasenaRequest(nuevaContrasena)
-                    presenter.cambiarContrasena(nuevaContrasenaRequest) // Llama al método del presenter
+                    presenter.cambiarContrasena(nuevaContrasenaRequest)
                 } else {
                     showError("User ID no disponible")
                 }
@@ -66,21 +67,22 @@ class CambiarContrasena : Fragment(), HomeCampeonatosContract.View {
             }
         }
 
+
+
         return view
     }
 
-    // Método para alternar la visibilidad de la contraseña
     private fun togglePasswordVisibility(editText: EditText, isPasswordVisible: Boolean): Boolean {
         if (isPasswordVisible) {
             editText.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+            editText.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_ver_contra, 0)
         } else {
             editText.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+            editText.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_ver_contra, 0) // Asegúrate de usar el drawable correcto
         }
         editText.setSelection(editText.text.length)
         return !isPasswordVisible
     }
-
-    // Métodos de la interfaz HomeCampeonatosContract.View
 
     override fun showSuccess(message: String) {
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
@@ -105,7 +107,7 @@ class CambiarContrasena : Fragment(), HomeCampeonatosContract.View {
     override fun showCampeonatos(campeonatos: List<Campeonatos>) {
         // Este método no se usará en este fragmento, pero debe ser implementado
     }
-   
+
     override fun navigateToCrearEquipo() {
 
     }
