@@ -1,20 +1,5 @@
 package com.luisavillacorte.gosportapp.planillero.adpaters.model.resultadosEquiposAsignados
 
-data class Resultados(
-    //val _id: String,
-    val equipo1: InscripcionEquipos1,
-    val equipo2: InscripcionEquipos2,
-    val IdVs: String,
-//    val IdFase: String,
-        val estadoPartido: Boolean,
-)
- data class InscripcionEquipos1(
-    val Equipo1: EquipoR,
-    var tarjetasAmarillas: List<Participante>,
-    var tarjetasRojas:List<Participante>,
-    val goles: Goles
-
-)
 
 
 //data class TarjetasTojas(
@@ -39,13 +24,22 @@ data class Resultados(
 //    val dorsal: Int,
 //    var amarillas: Int = 0,
 //)
-data class InscripcionEquipos2(
-    val Equipo2: EquipoR,
-    val tarjetasAmarillas: List<Participante>,
+data class Resultados(
+    //val _id: String,
+    val equipo1: InscripcionEquipos1,
+    val equipo2: InscripcionEquipos2,
+    val IdVs: String,
+//    val IdFase: String,
+    val estadoPartido: Boolean,
+)
+data class InscripcionEquipos1(
+    val Equipo1: EquipoR,
+    var tarjetasAmarillas: List<Participante>,
     var tarjetasRojas:List<Participante>,
     val goles: Goles
 
 )
+
 data class EquipoR(
     val _id: String,
     val nombreEquipo: String,
@@ -59,6 +53,13 @@ data class EquipoR(
     val participantes: List<Participante>,
 
     )
+data class InscripcionEquipos2(
+    val Equipo2: EquipoR,
+    val tarjetasAmarillas: List<Participante>,
+    var tarjetasRojas:List<Participante>,
+    val goles: Goles
+
+)
 data class Participante(
     val _id: String,
     val nombres: String,

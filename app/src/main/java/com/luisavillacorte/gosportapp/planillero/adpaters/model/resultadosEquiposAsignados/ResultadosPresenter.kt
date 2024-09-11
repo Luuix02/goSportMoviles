@@ -80,7 +80,7 @@ class ResultadosPresenter ( private val view: ResultadosContract.View,
                 if (response.isSuccessful) {
                     view.messageExito("Datos subidos con exito!")
                 } else {
-                    view.error("Error en la respuesta")
+                    view.error("Error en la respuesta POST: ${response.errorBody()?.string()}")
                 }
             }
 

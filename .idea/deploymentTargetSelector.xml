@@ -4,7 +4,12 @@
     <selectionStates>
       <SelectionState runConfigName="App">
         <option name="selectionMode" value="DROPDOWN" />
+<<<<<<< HEAD
         <DropdownSelection timestamp="2024-09-11T19:47:05.955091500Z">
+=======
+<<<<<<< HEAD
+        <DropdownSelection timestamp="2024-09-09T18:37:38.677297Z">
+>>>>>>> f01b54e5abc670956cef223fb5839b0095aad243
           <Target type="DEFAULT_BOOT">
             <handle>
               <DeviceId pluginId="LocalEmulator" identifier="path=C:\Users\Admin\.android\avd\Samsung_Galaxy_S21_API_30.avd" />
@@ -12,6 +17,14 @@
           </Target>
         </DropdownSelection>
         <DialogSelection />
+<<<<<<< HEAD
+=======
+      </SelectionState>
+      <SelectionState runConfigName="app">
+        <option name="selectionMode" value="DROPDOWN" />
+=======
+>>>>>>> 21b632d381058cda1ecc9277d77e31de58e1c10b
+>>>>>>> f01b54e5abc670956cef223fb5839b0095aad243
       </SelectionState>
     </selectionStates>
   </component>
