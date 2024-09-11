@@ -5,9 +5,11 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import com.bumptech.glide.Glide
 import com.luisavillacorte.gosportapp.R
 import com.luisavillacorte.gosportapp.common.apiRetrofit.RetrofitInstance
 import com.luisavillacorte.gosportapp.jugador.adapters.apiService.homeCampeonatosService.HomeApiService
@@ -27,6 +29,7 @@ class FragmentPerfil : Fragment(), HomeCampeonatosContract.View {
     private lateinit var telefonoTextView: TextView
     private lateinit var editarperfil: TextView
     private lateinit var cambiarcontrasena: TextView
+    private lateinit var fotoperfil: ImageView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,6 +41,7 @@ class FragmentPerfil : Fragment(), HomeCampeonatosContract.View {
         telefonoTextView = view.findViewById(R.id.telefono_text_view)
         editarperfil = view.findViewById(R.id.editar_perfil)
         cambiarcontrasena = view.findViewById(R.id.link_cambiar_contrasena)
+        fotoperfil = view.findViewById(R.id.foto_perfil_image_view)
 
         cambiarcontrasena.setOnClickListener {
             val cambiarfragment = CambiarContrasena()
@@ -54,9 +58,8 @@ class FragmentPerfil : Fragment(), HomeCampeonatosContract.View {
             val fragmentManager = parentFragmentManager
             val fragmentTransaction = fragmentManager.beginTransaction()
 
-            // Reemplaza el fragmento actual con el nuevo
             fragmentTransaction.replace(R.id.fragment_container, editarPerfilFragment)
-            fragmentTransaction.addToBackStack(null) // Permite volver atrás con el botón de retroceso
+            fragmentTransaction.addToBackStack(null)
             fragmentTransaction.commit()
         }
 
@@ -73,6 +76,17 @@ class FragmentPerfil : Fragment(), HomeCampeonatosContract.View {
         Log.d("FragmentPerfil", "Perfil recibido: ${perfilUsuarioResponse.nombres}, Tel: ${perfilUsuarioResponse.telefono}")
         nombreTextView.text = perfilUsuarioResponse.nombres
         telefonoTextView.text = "Tel: ${perfilUsuarioResponse.telefono}"
+
+        // Verificar si la URL de la foto de perfil está disponible
+        perfilUsuarioResponse.url_foto?.let { url ->
+            // Usar Glide para cargar la imagen en el ImageView
+            Glide.with(this)
+                .load(url)
+                .into(fotoperfil) // Solo carga la imagen sin placeholder ni error
+        } ?: run {
+            // Si no hay URL de foto, mostrar una imagen por defecto o hacer algo
+            //fotoperfil.setImageResource(R.drawable.default_profile_image) // Asegúrate de tener esta imagen en drawable
+        }
     }
 
     override fun showSuccess(message: String) {
