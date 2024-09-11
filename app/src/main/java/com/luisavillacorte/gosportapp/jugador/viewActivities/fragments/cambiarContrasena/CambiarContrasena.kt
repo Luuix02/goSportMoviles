@@ -17,6 +17,7 @@ import com.luisavillacorte.gosportapp.common.apiRetrofit.RetrofitInstance
 import com.luisavillacorte.gosportapp.jugador.adapters.apiService.homeCampeonatosService.HomeApiService
 import com.luisavillacorte.gosportapp.jugador.adapters.model.auth.NuevaContrasenaRequest
 import com.luisavillacorte.gosportapp.jugador.adapters.model.auth.PerfilUsuarioResponse
+import com.luisavillacorte.gosportapp.jugador.adapters.model.crearEquipo.Equipo
 import com.luisavillacorte.gosportapp.jugador.adapters.model.homeCampeonatos.Campeonatos
 import com.luisavillacorte.gosportapp.jugador.adapters.model.homeCampeonatos.HomeCampeonatosContract
 import com.luisavillacorte.gosportapp.jugador.adapters.model.homeCampeonatos.HomeCampeonatosPresenter
@@ -106,4 +107,33 @@ class CambiarContrasena : Fragment(), HomeCampeonatosContract.View {
     override fun showCampeonatos(campeonatos: List<Campeonatos>) {
         // Este método no se usará en este fragmento, pero debe ser implementado
     }
+   
+    override fun navigateToCrearEquipo() {
+
+    }
+
+    override fun showInscripcionError(message: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun navigateToGestionarEquipo(equipo: Equipo) {
+        TODO("Not yet implemented")
+    }
+
+    override fun mostrarBotonGestionarEquipo() {
+        TODO("Not yet implemented")
+    }
+
+    override fun mostrarMensajeSnackBar(message: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun mostrarBotonCrearEquipo() {
+        TODO("Not yet implemented")
+    }
+
+    override fun showValidacionInscripcion(estaInscrito: Boolean, equipo: Equipo?) {
+        TODO("Not yet implemented")
+    }
+
 }

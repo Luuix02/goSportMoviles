@@ -60,16 +60,11 @@ class FragmentHome : Fragment(), HomeCampeonatosContract.View {
         recyclerViewCampeonatos.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
 
 
-
-
-        // Llama a los métodos del Presenter
         presenter.getCampeonatos()
         presenter.getPerfilUsuario()
 
-        //        //nueva linea
+
         btnFlotante.visibility = View.GONE
-
-
 
         btnFlotante.setOnClickListener{
             handleBotonFlotanteClick()
@@ -141,9 +136,8 @@ class FragmentHome : Fragment(), HomeCampeonatosContract.View {
     override fun showValidacionInscripcion(estaInscrito: Boolean, equipo: Equipo?) {
         if (estaInscrito) {
             if (esCapitan) {
-                // Si está inscrito y es capitán, mostrar el botón para gestionar el equipo
                 btnFlotante.visibility = View.VISIBLE
-                btnFlotante.setImageResource(R.drawable.ic_editar_equipo)  // Cambiar icono
+                btnFlotante.setImageResource(R.drawable.ic_editar_equipo)
                 btnFlotante.setOnClickListener {
                     mostrarMensajeSnackBar("Actualiza tu Equipo")
                     if (equipo != null){
@@ -151,28 +145,26 @@ class FragmentHome : Fragment(), HomeCampeonatosContract.View {
                     } else {
                         mostrarMensajeSnackBar("Error al obtener el equipo")
                     }
-                     // Navegar a la gestión del equipo
+
                 }
             } else {
-                // Si está inscrito pero no es capitán, ocultar el botón
                 btnFlotante.visibility = View.GONE
             }
         } else {
-            // Si no está inscrito, mostrar el botón para crear un equipo
             btnFlotante.visibility = View.VISIBLE
-            btnFlotante.setImageResource(R.drawable.crearequipo)  // Cambiar icono
+            btnFlotante.setImageResource(R.drawable.crearequipo)
             btnFlotante.setOnClickListener {
                 mostrarMensajeSnackBar("Crea tu equipo")
-                navigateToCrearEquipo()  // Navegar a la creación de equipo
+                navigateToCrearEquipo()
             }
         }
     }
     override fun mostrarBotonGestionarEquipo() {
-        btnFlotante.setImageResource(R.drawable.ic_editar_equipo)  // Cambia el ícono
+        btnFlotante.setImageResource(R.drawable.ic_editar_equipo)
     }
 
     override fun mostrarBotonCrearEquipo() {
-        btnFlotante.setImageResource(R.drawable.crearequipo)  // Cambia el ícono
+        btnFlotante.setImageResource(R.drawable.crearequipo)
     }
 
     override fun mostrarMensajeSnackBar(message: String) {

@@ -47,3 +47,28 @@ data class ValidarInscripcionResponse(
     val msg: String,
     val equipo: List<Equipo>
 )
+data class CampeonatoInscripcion(
+    @SerializedName("_id") val id: String,
+    @SerializedName("Equipo") val equipo: Equipo,
+    @SerializedName("idCampeonato") val idCampeonato: String
+
+)
+
+data class ValidacionResponse(
+    @SerializedName("msg") val mensaje: String,
+    @SerializedName("data") val data: List<List<CampeonatoInscripcion>>
+)
+
+data class EquipoInscriptoResponse(
+    val msg: String,
+    val inscripto: Inscripto
+)
+
+data class Inscripto(
+    @SerializedName("Equipo") val equipo: Equipo,
+    @SerializedName("idCampeonato") val idCampeonato: String,
+    @SerializedName("_id") val id: String,
+
+)
+
+

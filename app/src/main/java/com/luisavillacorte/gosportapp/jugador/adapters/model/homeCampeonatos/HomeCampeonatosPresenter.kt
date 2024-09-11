@@ -6,6 +6,7 @@ import com.luisavillacorte.gosportapp.jugador.adapters.apiService.formCrearEquip
 import com.luisavillacorte.gosportapp.jugador.adapters.apiService.homeCampeonatosService.HomeApiService
 import com.luisavillacorte.gosportapp.jugador.adapters.model.auth.NuevaContrasenaRequest
 import com.luisavillacorte.gosportapp.jugador.adapters.model.auth.PerfilUsuarioResponse
+import com.luisavillacorte.gosportapp.jugador.adapters.model.crearEquipo.ValidacionResponse
 import com.luisavillacorte.gosportapp.jugador.adapters.model.crearEquipo.ValidarInscripcionResponse
 import com.luisavillacorte.gosportapp.jugador.adapters.storage.TokenManager
 import retrofit2.Call
@@ -91,16 +92,16 @@ class HomeCampeonatosPresenter(
                     val perfil = response.body()
                     if (perfil != null) {
                         view.traernombre(perfil)
-<<<<<<< HEAD
+
                         if (perfil.esCapitan){
                             view.mostrarBotonGestionarEquipo()
                         } else {
                             validarInscripcionJugador(perfil.id)
                         }
-=======
+
                         tokenManager.saveUserId(perfil.id) // Guarda el userId en TokenManager
                         Log.d(TAG, "User ID guardado: ${perfil.id}")
->>>>>>> 43d33cf1a904956998fa4ed20b031981ba8ca7cc
+
                     } else {
                         view.showError("Perfil de usuario vacío")
                     }
@@ -160,7 +161,7 @@ class HomeCampeonatosPresenter(
                 if (response.isSuccessful) {
                     response.body()?.let { campeonatos ->
                         val campeonatosFiltrados = campeonatos.filter {
-                            it.estadoCampeonato == "Ejecucion"
+                            it.estadoCampeonato == "Inscripcion"
                         }
 
                         view.showCampeonatos(campeonatosFiltrados)
@@ -180,4 +181,38 @@ class HomeCampeonatosPresenter(
             }
         })
     }
+
+    override fun validarInscripcionEquipo(identificacion: String) {
+        val call = apiService.verificarEquipoEnCampeonato(identificacion)
+        call.enqueue(object : Callback<ValidacionResponse> {
+            override fun onResponse(
+                call: Call<ValidacionResponse>,
+                response: Response<ValidacionResponse>
+            ) {
+                if (response.isSuccessful) {
+                    val validacionResponse = response.body()
+                    if (validacionResponse != null) {
+                        val inscripciones = validacionResponse.data.flatten()
+                        val equipoInscrito = inscripciones.firstOrNull()?.equipo
+
+                        if (equipoInscrito != null) {
+                            view.showInscripcionError("Ya estás inscrito en el campeonato con el equipo: ${equipoInscrito.nombreEquipo}")
+                            view.showValidacionInscripcion(true, equipoInscrito)
+                        } else {
+                            view.showValidacionInscripcion(false, null)
+                        }
+                    } else {
+                        view.showError("Respuesta vacía del servidor.")
+                    }
+                } else {
+                    view.showError("Error en la respuesta del servidor: ${response.code()}")
+                }
+            }
+
+            override fun onFailure(call: Call<ValidacionResponse>, t: Throwable) {
+                view.showError("Error al conectar con el servidor: ${t.message}")
+            }
+        })
+    }
+
 }

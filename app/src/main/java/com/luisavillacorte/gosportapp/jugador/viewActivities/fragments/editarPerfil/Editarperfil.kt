@@ -14,6 +14,7 @@ import com.luisavillacorte.gosportapp.R
 import com.luisavillacorte.gosportapp.common.apiRetrofit.RetrofitInstance
 import com.luisavillacorte.gosportapp.jugador.adapters.apiService.homeCampeonatosService.HomeApiService
 import com.luisavillacorte.gosportapp.jugador.adapters.model.auth.PerfilUsuarioResponse
+import com.luisavillacorte.gosportapp.jugador.adapters.model.crearEquipo.Equipo
 import com.luisavillacorte.gosportapp.jugador.adapters.model.homeCampeonatos.Campeonatos
 import com.luisavillacorte.gosportapp.jugador.adapters.model.homeCampeonatos.HomeCampeonatosContract
 import com.luisavillacorte.gosportapp.jugador.adapters.model.homeCampeonatos.HomeCampeonatosPresenter
@@ -79,8 +80,14 @@ class Editarperfil : Fragment(), HomeCampeonatosContract.View {
                 ficha = fichaperfil.text.toString(),
                 jornada = jornada.text.toString(),
                 identificacion = identificacio.text.toString(),
+                programa = programa.text.toString(),
+                contrasena = "",
+                esCapitan = false,
+                public_id = "",
+                rol = "jugador",
+                url_foto = "",
 
-                programa = programa.text.toString()
+
 
                 )
             presenter.actualizarPerfilUsuario(perfilActualizado)
@@ -128,5 +135,34 @@ class Editarperfil : Fragment(), HomeCampeonatosContract.View {
 
     override fun showCampeonatos(campeonatos: List<Campeonatos>) {
         // Lógica para mostrar campeonatos si es necesario
+    }
+
+    override fun navigateToCrearEquipo() {
+        TODO("Not yet implemented")
+    }
+
+    override fun showInscripcionError(message: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun navigateToGestionarEquipo(equipo: Equipo) {
+        TODO("Not yet implemented")
+    }
+
+    override fun mostrarBotonGestionarEquipo() {
+        TODO("Not yet implemented")
+    }
+
+    override fun mostrarMensajeSnackBar(message: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun mostrarBotonCrearEquipo() {
+        TODO("Not yet implemented")
+
+    }
+
+    override fun showValidacionInscripcion(estaInscrito: Boolean, equipo: Equipo?) {
+        TODO("Not yet implemented")
     }
 }

@@ -18,11 +18,11 @@ data class PerfilUsuarioResponse(
     //@SerializedName("url_foto") val urlFoto: String,
 
     val identificacion: String,
-<<<<<<< HEAD
+
     val rol: String,
-    @SerializedName("esCapitan") val esCapitan: Boolean
-=======
-    val ficha: String?,
+    @SerializedName("esCapitan") val esCapitan: Boolean,
+
+//    val ficha: String?,
     val jornada: String,
     val programa: String
 
@@ -31,5 +31,5 @@ data class PerfilUsuarioResponse(
 data class CloudinaryResponse(
     @SerializedName("public_id") val publicId: String,
     @SerializedName("url_foto") val urlFoto: String
->>>>>>> 43d33cf1a904956998fa4ed20b031981ba8ca7cc
+
 )
