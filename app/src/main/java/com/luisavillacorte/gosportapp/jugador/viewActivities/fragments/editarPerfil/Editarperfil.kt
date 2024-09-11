@@ -32,11 +32,13 @@ class Editarperfil : Fragment(), HomeCampeonatosContract.View {
     private lateinit var btnGuardarCambios: Button
 
     private var userId: String? = null
+    private var variable: String? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
         val view = inflater.inflate(R.layout.fragment_editarperfil, container, false)
 
         nombreTextView = view.findViewById(R.id.edtNombre)
@@ -79,9 +81,10 @@ class Editarperfil : Fragment(), HomeCampeonatosContract.View {
                 ficha = fichaperfil.text.toString(),
                 jornada = jornada.text.toString(),
                 identificacion = identificacio.text.toString(),
-
+                contrasena = variable.toString(),
+                public_id = variable.toString(),
+                url_foto = variable.toString(),
                 programa = programa.text.toString()
-
                 )
             presenter.actualizarPerfilUsuario(perfilActualizado)
         }
