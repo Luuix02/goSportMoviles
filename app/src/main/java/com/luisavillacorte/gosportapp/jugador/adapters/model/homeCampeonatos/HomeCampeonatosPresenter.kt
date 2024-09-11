@@ -2,6 +2,7 @@ package com.luisavillacorte.gosportapp.jugador.adapters.model.homeCampeonatos
 
 import android.content.Context
 import android.net.Uri
+import android.provider.MediaStore
 import android.util.Log
 import com.luisavillacorte.gosportapp.jugador.adapters.apiService.homeCampeonatosService.HomeApiService
 import com.luisavillacorte.gosportapp.jugador.adapters.model.auth.NuevaContrasenaRequest
@@ -9,7 +10,8 @@ import com.luisavillacorte.gosportapp.jugador.adapters.model.auth.PerfilUsuarioR
 import com.luisavillacorte.gosportapp.jugador.adapters.storage.TokenManager
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
-import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.asRequestBody
+
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -143,13 +145,13 @@ class HomeCampeonatosPresenter(
         val userId = tokenManager.getUserId() ?: return view.showError("User ID no disponible")
 
         try {
-            val file = File(getFilePathFromUri(uri))
+            val file = File(getFilePathFromUri(uri) ?: return view.showError("No se pudo obtener la ruta del archivo"))
             if (!file.exists()) {
                 Log.e(TAG, "El archivo no existe en la URI proporcionada")
                 return view.showError("No se pudo encontrar el archivo de imagen")
             }
 
-            val requestFile = RequestBody.create("image/*".toMediaTypeOrNull(), file)
+            val requestFile = file.asRequestBody("image/*".toMediaTypeOrNull())
             val body = MultipartBody.Part.createFormData("file", file.name, requestFile)
 
             val call = apiService.subirFotousuario(userId, "Bearer $token", body)
@@ -178,22 +180,25 @@ class HomeCampeonatosPresenter(
         }
     }
 
-    override fun validarInscripcionJugador(idJugador: String) {
-        TODO("Not yet implemented")
-    }
-
-    override fun validarInscripcionEquipo(identificacion: String) {
-        TODO("Not yet implemented")
-    }
-
     private fun getFilePathFromUri(uri: Uri): String? {
-        val projection = arrayOf(android.provider.MediaStore.Images.Media.DATA)
+        val projection = arrayOf(MediaStore.Images.Media.DATA)
         context.contentResolver.query(uri, projection, null, null, null)?.use { cursor ->
-            val columnIndex = cursor.getColumnIndexOrThrow(android.provider.MediaStore.Images.Media.DATA)
+            val columnIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
             if (cursor.moveToFirst()) {
                 return cursor.getString(columnIndex)
             }
         }
         return null
+    }
+
+    override fun validarInscripcionJugador(idJugador: String) {
+        Log.d(TAG, "validarInscripcionJugador aún no implementado")
+        view.showError("Funcionalidad no disponible aún")
+    }
+
+    override fun validarInscripcionEquipo(identificacion: String) {
+        // Implementar la lógica para validar la inscripción del equipo
+        Log.d(TAG, "validarInscripcionEquipo aún no implementado")
+        view.showError("Funcionalidad no disponible aún")
     }
 }
