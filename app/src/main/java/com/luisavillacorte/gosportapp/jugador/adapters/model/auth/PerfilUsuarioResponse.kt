@@ -10,7 +10,7 @@ data class PerfilUsuarioResponse(
     val correo: String,
 
     val public_id: String?,
-    val url_foto: String?,
+    val url_foto: String? ,
     val contrasena: String,
 
     //val contrasena: String,  // Contraseña encriptada

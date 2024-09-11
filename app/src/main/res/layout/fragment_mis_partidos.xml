@@ -107,7 +107,7 @@
                         android:text="26/07/2024"
                         android:textAlignment="center"
                         android:textSize="16sp" />
-<!--                        android:background="@drawable/border"-->
+                    <!--                        android:background="@drawable/border"-->
 
 
                     <!-- Botón Ver -->

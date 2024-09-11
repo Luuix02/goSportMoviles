@@ -1,30 +1,155 @@
 package com.luisavillacorte.gosportapp.jugador.adapters.model.homeCampeonatos
 
 import android.content.Context
-import android.net.Uri
-import android.provider.MediaStore
 import android.util.Log
+import com.luisavillacorte.gosportapp.jugador.adapters.apiService.formCrearEquipoService.CrearEquipoApiService
 import com.luisavillacorte.gosportapp.jugador.adapters.apiService.homeCampeonatosService.HomeApiService
 import com.luisavillacorte.gosportapp.jugador.adapters.model.auth.NuevaContrasenaRequest
 import com.luisavillacorte.gosportapp.jugador.adapters.model.auth.PerfilUsuarioResponse
+import com.luisavillacorte.gosportapp.jugador.adapters.model.crearEquipo.CampeonatoInscripcion
+import com.luisavillacorte.gosportapp.jugador.adapters.model.crearEquipo.Equipo
+import com.luisavillacorte.gosportapp.jugador.adapters.model.crearEquipo.EquipoInscriptoResponse
+import com.luisavillacorte.gosportapp.jugador.adapters.model.crearEquipo.ValidacionResponse
+import com.luisavillacorte.gosportapp.jugador.adapters.model.crearEquipo.ValidarInscripcionResponse
 import com.luisavillacorte.gosportapp.jugador.adapters.storage.TokenManager
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
-import okhttp3.MultipartBody
-import okhttp3.RequestBody.Companion.asRequestBody
-
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.io.File
 
 class HomeCampeonatosPresenter(
     private val view: HomeCampeonatosContract.View,
     private val context: Context,
-    private val apiService: HomeApiService
+    private val apiService: HomeApiService,
 ) : HomeCampeonatosContract.Presenter {
 
     private val tokenManager = TokenManager(context)
     private val TAG = "HomePresenter"
+
+    fun actualizarPerfilUsuario(perfilActualizado: PerfilUsuarioResponse) {
+        val token = tokenManager.getToken() ?: return view.showError("Token no disponible")
+        val userId = tokenManager.getUserId() // Recupera el userId del TokenManager
+        Log.d(TAG, "Token obtenido: $token")
+        Log.d(TAG, "User ID en actualizarPerfilUsuario: $userId")
+
+        userId?.let {
+            val call = apiService.actualizarPerfilUsuario("Bearer $token", it, perfilActualizado)
+            call.enqueue(object : Callback<PerfilUsuarioResponse> {
+                override fun onResponse(
+                    call: Call<PerfilUsuarioResponse>,
+                    response: Response<PerfilUsuarioResponse>
+                ) {
+                    if (response.isSuccessful) {
+                        val perfil = response.body()
+                        if (perfil != null) {
+                            view.traernombre(perfil)
+                        } else {
+                            view.showError("Perfil de usuario vacío")
+                        }
+                    } else {
+                        view.showError("Error al actualizar el perfil ${response.code()}: ${response.message()}")
+                    }
+                }
+
+                override fun onFailure(call: Call<PerfilUsuarioResponse>, t: Throwable) {
+                    view.showError(t.message ?: "Error desconocido")
+                }
+            })
+        } ?: view.showError("User ID no disponible")
+    }
+
+    fun cambiarContrasena(nuevaContrasenaRequest: NuevaContrasenaRequest) {
+        val token = tokenManager.getToken() ?: return view.showError("Token no disponible")
+        val userId = tokenManager.getUserId() // Recupera el userId del TokenManager
+        Log.d(TAG, "Token obtenido: $token")
+        Log.d(TAG, "User ID en cambiarContrasena: $userId")
+
+        userId?.let {
+            val call = apiService.cambiarContrasena("Bearer $token", it, nuevaContrasenaRequest)
+            call.enqueue(object : Callback<Void> {
+                override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                    if (response.isSuccessful) {
+                        view.showSuccess("Contraseña cambiada exitosamente")
+                    } else {
+                        view.showError("Error al cambiar la contraseña ${response.code()}: ${response.message()}")
+                    }
+                }
+
+                override fun onFailure(call: Call<Void>, t: Throwable) {
+                    view.showError(t.message ?: "Error desconocido")
+                }
+            })
+        } ?: view.showError("User ID no disponible")
+    }
+
+    override fun getPerfilUsuario() {
+        val token = tokenManager.getToken() ?: return view.showError("Token no disponible")
+        Log.d(TAG, "Token obtenido: $token")
+
+        val call = apiService.obtenerPerfilUsuario("Bearer $token")
+        call.enqueue(object : Callback<PerfilUsuarioResponse> {
+            override fun onResponse(
+                call: Call<PerfilUsuarioResponse>,
+                response: Response<PerfilUsuarioResponse>
+            ) {
+                if (response.isSuccessful) {
+                    val perfil = response.body()
+                    if (perfil != null) {
+                        view.traernombre(perfil)
+
+                        if (perfil.esCapitan){
+                            view.mostrarBotonGestionarEquipo()
+                        } else {
+                            validarInscripcionJugador(perfil.id)
+                        }
+
+                        tokenManager.saveUserId(perfil.id) // Guarda el userId en TokenManager
+                        Log.d(TAG, "User ID guardado: ${perfil.id}")
+
+                    } else {
+                        view.showError("Perfil de usuario vacío")
+                    }
+                } else {
+                    view.showError("Error al obtener el perfil ${response.code()}: ${response.message()}")
+                }
+            }
+
+            override fun onFailure(call: Call<PerfilUsuarioResponse>, t: Throwable) {
+                view.showError(t.message ?: "Error desconocido")
+            }
+        })
+    }
+
+    override fun validarInscripcionJugador(idJugador: String) {
+        val call = apiService.validarUsuarioEnEquipo(idJugador)
+        call.enqueue(object : Callback<ValidarInscripcionResponse> {
+            override fun onResponse(
+                call: Call<ValidarInscripcionResponse>,
+                response: Response<ValidarInscripcionResponse>
+            ) {
+                if (response.isSuccessful) {
+                    val validarInscripcionResponse = response.body()
+                    if (validarInscripcionResponse != null && validarInscripcionResponse.equipo.isNotEmpty()) {
+                        val equipo = validarInscripcionResponse.equipo[0]
+                        view.showInscripcionError("Ya estás inscrito en el equipo: ${validarInscripcionResponse.equipo[0].nombreEquipo}")
+                        view.showValidacionInscripcion(true, equipo)
+//                        view.mostrarBotonGestionarEquipo()
+                        //                        view.navigateToGestionarEquipo(equipo)
+                    } else {
+                        view.showValidacionInscripcion(false, null)
+//                        view.mostrarBotonGestionarEquipo()
+//                        view.navigateToCrearEquipo()
+                    }
+                } else {
+                    view.showError("Error en la respuesta del servidor.")
+                }
+            }
+
+            override fun onFailure(call: Call<ValidarInscripcionResponse>, t: Throwable) {
+                // Manejo de fallas en la llamada de red
+                view.showError("Error al conectar con el servidor: ${t.message}")
+            }
+        })
+    }
 
     override fun getCampeonatos() {
         view.showLoading()
@@ -39,7 +164,7 @@ class HomeCampeonatosPresenter(
                 if (response.isSuccessful) {
                     response.body()?.let { campeonatos ->
                         val campeonatosFiltrados = campeonatos.filter {
-                            it.estadoCampeonato == "Ejecucion"
+                            it.estadoCampeonato == "Inscripcion"
                         }
 
                         view.showCampeonatos(campeonatosFiltrados)
@@ -60,145 +185,69 @@ class HomeCampeonatosPresenter(
         })
     }
 
-    override fun getPerfilUsuario() {
-        val token = tokenManager.getToken() ?: return view.showError("Token no disponible")
-        Log.d(TAG, "Token obtenido: $token")
-
-        val call = apiService.obtenerPerfilUsuario("Bearer $token")
-        call.enqueue(object : Callback<PerfilUsuarioResponse> {
+    override fun validarInscripcionEquipo(identificacion: String) {
+        val call = apiService.verificarEquipoEnCampeonato(identificacion)
+        call.enqueue(object : Callback<ValidacionResponse> {
             override fun onResponse(
-                call: Call<PerfilUsuarioResponse>,
-                response: Response<PerfilUsuarioResponse>
+                call: Call<ValidacionResponse>,
+                response: Response<ValidacionResponse>
             ) {
                 if (response.isSuccessful) {
-                    val perfil = response.body()
-                    if (perfil != null) {
-                        view.traernombre(perfil)
-                        tokenManager.saveUserId(perfil.id) // Guarda el userId en TokenManager
-                        Log.d(TAG, "User ID guardado: ${perfil.id}")
-                    } else {
-                        view.showError("Perfil de usuario vacío")
-                    }
-                } else {
-                    view.showError("Error al obtener el perfil ${response.code()}: ${response.message()}")
-                }
-            }
+                    val validacionResponse = response.body()
+                    if (validacionResponse != null) {
+                        val inscripciones = validacionResponse.data.flatten()
+                        val equipoInscrito = inscripciones.firstOrNull()?.equipo
 
-            override fun onFailure(call: Call<PerfilUsuarioResponse>, t: Throwable) {
-                view.showError(t.message ?: "Error desconocido")
-            }
-        })
-    }
-
-    fun actualizarPerfilUsuario(perfilActualizado: PerfilUsuarioResponse) {
-        val token = tokenManager.getToken() ?: return view.showError("Token no disponible")
-        val userId = tokenManager.getUserId() ?: return view.showError("User ID no disponible")
-
-        val call = apiService.actualizarPerfilUsuario("Bearer $token", userId, perfilActualizado)
-        call.enqueue(object : Callback<PerfilUsuarioResponse> {
-            override fun onResponse(
-                call: Call<PerfilUsuarioResponse>,
-                response: Response<PerfilUsuarioResponse>
-            ) {
-                if (response.isSuccessful) {
-                    val perfil = response.body()
-                    if (perfil != null) {
-                        view.traernombre(perfil)
-                    } else {
-                        view.showError("Perfil de usuario vacío")
-                    }
-                } else {
-                    view.showError("Error al actualizar el perfil ${response.code()}: ${response.message()}")
-                }
-            }
-
-            override fun onFailure(call: Call<PerfilUsuarioResponse>, t: Throwable) {
-                view.showError(t.message ?: "Error desconocido")
-            }
-        })
-    }
-
-    fun cambiarContrasena(nuevaContrasenaRequest: NuevaContrasenaRequest) {
-        val token = tokenManager.getToken() ?: return view.showError("Token no disponible")
-        val userId = tokenManager.getUserId() ?: return view.showError("User ID no disponible")
-
-        val call = apiService.cambiarContrasena("Bearer $token", userId, nuevaContrasenaRequest)
-        call.enqueue(object : Callback<Void> {
-            override fun onResponse(call: Call<Void>, response: Response<Void>) {
-                if (response.isSuccessful) {
-                    view.showSuccess("Contraseña cambiada exitosamente")
-                } else {
-                    view.showError("Error al cambiar la contraseña ${response.code()}: ${response.message()}")
-                }
-            }
-
-            override fun onFailure(call: Call<Void>, t: Throwable) {
-                view.showError(t.message ?: "Error desconocido")
-            }
-        })
-    }
-
-    override fun subirFoto(uri: Uri) {
-        Log.d(TAG, "Iniciando subida de foto con URI: $uri")
-
-        val token = tokenManager.getToken() ?: return view.showError("Token no disponible")
-        val userId = tokenManager.getUserId() ?: return view.showError("User ID no disponible")
-
-        try {
-            val file = File(getFilePathFromUri(uri) ?: return view.showError("No se pudo obtener la ruta del archivo"))
-            if (!file.exists()) {
-                Log.e(TAG, "El archivo no existe en la URI proporcionada")
-                return view.showError("No se pudo encontrar el archivo de imagen")
-            }
-
-            val requestFile = file.asRequestBody("image/*".toMediaTypeOrNull())
-            val body = MultipartBody.Part.createFormData("file", file.name, requestFile)
-
-            val call = apiService.subirFotousuario(userId, "Bearer $token", body)
-            call.enqueue(object : Callback<PerfilUsuarioResponse> {
-                override fun onResponse(call: Call<PerfilUsuarioResponse>, response: Response<PerfilUsuarioResponse>) {
-                    if (response.isSuccessful) {
-                        val perfilActualizado = response.body()
-                        if (perfilActualizado != null) {
-                            view.traernombre(perfilActualizado)
-                            view.showSuccess("Foto de perfil actualizada correctamente")
+                        if (equipoInscrito != null) {
+                            view.showInscripcionError("Ya estás inscrito en el campeonato con el equipo: ${equipoInscrito.nombreEquipo}")
+                            view.showValidacionInscripcion(true, equipoInscrito)
                         } else {
-                            view.showError("Error al actualizar la foto de perfil")
+                            view.showValidacionInscripcion(false, null)
                         }
                     } else {
-                        view.showError("Error en la respuesta: ${response.code()}: ${response.message()}")
+                        view.showError("Respuesta vacía del servidor.")
                     }
+                } else {
+                    view.showError("Error en la respuesta del servidor: ${response.code()}")
                 }
-
-                override fun onFailure(call: Call<PerfilUsuarioResponse>, t: Throwable) {
-                    view.showError(t.message ?: "Error desconocido al subir la foto")
-                }
-            })
-        } catch (e: Exception) {
-            Log.e(TAG, "Error al procesar la URI de imagen", e)
-            view.showError("Error al procesar la URI de imagen")
-        }
-    }
-
-    private fun getFilePathFromUri(uri: Uri): String? {
-        val projection = arrayOf(MediaStore.Images.Media.DATA)
-        context.contentResolver.query(uri, projection, null, null, null)?.use { cursor ->
-            val columnIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
-            if (cursor.moveToFirst()) {
-                return cursor.getString(columnIndex)
             }
-        }
-        return null
+
+            override fun onFailure(call: Call<ValidacionResponse>, t: Throwable) {
+                view.showError("Error al conectar con el servidor: ${t.message}")
+            }
+        })
     }
 
-    override fun validarInscripcionJugador(idJugador: String) {
-        Log.d(TAG, "validarInscripcionJugador aún no implementado")
-        view.showError("Funcionalidad no disponible aún")
+    fun inscribirEquipoEnCampeonato(equipo: Equipo, idCampeonato: String) {
+        val inscripcion = CampeonatoInscripcion(
+            id = "",
+            equipo = equipo,
+            idCampeonato = idCampeonato
+        )
+
+
+        val call = apiService.inscribirEquipoCampeonato(inscripcion)
+        call.enqueue(object : Callback<EquipoInscriptoResponse> {
+            override fun onResponse(
+                call: Call<EquipoInscriptoResponse>,
+                response: Response<EquipoInscriptoResponse>
+            ) {
+                if (response.isSuccessful) {
+                    val equipoInscriptoResponse = response.body()
+                    if (equipoInscriptoResponse != null) {
+                        view.showSuccess("Equipo inscrito correctamente al campeonato.")
+                    } else {
+                        view.showError("No se pudo inscribir el equipo. Inténtalo de nuevo.")
+                    }
+                } else {
+                    view.showError("Error en la inscripción del equipo. Código: ${response.code()}")
+                }
+            }
+
+            override fun onFailure(call: Call<EquipoInscriptoResponse>, t: Throwable) {
+                view.showError("Error al conectar con el servidor: ${t.message}")
+            }
+        })
     }
 
-    override fun validarInscripcionEquipo(identificacion: String) {
-        // Implementar la lógica para validar la inscripción del equipo
-        Log.d(TAG, "validarInscripcionEquipo aún no implementado")
-        view.showError("Funcionalidad no disponible aún")
-    }
 }

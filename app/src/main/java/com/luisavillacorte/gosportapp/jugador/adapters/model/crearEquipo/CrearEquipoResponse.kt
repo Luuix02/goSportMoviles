@@ -69,6 +69,6 @@ data class Inscripto(
     @SerializedName("idCampeonato") val idCampeonato: String,
     @SerializedName("_id") val id: String,
 
-)
+    )
 
 
