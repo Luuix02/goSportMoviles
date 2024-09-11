@@ -10,7 +10,7 @@ data class PerfilUsuarioResponse(
     val correo: String,
 
     val public_id: String?,
-    val url_foto: String? ,
+    val url_foto: String?,
     val contrasena: String,
 
     //val contrasena: String,  // Contraseña encriptada
@@ -20,7 +20,7 @@ data class PerfilUsuarioResponse(
     val identificacion: String,
 
     val rol: String,
-    @SerializedName("esCapitan") val esCapitan: Boolean,
+    @SerializedName("esCapitan") val esCapitan: String,
 
 //    val ficha: String?,
     val jornada: String,

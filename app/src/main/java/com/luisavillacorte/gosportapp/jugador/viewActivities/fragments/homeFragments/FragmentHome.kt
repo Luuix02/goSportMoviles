@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -24,7 +23,6 @@ import com.luisavillacorte.gosportapp.jugador.adapters.model.homeCampeonatos.Hom
 import com.luisavillacorte.gosportapp.jugador.adapters.model.homeCampeonatos.HomeCampeonatosPresenter
 import com.luisavillacorte.gosportapp.jugador.viewActivities.fragments.crearEquipoFragments.FragmentCrearEquipo
 import com.luisavillacorte.gosportapp.jugador.viewActivities.fragments.gestionarMiEquipoFragments.FragmentGestionarMiEquipo
-import kotlin.math.E
 
 class FragmentHome : Fragment(), HomeCampeonatosContract.View {
 
@@ -36,7 +34,6 @@ class FragmentHome : Fragment(), HomeCampeonatosContract.View {
     private var idJugador: String? = null
     private var perfilUsuarioResponse: PerfilUsuarioResponse? = null
     private var esCapitan: Boolean = false
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -53,41 +50,26 @@ class FragmentHome : Fragment(), HomeCampeonatosContract.View {
             RetrofitInstance.createService(HomeApiService::class.java)
         )
 
-        btnFlotante= view.findViewById(R.id.btnFlotanteAddTeam)
+        btnFlotante = view.findViewById(R.id.btnFlotanteAddTeam)
         recyclerViewCampeonatos = view.findViewById(R.id.recyclerViewCampeonatos)
         nombrejuga = view.findViewById(R.id.nombreusuario)
 
         recyclerViewCampeonatos.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
 
-
         presenter.getCampeonatos()
         presenter.getPerfilUsuario()
 
-
         btnFlotante.visibility = View.GONE
 
-        btnFlotante.setOnClickListener{
+        btnFlotante.setOnClickListener {
             handleBotonFlotanteClick()
-//            val idJugador = this.idJugador
-//            if (idJugador != null){
-//                val esCapitan = perfilUsuarioResponse?.esCapitan ?: false
-//                if (esCapitan){
-//                    presenter.validarInscripcionJugador(idJugador)
-//                } else {
-//                    showError("Solo el capitán del equipo puede gestionar el equipo.")
-//                }
-//            } else {
-//                navigateToCrearEquipo()
-////                showError("Error al obtener la información del jugador")
-//            }
-
         }
-
     }
+
     private fun handleBotonFlotanteClick() {
-        if (esCapitan){
+        if (esCapitan) {
             mostrarMensajeSnackBar("Actualiza tu Equipo")
-            presenter.validarInscripcionJugador(idJugador!!)
+            idJugador?.let { presenter.validarInscripcionJugador(it) }
         } else {
             mostrarMensajeSnackBar("Crea tu equipo")
             navigateToCrearEquipo()
@@ -122,17 +104,13 @@ class FragmentHome : Fragment(), HomeCampeonatosContract.View {
     override fun traernombre(perfilUsuarioResponse: PerfilUsuarioResponse) {
         val nombreJugador = perfilUsuarioResponse.nombres
         val idJugador = perfilUsuarioResponse.id
-        esCapitan = perfilUsuarioResponse.esCapitan
+        //esCapitan = perfilUsuarioResponse.esCapitan
         this.idJugador = idJugador
         nombrejuga.text = "Hola $nombreJugador, Bienvenido a GoSport"
         Log.d("HomeFragment", "Nombre del usuario: $nombreJugador")
-        presenter.validarInscripcionJugador(idJugador)
-//        if (esCapitan){
-//            mostrarBotonGestionarEquipo()
-//        } else {
-//            mostrarBotonCrearEquipo()
-//        }
+        idJugador?.let { presenter.validarInscripcionJugador(it) }
     }
+
     override fun showValidacionInscripcion(estaInscrito: Boolean, equipo: Equipo?) {
         if (estaInscrito) {
             if (esCapitan) {
@@ -140,12 +118,8 @@ class FragmentHome : Fragment(), HomeCampeonatosContract.View {
                 btnFlotante.setImageResource(R.drawable.ic_editar_equipo)
                 btnFlotante.setOnClickListener {
                     mostrarMensajeSnackBar("Actualiza tu Equipo")
-                    if (equipo != null){
-                        navigateToGestionarEquipo(equipo)
-                    } else {
-                        mostrarMensajeSnackBar("Error al obtener el equipo")
-                    }
-
+                    equipo?.let { navigateToGestionarEquipo(it) }
+                        ?: mostrarMensajeSnackBar("Error al obtener el equipo")
                 }
             } else {
                 btnFlotante.visibility = View.GONE
@@ -159,6 +133,7 @@ class FragmentHome : Fragment(), HomeCampeonatosContract.View {
             }
         }
     }
+
     override fun mostrarBotonGestionarEquipo() {
         btnFlotante.setImageResource(R.drawable.ic_editar_equipo)
     }
@@ -185,7 +160,7 @@ class FragmentHome : Fragment(), HomeCampeonatosContract.View {
                 .addToBackStack(null)
                 .commit()
         } else {
-            Log.e("FragmentHome", "El fragmento no está agregado alFragmentManager")
+            Log.e("FragmentHome", "El fragmento no está agregado al FragmentManager")
         }
     }
 
@@ -200,10 +175,9 @@ class FragmentHome : Fragment(), HomeCampeonatosContract.View {
             .replace(R.id.fragment_container, fragmentGestionarMiEquipo)
             .addToBackStack(null)
             .commit()
-
     }
 
     override fun showSuccess(message: String) {
-        TODO("Not yet implemented")
+        // Implementar según sea necesario
     }
 }

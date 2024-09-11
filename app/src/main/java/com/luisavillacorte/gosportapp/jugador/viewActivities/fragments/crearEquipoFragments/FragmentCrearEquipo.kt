@@ -268,7 +268,7 @@ class FragmentCrearEquipo : Fragment(), CrearEquipoContract.View {
             identificacion = perfil.identificacion,
             ficha = perfil.ficha,
             dorsal = "",
-            rol = perfil.rol
+           rol = perfil.rol
 
         )
         agregarJugadorSeleccionado(capitan)

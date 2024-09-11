@@ -14,10 +14,10 @@ import com.luisavillacorte.gosportapp.R
 import com.luisavillacorte.gosportapp.common.apiRetrofit.RetrofitInstance
 import com.luisavillacorte.gosportapp.jugador.adapters.apiService.homeCampeonatosService.HomeApiService
 import com.luisavillacorte.gosportapp.jugador.adapters.model.auth.PerfilUsuarioResponse
+import com.luisavillacorte.gosportapp.jugador.adapters.model.crearEquipo.Equipo
 import com.luisavillacorte.gosportapp.jugador.adapters.model.homeCampeonatos.Campeonatos
 import com.luisavillacorte.gosportapp.jugador.adapters.model.homeCampeonatos.HomeCampeonatosContract
 import com.luisavillacorte.gosportapp.jugador.adapters.model.homeCampeonatos.HomeCampeonatosPresenter
-import com.luisavillacorte.gosportapp.jugador.adapters.storage.TokenManager
 
 class Editarperfil : Fragment(), HomeCampeonatosContract.View {
 
@@ -33,6 +33,8 @@ class Editarperfil : Fragment(), HomeCampeonatosContract.View {
 
     private var userId: String? = null
 
+
+    private var variable: String? = null
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -79,8 +81,12 @@ class Editarperfil : Fragment(), HomeCampeonatosContract.View {
                 ficha = fichaperfil.text.toString(),
                 jornada = jornada.text.toString(),
                 identificacion = identificacio.text.toString(),
-
-                programa = programa.text.toString()
+                contrasena = variable.toString(),
+                public_id = variable.toString(),
+                url_foto = variable.toString(),
+                programa = programa.text.toString(),
+                rol = variable.toString(),
+                esCapitan = variable.toString()
 
                 )
             presenter.actualizarPerfilUsuario(perfilActualizado)
@@ -107,6 +113,34 @@ class Editarperfil : Fragment(), HomeCampeonatosContract.View {
 
         // Actualizar el userId local
         userId = perfilUsuarioResponse.id
+    }
+
+    override fun showInscripcionError(message: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun navigateToCrearEquipo() {
+        TODO("Not yet implemented")
+    }
+
+    override fun navigateToGestionarEquipo(equipo: Equipo) {
+        TODO("Not yet implemented")
+    }
+
+    override fun mostrarBotonGestionarEquipo() {
+        TODO("Not yet implemented")
+    }
+
+    override fun mostrarBotonCrearEquipo() {
+        TODO("Not yet implemented")
+    }
+
+    override fun mostrarMensajeSnackBar(message: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun showValidacionInscripcion(estaInscrito: Boolean, equipo: Equipo?) {
+        TODO("Not yet implemented")
     }
 
     override fun showSuccess(message: String) {

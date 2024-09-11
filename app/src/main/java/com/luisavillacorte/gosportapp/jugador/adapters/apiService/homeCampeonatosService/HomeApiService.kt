@@ -48,7 +48,6 @@ interface HomeApiService {
         @Body nuevaContrasena: NuevaContrasenaRequest
     ): Call<Void>
 
-<<<<<<< HEAD
     @Multipart
     @POST("/usuarios/{id}/foto")
     fun subirFotousuario(
@@ -56,7 +55,7 @@ interface HomeApiService {
         @Header("Authorization") token: String,
         @Part file: MultipartBody.Part
     ): Call<PerfilUsuarioResponse>
-=======
+
     @GET("equipoInscripto/validarInscripcion")
     fun verificarEquipoEnCampeonato(
         @Header("cedulajugador") identificacion: String
@@ -69,7 +68,6 @@ interface HomeApiService {
 
 
 
->>>>>>> 4e060c48519cd84fb0ec9bf20b19d583f183c152
 
 }
 
