@@ -1,0 +1,323 @@
+[33mcommit 04c7599ae574dba0d5fcbf3debe521e2433d7847[m[33m ([m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Merge: c470d39 4e060c4
+Author: Darbin cuene <celedon22cuene@gmail.com>
+Date:   Wed Sep 11 10:44:36 2024 -0500
+
+    foto subida
+
+[1mdiff --cc app/src/main/java/com/luisavillacorte/gosportapp/jugador/adapters/apiService/homeCampeonatosService/HomeApiService.kt[m
+[1mindex 791ed96,3aee861..4c59cf5[m
+[1m--- a/app/src/main/java/com/luisavillacorte/gosportapp/jugador/adapters/apiService/homeCampeonatosService/HomeApiService.kt[m
+[1m+++ b/app/src/main/java/com/luisavillacorte/gosportapp/jugador/adapters/apiService/homeCampeonatosService/HomeApiService.kt[m
+[36m@@@ -2,9 -2,11 +2,12 @@@[m [mpackage com.luisavillacorte.gosportapp.[m
+  [m
+  import com.luisavillacorte.gosportapp.jugador.adapters.model.auth.NuevaContrasenaRequest[m
+  import com.luisavillacorte.gosportapp.jugador.adapters.model.auth.PerfilUsuarioResponse[m
+[32m+ import com.luisavillacorte.gosportapp.jugador.adapters.model.crearEquipo.CampeonatoInscripcion[m
+[32m+ import com.luisavillacorte.gosportapp.jugador.adapters.model.crearEquipo.EquipoInscriptoResponse[m
+[32m+ import com.luisavillacorte.gosportapp.jugador.adapters.model.crearEquipo.ValidacionResponse[m
+  import com.luisavillacorte.gosportapp.jugador.adapters.model.crearEquipo.ValidarInscripcionResponse[m
+  import com.luisavillacorte.gosportapp.jugador.adapters.model.homeCampeonatos.Campeonatos[m
+[32m +import okhttp3.MultipartBody[m
+  import retrofit2.Call[m
+  import retrofit2.http.Body[m
+  import retrofit2.http.GET[m
+[36m@@@ -37,13 -45,18 +48,28 @@@[m [minterface HomeApiService [m
+          @Body nuevaContrasena: NuevaContrasenaRequest[m
+      ): Call<Void>[m
+  [m
+[32m++<<<<<<< HEAD[m
+[32m +    @Multipart[m
+[32m +    @POST("/usuarios/{id}/foto")[m
+[32m +    fun subirFotousuario([m
+[32m +        @Path("id") id: String,[m
+[32m +        @Header("Authorization") token: String,[m
+[32m +        @Part file: MultipartBody.Part[m
+[32m +    ): Call<PerfilUsuarioResponse>[m
+[32m++=======[m
+[32m+     @GET("equipoInscripto/validarInscripcion")[m
+[32m+     fun verificarEquipoEnCampeonato([m
+[32m+         @Header("cedulajugador") identificacion: String[m
+[32m+     ): Call<ValidacionResponse>[m
+[32m+ [m
+[32m+     @POST("/equipoInscripto")[m
+[32m+     fun inscribirEquipoCampeonato([m
+[32m+         @Body Equipo: CampeonatoInscripcion[m
+[32m+     ): Call<EquipoInscriptoResponse>[m
+[32m+ [m
+[32m+ [m
+[32m+ [m
+[32m++>>>>>>> 4e060c48519cd84fb0ec9bf20b19d583f183c152[m
+  [m
+  }[m
+  [m
+[1mdiff --cc app/src/main/java/com/luisavillacorte/gosportapp/jugador/adapters/model/homeCampeonatos/HomeCampeonatosContract.kt[m
+[1mindex fe4a6bd,40756ee..1e4427b[m
+[1m--- a/app/src/main/java/com/luisavillacorte/gosportapp/jugador/adapters/model/homeCampeonatos/HomeCampeonatosContract.kt[m
+[1m+++ b/app/src/main/java/com/luisavillacorte/gosportapp/jugador/adapters/model/homeCampeonatos/HomeCampeonatosContract.kt[m
+[36m@@@ -1,7 -1,8 +1,9 @@@[m
+  package com.luisavillacorte.gosportapp.jugador.adapters.model.homeCampeonatos[m
+  [m
+[32m +import android.net.Uri[m
+  import com.luisavillacorte.gosportapp.jugador.adapters.model.auth.PerfilUsuarioResponse[m
+[32m+ import com.luisavillacorte.gosportapp.jugador.adapters.model.crearEquipo.Equipo[m
+[32m+ import com.luisavillacorte.gosportapp.jugador.adapters.model.crearEquipo.ValidarInscripcionResponse[m
+  [m
+  interface HomeCampeonatosContract {[m
+  [m
+[36m@@@ -17,8 -30,8 +31,11 @@@[m
+      interface Presenter {[m
+          fun getCampeonatos()[m
+          fun getPerfilUsuario()[m
+[32m++[m
+[32m +        fun subirFoto(uri: Uri)[m
+[32m+         fun validarInscripcionJugador(idJugador: String)[m
+[32m+         fun validarInscripcionEquipo(identificacion: String)[m
+  [m
+[32m +[m
+      }[m
+  }[m
+[1mdiff --cc app/src/main/java/com/luisavillacorte/gosportapp/jugador/adapters/model/homeCampeonatos/HomeCampeonatosPresenter.kt[m
+[1mindex 0102456,60a65ca..d36f159[m
+[1m--- a/app/src/main/java/com/luisavillacorte/gosportapp/jugador/adapters/model/homeCampeonatos/HomeCampeonatosPresenter.kt[m
+[1m+++ b/app/src/main/java/com/luisavillacorte/gosportapp/jugador/adapters/model/homeCampeonatos/HomeCampeonatosPresenter.kt[m
+[36m@@@ -1,15 -1,14 +1,11 @@@[m
+  package com.luisavillacorte.gosportapp.jugador.adapters.model.homeCampeonatos[m
+  [m
+  import android.content.Context[m
+[31m- import android.net.Uri[m
+  import android.util.Log[m
+[31m -import com.luisavillacorte.gosportapp.jugador.adapters.apiService.formCrearEquipoService.CrearEquipoApiService[m
+  import com.luisavillacorte.gosportapp.jugador.adapters.apiService.homeCampeonatosService.HomeApiService[m
+  import com.luisavillacorte.gosportapp.jugador.adapters.model.auth.NuevaContrasenaRequest[m
+  import com.luisavillacorte.gosportapp.jugador.adapters.model.auth.PerfilUsuarioResponse[m
+[31m -import com.luisavillacorte.gosportapp.jugador.adapters.model.crearEquipo.ValidacionResponse[m
+[31m -import com.luisavillacorte.gosportapp.jugador.adapters.model.crearEquipo.ValidarInscripcionResponse[m
+  import com.luisavillacorte.gosportapp.jugador.adapters.storage.TokenManager[m
+[31m- import okhttp3.MediaType.Companion.toMediaTypeOrNull[m
+[31m- import okhttp3.MultipartBody[m
+[31m- import okhttp3.RequestBody[m
+  import retrofit2.Call[m
+  import retrofit2.Callback[m
+  import retrofit2.Response[m
+[36m@@@ -88,103 -116,103 +105,37 @@@[m [mclass HomeCampeonatosPresenter[m
+          })[m
+      }[m
+  [m
+[31m-     fun actualizarPerfilUsuario(perfilActualizado: PerfilUsuarioResponse) {[m
+[31m-         val token = tokenManager.getToken() ?: return view.showError("Token no disponible")[m
+[31m-         val userId = tokenManager.getUserId() ?: return view.showError("User ID no disponible")[m
+[31m -    override fun validarInscripcionJugador(idJugador: String) {[m
+[31m -        val call = apiService.validarUsuarioEnEquipo(idJugador)[m
+[31m -        call.enqueue(object : Callback<ValidarInscripcionResponse> {[m
+[31m -            override fun onResponse([m
+[31m -                call: Call<ValidarInscripcionResponse>,[m
+[31m -                response: Response<ValidarInscripcionResponse>[m
+[31m -            ) {[m
+[31m -                if (response.isSuccessful) {[m
+[31m -                    val validarInscripcionResponse = response.body()[m
+[31m -                    if (validarInscripcionResponse != null && validarInscripcionResponse.equipo.isNotEmpty()) {[m
+[31m -                        val equipo = validarInscripcionResponse.equipo[0][m
+[31m -                        view.showInscripcionError("Ya estás inscrito en el equipo: ${validarInscripcionResponse.equipo[0].nombreEquipo}")[m
+[31m -                        view.showValidacionInscripcion(true, equipo)[m
+[31m -//                        view.mostrarBotonGestionarEquipo()[m
+[31m -                    //                        view.navigateToGestionarEquipo(equipo)[m
+[31m -                    } else {[m
+[31m -                        view.showValidacionInscripcion(false, null)[m
+[31m -//                        view.mostrarBotonGestionarEquipo()[m
+[31m -//                        view.navigateToCrearEquipo()[m
+[31m -                    }[m
+[31m -                } else {[m
+[31m -                    view.showError("Error en la respuesta del servidor.")[m
+[31m -                }[m
+[31m -            }[m
+[31m -[m
+[31m -            override fun onFailure(call: Call<ValidarInscripcionResponse>, t: Throwable) {[m
+[31m -                // Manejo de fallas en la llamada de red[m
+[31m -                view.showError("Error al conectar con el servidor: ${t.message}")[m
+[31m -            }[m
+[31m -        })[m
+[31m -    }[m
+[31m -[m
+[32m+     override fun getCampeonatos() {[m
+[32m+         view.showLoading()[m
+[32m+         Log.d(TAG, "Fetching campeonatos from API")[m
+  [m
+[31m-         val call = apiService.actualizarPerfilUsuario("Bearer $token", userId, perfilActualizado)[m
+[31m-         call.enqueue(object : Callback<PerfilUsuarioResponse> {[m
+[32m+         val call = apiService.getCampeonato()[m
+[32m+         call.enqueue(object : Callback<List<Campeonatos>> {[m
+              override fun onResponse([m
+[31m-                 call: Call<PerfilUsuarioResponse>,[m
+[31m-                 response: Response<PerfilUsuarioResponse>[m
+[32m+                 call: Call<List<Campeonatos>>,[m
+[32m+                 response: Response<List<Campeonatos>>[m
+              ) {[m
+                  if (response.isSuccessful) {[m
+[31m-                     val perfil = response.body()[m
+[31m-                     if (perfil != null) {[m
+[31m-                         view.traernombre(perfil)[m
+[31m-                     } else {[m
+[31m-                         view.showError("Perfil de usuario vacío")[m
+[31m-                     }[m
+[31m-                 } else {[m
+[31m-                     view.showError("Error al actualizar el perfil ${response.code()}: ${response.message()}")[m
+[31m-                 }[m
+[31m-             }[m
+[31m- [m
+[31m-             override fun onFailure(call: Call<PerfilUsuarioResponse>, t: Throwable) {[m
+[31m-                 view.showError(t.message ?: "Error desconocido")[m
+[31m-             }[m
+[31m-         })[m
+[31m-     }[m
+[31m- [m
+[31m-     fun cambiarContrasena(nuevaContrasenaRequest: NuevaContrasenaRequest) {[m
+[31m-         val token = tokenManager.getToken() ?: return view.showError("Token no disponible")[m
+[31m-         val userId = tokenManager.getUserId() ?: return view.showError("User ID no disponible")[m
+[32m+                     response.body()?.let { campeonatos ->[m
+[32m+                         val campeonatosFiltrados = campeonatos.filter {[m
+[31m -                            it.estadoCampeonato == "Inscripcion"[m
+[32m++                            it.estadoCampeonato == "Ejecucion"[m
+[32m+                         }[m
+  [m
+[31m-         val call = apiService.cambiarContrasena("Bearer $token", userId, nuevaContrasenaRequest)[m
+[31m-         call.enqueue(object : Callback<Void> {[m
+[31m-             override fun onResponse(call: Call<Void>, response: Response<Void>) {[m
+[31m-                 if (response.isSuccessful) {[m
+[31m-                     view.showSuccess("Contraseña cambiada exitosamente")[m
+[32m+                         view.showCampeonatos(campeonatosFiltrados)[m
+[32m+                         Log.d(TAG, "Campeonatos filtered and shown: ${campeonatosFiltrados.size}")[m
+[32m+                     }[m
+                  } else {[m
+[31m-                     view.showError("Error al cambiar la contraseña ${response.code()}: ${response.message()}")[m
+[32m+                     view.showError("Error: ${response.code()}")[m
+[32m+                     Log.e(TAG, "Error response code: ${response.code()}")[m
+                  }[m
+[32m+                 view.hideLoading()[m
+              }[m
+  [m
+[31m-             override fun onFailure(call: Call<Void>, t: Throwable) {[m
+[32m+             override fun onFailure(call: Call<List<Campeonatos>>, t: Throwable) {[m
+[32m+                 view.hideLoading()[m
+                  view.showError(t.message ?: "Error desconocido")[m
+[32m+                 Log.e(TAG, "API call failed: ${t.message}")[m
+              }[m
+          })[m
+      }[m
+[31m- [m
+[31m- [m
+[31m-     override fun subirFoto(uri: Uri) {[m
+[31m-         val token = tokenManager.getToken() ?: return view.showError("Token no disponible")[m
+[31m-         val userId = tokenManager.getUserId() ?: return view.showError("User ID no disponible")[m
+[31m--[m
+[31m-         try {[m
+[31m-             val imageStream = context.contentResolver.openInputStream(uri)[m
+[31m-             if (imageStream != null) {[m
+[31m-                 val requestFile = RequestBody.create("image/*".toMediaTypeOrNull(), imageStream.readBytes())[m
+[31m-                 val body = MultipartBody.Part.createFormData("file", "photo.jpg", requestFile)[m
+[31m -    override fun validarInscripcionEquipo(identificacion: String) {[m
+[31m -        val call = apiService.verificarEquipoEnCampeonato(identificacion)[m
+[31m -        call.enqueue(object : Callback<ValidacionResponse> {[m
+[31m -            override fun onResponse([m
+[31m -                call: Call<ValidacionResponse>,[m
+[31m -                response: Response<ValidacionResponse>[m
+[31m -            ) {[m
+[31m -                if (response.isSuccessful) {[m
+[31m -                    val validacionResponse = response.body()[m
+[31m -                    if (validacionResponse != null) {[m
+[31m -                        val inscripciones = validacionResponse.data.flatten()[m
+[31m -                        val equipoInscrito = inscripciones.firstOrNull()?.equipo[m
+[31m--[m
+[31m-                 val call = apiService.subirFotousuario(userId, "Bearer $token", body)[m
+[31m-                 call.enqueue(object : Callback<PerfilUsuarioResponse> {[m
+[31m-                     override fun onResponse(call: Call<PerfilUsuarioResponse>, response: Response<PerfilUsuarioResponse>) {[m
+[31m-                         if (response.isSuccessful) {[m
+[31m-                             val perfilActualizado = response.body()[m
+[31m-                             if (perfilActualizado != null) {[m
+[31m-                                 view.traernombre(perfilActualizado)[m
+[31m-                                 view.showSuccess("Foto de perfil actualizada correctamente")[m
+[31m-                             } else {[m
+[31m-                                 view.showError("Error al actualizar la foto de perfil")[m
+[31m-                             }[m
+[31m -                        if (equipoInscrito != null) {[m
+[31m -                            view.showInscripcionError("Ya estás inscrito en el campeonato con el equipo: ${equipoInscrito.nombreEquipo}")[m
+[31m -                            view.showValidacionInscripcion(true, equipoInscrito)[m
+[31m--                        } else {[m
+[31m-                             view.showError("Error en la respuesta: ${response.code()}: ${response.message()}")[m
+[31m -                            view.showValidacionInscripcion(false, null)[m
+[31m--                        }[m
+[31m-                     }[m
+[31m- [m
+[31m-                     override fun onFailure(call: Call<PerfilUsuarioResponse>, t: Throwable) {[m
+[31m-                         view.showError(t.message ?: "Error desconocido al subir la foto")[m
+[31m -                    } else {[m
+[31m -                        view.showError("Respuesta vacía del servidor.")[m
+[31m--                    }[m
+[31m-                 })[m
+[31m-             } else {[m
+[31m-                 Log.e(TAG, "No se pudo abrir el stream de la imagen")[m
+[31m-                 view.showError("No se pudo abrir el stream de la imagen")[m
+[31m -                } else {[m
+[31m -                    view.showError("Error en la respuesta del servidor: ${response.code()}")[m
+[31m -                }[m
+[31m--            }[m
+[31m-         } catch (e: Exception) {[m
+[31m-             Log.e(TAG, "Error al procesar la URI de imagen", e)[m
+[31m-             view.showError("Error al procesar la URI de imagen")[m
+[31m-         }[m
+[31m-     }[m
+[31m--[m
+[31m-     private fun getFilePathFromUri(uri: Uri): String? {[m
+[31m-         val projection = arrayOf(android.provider.MediaStore.Images.Media.DATA)[m
+[31m-         context.contentResolver.query(uri, projection, null, null, null)?.use { cursor ->[m
+[31m-             val columnIndex = cursor.getColumnIndexOrThrow(android.provider.MediaStore.Images.Media.DATA)[m
+[31m-             if (cursor.moveToFirst()) {[m
+[31m-                 return cursor.getString(columnIndex)[m
+[31m -            override fun onFailure(call: Call<ValidacionResponse>, t: Throwable) {[m
+[31m -                view.showError("Error al conectar con el servidor: ${t.message}")[m
+[31m--            }[m
+[31m-         }[m
+[31m-         return null[m
+[31m -        })[m
+[31m--    }[m
+[31m -[m
+  }[m
+[1mdiff --cc app/src/main/java/com/luisavillacorte/gosportapp/jugador/viewActivities/fragments/editarPerfil/Editarperfil.kt[m
+[1mindex 30b0a9c,9142138..63cfdbe[m
+[1m--- a/app/src/main/java/com/luisavillacorte/gosportapp/jugador/viewActivities/fragments/editarPerfil/Editarperfil.kt[m
+[1m+++ b/app/src/main/java/com/luisavillacorte/gosportapp/jugador/viewActivities/fragments/editarPerfil/Editarperfil.kt[m
+[36m@@@ -99,25 -80,17 +79,11 @@@[m [mclass Editarperfil : Fragment(), HomeCa[m
+                  ficha = fichaperfil.text.toString(),[m
+                  jornada = jornada.text.toString(),[m
+                  identificacion = identificacio.text.toString(),[m
+[31m -                programa = programa.text.toString(),[m
+[31m--                contrasena = "",[m
+[31m-                 public_id = null,[m
+[31m-                 url_foto = null,[m
+[31m-                 programa = programa.text.toString()[m
+[31m-             )[m
+[31m-             presenter.actualizarPerfilUsuario(perfilActualizado)[m
+[31m-         }[m
+[31m -                esCapitan = false,[m
+[31m -                public_id = "",[m
+[31m -                rol = "jugador",[m
+[31m -                url_foto = "",[m
+[31m -[m
+  [m
+[31m-         // Acción para seleccionar una foto desde la galería[m
+[31m-         btnSubirFoto.setOnClickListener {[m
+[31m-             if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.READ_EXTERNAL_STORAGE)[m
+[31m-                 == PackageManager.PERMISSION_GRANTED) {[m
+[32m++                programa = programa.text.toString()[m
+  [m
+[31m-                 val intent = Intent(Intent.ACTION_PICK)[m
+[31m-                 intent.type = "image/*"[m
+[31m-                 startActivityForResult(intent, PICK_IMAGE_REQUEST)[m
+[31m-             } else {[m
+[31m-                 showError("Permiso de lectura de almacenamiento denegado")[m
+[31m-             }[m
+[32m+                 )[m
+[32m+             presenter.actualizarPerfilUsuario(perfilActualizado)[m
+          }[m
+  [m
+          return view[m

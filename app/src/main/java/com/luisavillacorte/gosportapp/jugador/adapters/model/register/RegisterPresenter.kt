@@ -77,6 +77,7 @@ class RegisterPresenter :  RegisterContract.Presenter {
             rol = combinedData["rol"] ?: "",
             id = combinedData["id"] ?: "",
             dorsal = combinedData["dorsal"] ?: "",
+            esCapitan = (combinedData["esCapitan"] as? Boolean) ?: false
 
             )
 

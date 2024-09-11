@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".jugador.viewActivities.fragments.gestionarMiEquipoFragments.FragmentGestionarMiEquipo">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/gestiona_tu_equipo"
+            android:textSize="24sp"
+            android:layout_marginTop="40dp"
+            android:layout_gravity="center"
+            android:paddingBottom="16dp"/>
+
+
+
+        <RelativeLayout
+            android:layout_width="166dp"
+            android:layout_height="128dp"
+            android:layout_gravity="center"
+            android:layout_marginBottom="16dp">
+
+            <!-- Contenedor circular para la imagen -->
+            <ImageView
+                android:id="@+id/logoEquipo"
+                android:layout_width="match_parent"
+                android:layout_height="124dp"
+                android:layout_centerInParent="true"
+                android:background="@drawable/circular_background"
+                android:scaleType="centerCrop" />
+
+            <!-- Icono de cámara para seleccionar una foto -->
+            <ImageView
+                android:id="@+id/iconoCamara"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:layout_margin="8dp"
+                android:background="@drawable/circular_background"
+                android:src="@drawable/ic_camara" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="1dp">
+
+            <EditText
+                android:id="@+id/nombreEquipo"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
+                android:background="@drawable/edit_text_background"
+                android:drawableStart="@drawable/ic_ful_name"
+                android:drawablePadding="12dp"
+                android:hint="@string/nombreEquipo"
+                android:inputType="textPersonName"
+                android:padding="12dp"
+                android:textSize="14dp" />
+
+            <TextView
+                android:id="@+id/nombreCapitan"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
+                android:background="@drawable/edit_text_background"
+                android:drawableStart="@drawable/ic_ful_name"
+                android:drawablePadding="12dp"
+                android:hint="@string/nombreCapitan"
+                android:inputType="textPersonName"
+                android:padding="12dp"
+                android:textSize="14dp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="16dp">
+
+            <TextView
+                android:id="@+id/CelularPrincipal"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/edit_text_background"
+                android:drawableStart="@drawable/ic_ful_name"
+                android:drawablePadding="12dp"
+                android:hint="@string/numeroCel"
+                android:inputType="phone"
+                android:padding="12dp"
+                android:textSize="14dp" />
+
+            <EditText
+                android:id="@+id/CelularSecundario"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:background="@drawable/edit_text_background"
+                android:drawableStart="@drawable/ic_ful_name"
+                android:drawablePadding="12dp"
+                android:hint="@string/numeroCel2"
+                android:inputType="phone"
+                android:padding="12dp"
+                android:textSize="14dp" />
+
+            <Button
+                android:id="@+id/btnActualizarEquipo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:backgroundTint="#11A3BD"
+                android:text="Actualizar Equipo" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="16dp">
+
+            <EditText
+                android:id="@+id/buscadorCompañeros"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:drawablePadding="12dp"
+                android:hint="@string/buscarCompañeros"
+                android:inputType="phone"
+                android:padding="12dp"
+                android:textSize="14dp" />
+
+
+            <!--            <Button-->
+            <!--                android:id="@+id/btnBuscarJug"-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_marginStart="8dp"-->
+            <!--                android:text="Buscar jugador" />-->
+
+        </LinearLayout>
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerJugadores"
+            android:layout_width="383dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="30dp"
+            android:layout_marginBottom="0dp"
+            android:scrollbars="vertical" />
+
+        <!--        <LinearLayout-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:orientation="horizontal"-->
+        <!--            android:padding="8dp">-->
+
+        <!--            <TextView-->
+        <!--                android:layout_width="0dp"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:layout_weight="1"-->
+        <!--                android:text="Nombres"-->
+        <!--                android:textStyle="bold"-->
+        <!--                android:textColor="@color/black" />-->
+
+        <!--            <TextView-->
+        <!--                android:layout_width="0dp"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:layout_weight="1"-->
+        <!--                android:text="Ficha"-->
+        <!--                android:textStyle="bold"-->
+        <!--                android:textColor="@color/black" />-->
+
+        <!--            <TextView-->
+        <!--                android:layout_width="0dp"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:layout_weight="1"-->
+        <!--                android:text="Dorsal"-->
+        <!--                android:textStyle="bold"-->
+        <!--                android:textColor="@color/black" />-->
+
+        <!--            <TextView-->
+        <!--                android:layout_width="0dp"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:layout_weight="1"-->
+        <!--                android:text="Acción"-->
+        <!--                android:textStyle="bold"-->
+        <!--                android:textColor="@color/black" />-->
+        <!--        </LinearLayout>-->
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerJugadoresSeleccionados"
+            android:layout_width="383dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginBottom="0dp"
+            android:scrollbars="vertical"/>
+        <!--            android:orientation="vertical"/>-->
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:visibility="gone" />
+
+
+
+    </LinearLayout>
+
+</FrameLayout>

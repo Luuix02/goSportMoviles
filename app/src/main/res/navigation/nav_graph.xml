@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    tools:ignore="InvalidNavigation">
+
+    <fragment
+        android:id="@+id/fragmentHome"
+        android:name="com.luisavillacorte.gosportapp.jugador.viewActivities.fragments.homeFragments.FragmentHome"
+        tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/action_fragmentHome_to_fragmentCrearEquipo"
+            app:destination="@id/fragmentCrearEquipo" />
+        <action
+            android:id="@+id/action_fragmentHome_to_fragmentGestionarEquipo"
+            app:destination="@id/fragmentGestionarEquipo" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/fragmentCrearEquipo"
+        android:name="com.luisavillacorte.gosportapp.jugador.viewActivities.fragments.crearEquipoFragments.FragmentCrearEquipo"
+        tools:layout="@layout/fragment_crear_equipo" />
+
+    <fragment
+        android:id="@+id/fragmentGestionarEquipo"
+        android:name="com.luisavillacorte.gosportapp.jugador.viewActivities.fragments.gestionarMiEquipoFragments.FragmentGestionarMiEquipo"
+        tools:layout="@layout/fragment_gestionar_mi_equipo">
+        <argument
+            android:name="equipo"
+            app:argType="com.luisavillacorte.gosportapp.jugador.adapters.model.crearEquipo.Equipo"
+            app:nullable="false" />
+    </fragment>
+
+</navigation>

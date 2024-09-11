@@ -28,6 +28,7 @@ class RegisterActivity : AppCompatActivity(), RegisterContract.View {
 
         if (savedInstanceState == null){
             supportFragmentManager.beginTransaction()
+                //fragment_container
                 .replace(R.id.fragment_container, RegisterOneFragment())
                 .commit()
         }
