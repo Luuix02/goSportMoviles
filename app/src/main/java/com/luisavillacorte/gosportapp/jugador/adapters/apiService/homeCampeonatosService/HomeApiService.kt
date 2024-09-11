@@ -2,6 +2,9 @@ package com.luisavillacorte.gosportapp.jugador.adapters.apiService.homeCampeonat
 
 import com.luisavillacorte.gosportapp.jugador.adapters.model.auth.NuevaContrasenaRequest
 import com.luisavillacorte.gosportapp.jugador.adapters.model.auth.PerfilUsuarioResponse
+import com.luisavillacorte.gosportapp.jugador.adapters.model.crearEquipo.CampeonatoInscripcion
+import com.luisavillacorte.gosportapp.jugador.adapters.model.crearEquipo.EquipoInscriptoResponse
+import com.luisavillacorte.gosportapp.jugador.adapters.model.crearEquipo.ValidacionResponse
 import com.luisavillacorte.gosportapp.jugador.adapters.model.crearEquipo.ValidarInscripcionResponse
 import com.luisavillacorte.gosportapp.jugador.adapters.model.homeCampeonatos.Campeonatos
 import okhttp3.MultipartBody
@@ -24,6 +27,14 @@ interface HomeApiService {
     @GET("/usuarios/perfil")
     fun obtenerPerfilUsuario(@Header("Authorization") token: String): Call<PerfilUsuarioResponse>
 
+
+    @GET("/equipoInscripto/validarJugador")
+    fun validarUsuarioEnEquipo(
+        @Header("idjugador")
+        idJugador: String
+    ): Call<ValidarInscripcionResponse>
+
+
     @PATCH("/usuarios/{id}")
     fun actualizarPerfilUsuario(
         @Header("Authorization") token: String,
@@ -37,6 +48,7 @@ interface HomeApiService {
         @Body nuevaContrasena: NuevaContrasenaRequest
     ): Call<Void>
 
+<<<<<<< HEAD
     @Multipart
     @POST("/usuarios/{id}/foto")
     fun subirFotousuario(
@@ -44,6 +56,20 @@ interface HomeApiService {
         @Header("Authorization") token: String,
         @Part file: MultipartBody.Part
     ): Call<PerfilUsuarioResponse>
+=======
+    @GET("equipoInscripto/validarInscripcion")
+    fun verificarEquipoEnCampeonato(
+        @Header("cedulajugador") identificacion: String
+    ): Call<ValidacionResponse>
+
+    @POST("/equipoInscripto")
+    fun inscribirEquipoCampeonato(
+        @Body Equipo: CampeonatoInscripcion
+    ): Call<EquipoInscriptoResponse>
+
+
+
+>>>>>>> 4e060c48519cd84fb0ec9bf20b19d583f183c152
 
 }
 

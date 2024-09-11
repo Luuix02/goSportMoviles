@@ -1,7 +1,9 @@
 package com.luisavillacorte.gosportapp.jugador.adapters.model.crearEquipo
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 import com.luisavillacorte.gosportapp.jugador.adapters.model.auth.User
+import kotlinx.parcelize.Parcelize
 
 data class CrearEquipoResponse(
 
@@ -9,7 +11,9 @@ data class CrearEquipoResponse(
     val equipo: Equipo
 )
 
+@Parcelize
 data class  Equipo(
+    @SerializedName("_id") val id: String,
     val nombreEquipo: String,
     val nombreCapitan: String,
     val contactoUno: String,
@@ -22,7 +26,7 @@ data class  Equipo(
     val puntos: Int,
     val participantes: List<User>,
 
-    )
+    ) : Parcelable
 data class BuscarJugadoresResponse(
     val participantes: List<User>
 )
@@ -43,3 +47,28 @@ data class ValidarInscripcionResponse(
     val msg: String,
     val equipo: List<Equipo>
 )
+data class CampeonatoInscripcion(
+    @SerializedName("_id") val id: String,
+    @SerializedName("Equipo") val equipo: Equipo,
+    @SerializedName("idCampeonato") val idCampeonato: String
+
+)
+
+data class ValidacionResponse(
+    @SerializedName("msg") val mensaje: String,
+    @SerializedName("data") val data: List<List<CampeonatoInscripcion>>
+)
+
+data class EquipoInscriptoResponse(
+    val msg: String,
+    val inscripto: Inscripto
+)
+
+data class Inscripto(
+    @SerializedName("Equipo") val equipo: Equipo,
+    @SerializedName("idCampeonato") val idCampeonato: String,
+    @SerializedName("_id") val id: String,
+
+)
+
+

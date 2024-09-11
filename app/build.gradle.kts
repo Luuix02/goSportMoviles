@@ -1,6 +1,10 @@
 plugins {
-    alias(libs.plugins.android.application)
-    alias(libs.plugins.jetbrains.kotlin.android)
+    id("com.android.application")
+    id("org.jetbrains.kotlin.android")
+    id("kotlin-parcelize")
+    id("androidx.navigation.safeargs.kotlin")
+
+
 }
 
 android {
@@ -35,7 +39,14 @@ android {
     }
 }
 
+
+
 dependencies {
+
+
+    implementation("androidx.navigation:navigation-fragment-ktx:2.7.0")
+    implementation("androidx.navigation:navigation-ui-ktx:2.7.0")
+
     implementation ( "androidx.activity:activity-ktx:1.6.0")
     implementation ("com.squareup.okhttp3:okhttp:4.9.0")
     implementation ("com.squareup.okhttp3:logging-interceptor:4.9.0")
@@ -53,6 +64,15 @@ dependencies {
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.leanback)
     implementation(libs.androidx.runtime.saved.instance.state)
+
+//    implementation(libs.androidx.navigation.fragment.ktx)
+//    implementation(libs.androidx.navigation.ui.ktx)
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.androidx.junit)
+    androidTestImplementation(libs.androidx.espresso.core)
+
+
+
     implementation ("com.github.bumptech.glide:glide:4.15.1")
     implementation ("com.google.android.material:material:1.10.0")
     implementation(libs.androidx.foundation.android)
@@ -60,5 +80,6 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+
     implementation ("com.squareup.picasso:picasso:2.8")
 }

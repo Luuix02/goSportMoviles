@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -7,19 +8,18 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:orientation="vertical"
         android:layout_height="match_parent"
-        android:layout_marginTop="25dp">
+        android:layout_marginTop="25dp"
+        android:orientation="vertical">
+
         <TextView
             android:id="@+id/nombreusuario"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="110dp"
             android:text="@string/nombrejugador"
             android:textAlignment="center"
-            android:layout_marginTop="110dp"
-            android:textStyle="bold"
-            />
-
+            android:textStyle="bold" />
 
 
         <LinearLayout
@@ -34,17 +34,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="25dp"
-                android:scrollbars="horizontal"/>
+                android:scrollbars="horizontal" />
         </LinearLayout>
     </LinearLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabAddTeam"
+        android:id="@+id/btnFlotanteAddTeam"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="180dp"
         android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
-        android:src="@drawable/crearequipo"
         android:backgroundTint="#11A3BD"
-        android:contentDescription="@string/addTeam"/>
+        android:contentDescription="@string/addTeam"
+        android:src="@drawable/crearequipo" />
 </FrameLayout>
