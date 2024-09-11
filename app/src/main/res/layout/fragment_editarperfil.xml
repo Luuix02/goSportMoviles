@@ -18,7 +18,7 @@
 
             <!-- Imagen de perfil -->
             <ImageView
-                android:id="@+id/imgProfile"
+                android:id="@+id/imageViewModal"
                 android:layout_width="120dp"
                 android:layout_height="120dp"
                 android:layout_marginBottom="40dp"
@@ -27,6 +27,18 @@
                 android:scaleType="centerCrop"
                 android:clipToOutline="true"
                 android:layout_marginTop="20dp"/>
+
+            <!-- Botón de subir foto -->
+            <Button
+                android:id="@+id/btnSubirFotoperfil"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/button_color"
+                android:textColor="@color/white"
+                android:text="Subir Foto"
+                android:padding="12dp"
+                android:textSize="16sp"
+                android:layout_marginTop="16dp"/>
 
             <!-- CardView con campos de entrada -->
             <androidx.cardview.widget.CardView
@@ -173,9 +185,6 @@
                         android:textSize="18sp"
                         android:textStyle="bold" />
 
-
-
-
                     <TextView
                         android:id="@+id/tvProgramaLabel"
                         android:layout_width="wrap_content"
@@ -195,10 +204,6 @@
                         android:textColor="#555555"
                         android:textSize="18sp"
                         android:textStyle="bold" />
-
-
-
-
 
                 </LinearLayout>
             </androidx.cardview.widget.CardView>

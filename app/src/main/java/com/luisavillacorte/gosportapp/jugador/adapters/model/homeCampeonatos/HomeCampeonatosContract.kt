@@ -1,5 +1,6 @@
 package com.luisavillacorte.gosportapp.jugador.adapters.model.homeCampeonatos
 
+import android.net.Uri
 import com.luisavillacorte.gosportapp.jugador.adapters.model.auth.PerfilUsuarioResponse
 
 interface HomeCampeonatosContract {
@@ -16,6 +17,7 @@ interface HomeCampeonatosContract {
     interface Presenter {
         fun getCampeonatos()
         fun getPerfilUsuario()
+        fun subirFoto(uri: Uri)
 
 
     }
