@@ -21,6 +21,7 @@ import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import com.bumptech.glide.Glide
 import com.luisavillacorte.gosportapp.R
 import com.luisavillacorte.gosportapp.common.apiRetrofit.RetrofitInstance
 import com.luisavillacorte.gosportapp.jugador.adapters.apiService.homeCampeonatosService.HomeApiService
@@ -41,6 +42,8 @@ class Editarperfil : Fragment(), EditarPerfilContract.View {
     private lateinit var programa: TextView
     private lateinit var btnGuardarCambios: Button
     private lateinit var btnSubirFotoPerfil: Button
+    private lateinit var btnActualizarFoto: Button
+    private lateinit var btnEliminarFoto: Button
     private lateinit var imageView: ImageView
 
     private var userId: String? = null
@@ -60,8 +63,10 @@ class Editarperfil : Fragment(), EditarPerfilContract.View {
         correo = view.findViewById(R.id.edtEmail)
         programa = view.findViewById(R.id.edtPrograma)
         btnGuardarCambios = view.findViewById(R.id.btnGuardar)
-        imageView = view.findViewById(R.id.imageViewModal)
+        imageView = view.findViewById(R.id.imagensubir)
         btnSubirFotoPerfil = view.findViewById(R.id.btnSubirFotoperfil)
+        btnActualizarFoto = view.findViewById(R.id.btnActualizarFoto)
+        btnEliminarFoto = view.findViewById(R.id.btnEliminarFoto)
 
         // Verificar y solicitar permisos
         if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
@@ -114,6 +119,17 @@ class Editarperfil : Fragment(), EditarPerfilContract.View {
             startActivityForResult(intent, PICK_IMAGE_REQUEST)
         }
 
+        btnActualizarFoto.setOnClickListener {
+            val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+            startActivityForResult(intent, PICK_IMAGE_REQUEST)
+        }
+
+        btnEliminarFoto.setOnClickListener {
+            userId?.let { id ->
+                presenter.eliminarFoto(id)
+            } ?: showError("User ID no disponible")
+        }
+
         return view
     }
 
@@ -121,15 +137,17 @@ class Editarperfil : Fragment(), EditarPerfilContract.View {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK && data != null && data.data != null) {
             val filePath = data.data
-            val inputStream: InputStream? = filePath?.let { requireActivity().contentResolver.openInputStream(it) }
-            val bitmap = BitmapFactory.decodeStream(inputStream)
-            imageView.setImageBitmap(bitmap)
-
-            userId?.let { id ->
-                filePath?.let { uri ->
-                    presenter.subirFoto(uri, id)
+            filePath?.let { uri ->
+                if (btnActualizarFoto.visibility == View.VISIBLE) {
+                    presenter.actualizarFoto(uri, userId!!)
+                } else {
+                    presenter.subirFoto(uri, userId!!)
                 }
-            } ?: showError("User ID no disponible")
+                // Mostrar la imagen seleccionada en el ImageView usando Glide
+                Glide.with(this)
+                    .load(uri)
+                    .into(imageView)
+            } ?: showError("No se pudo obtener la URI de la imagen")
         }
     }
 
@@ -141,6 +159,24 @@ class Editarperfil : Fragment(), EditarPerfilContract.View {
         jornada.text = perfilUsuarioResponse.jornada
         correo.text = perfilUsuarioResponse.correo
         programa.text = perfilUsuarioResponse.programa
+
+        // Mostrar la foto de perfil si está disponible
+        perfilUsuarioResponse.url_foto?.let { url ->
+            Glide.with(this)
+                .load(url)
+                .into(imageView)
+        }
+
+        // Mostrar u ocultar botones según si hay foto o no
+        if (!perfilUsuarioResponse.url_foto.isNullOrEmpty()) {
+            btnActualizarFoto.visibility = View.VISIBLE
+            btnEliminarFoto.visibility = View.VISIBLE
+            btnSubirFotoPerfil.visibility = View.GONE
+        } else {
+            btnActualizarFoto.visibility = View.GONE
+            btnEliminarFoto.visibility = View.GONE
+            btnSubirFotoPerfil.visibility = View.VISIBLE
+        }
 
         val sharedPreferences = requireActivity().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
         val editor = sharedPreferences.edit()

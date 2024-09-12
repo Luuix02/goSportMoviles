@@ -13,7 +13,7 @@
         <!-- Fondo Superior -->
         <View
             android:layout_width="match_parent"
-            android:layout_height="400dp"
+            android:layout_height="450dp"
             android:background="#11A3BD"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
@@ -23,9 +23,9 @@
         <!-- Imagen de perfil -->
         <ImageView
             android:id="@+id/foto_perfil_image_view"
-            android:layout_width="105dp"
-            android:layout_height="97dp"
-            android:layout_marginTop="28dp"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_marginTop="60dp"
             android:scaleType="centerCrop"
             android:src="@drawable/ic_user"
             app:layout_constraintEnd_toEndOf="parent"
@@ -78,6 +78,7 @@
         <!-- Contenedor con opciones en CardView -->
         <androidx.cardview.widget.CardView
             android:id="@+id/card_container"
+            android:layout_marginBottom="50dp"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"

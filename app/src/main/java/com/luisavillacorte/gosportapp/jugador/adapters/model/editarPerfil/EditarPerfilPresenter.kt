@@ -64,16 +64,7 @@ class EditarPerfilPresenter(
     }
 
     override fun subirFoto(uri: Uri, idUser: String) {
-        val contentResolver = context.contentResolver
-        val inputStream = contentResolver.openInputStream(uri) ?: run {
-            view.showError("No se puede abrir el archivo")
-            return
-        }
-
-        val file = File.createTempFile("temp_image", ".jpg", context.cacheDir)
-        file.outputStream().use { outputStream ->
-            inputStream.copyTo(outputStream)
-        }
+        val file = createFileFromUri(uri) ?: return
 
         val requestFile = file.asRequestBody("image/*".toMediaType())
         val body = MultipartBody.Part.createFormData("file", file.name, requestFile)
@@ -91,5 +82,61 @@ class EditarPerfilPresenter(
                 view.showError("Error: ${t.message}")
             }
         })
+    }
+
+    override fun actualizarFoto(uri: Uri, idUser: String) {
+        val file = createFileFromUri(uri) ?: return
+
+        val requestFile = file.asRequestBody("image/*".toMediaType())
+        val body = MultipartBody.Part.createFormData("file", file.name, requestFile)
+
+        apiService.actualizarfoto(idUser, token, body).enqueue(object : Callback<PerfilUsuarioResponse> {
+            override fun onResponse(call: Call<PerfilUsuarioResponse>, response: Response<PerfilUsuarioResponse>) {
+                if (response.isSuccessful) {
+                    view.showSuccess("Foto actualizada con éxito")
+                } else {
+                    view.showError("Error al actualizar foto")
+                }
+            }
+
+            override fun onFailure(call: Call<PerfilUsuarioResponse>, t: Throwable) {
+                view.showError("Error: ${t.message}")
+            }
+        })
+    }
+
+
+    override fun eliminarFoto(idUser: String) {
+        view.showLoading()
+        apiService.eliminarFotoUsuario(idUser, token).enqueue(object : Callback<PerfilUsuarioResponse> {
+            override fun onResponse(call: Call<PerfilUsuarioResponse>, response: Response<PerfilUsuarioResponse>) {
+                view.hideLoading()
+                if (response.isSuccessful) {
+                    view.showSuccess("Foto eliminada con éxito")
+                } else {
+                    view.showError("Error al eliminar foto")
+                }
+            }
+
+            override fun onFailure(call: Call<PerfilUsuarioResponse>, t: Throwable) {
+                view.hideLoading()
+                view.showError("Error: ${t.message}")
+            }
+        })
+    }
+
+    private fun createFileFromUri(uri: Uri): File? {
+        val contentResolver = context.contentResolver
+        val inputStream = contentResolver.openInputStream(uri) ?: run {
+            view.showError("No se puede abrir el archivo")
+            return null
+        }
+
+        val file = File.createTempFile("temp_image", ".jpg", context.cacheDir)
+        file.outputStream().use { outputStream ->
+            inputStream.copyTo(outputStream)
+        }
+
+        return file
     }
 }

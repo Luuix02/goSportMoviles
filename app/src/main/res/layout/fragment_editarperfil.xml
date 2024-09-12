@@ -18,7 +18,7 @@
 
             <!-- Imagen de perfil -->
             <ImageView
-                android:id="@+id/imageViewModal"
+                android:id="@+id/imagensubir"
                 android:layout_width="120dp"
                 android:layout_height="120dp"
                 android:layout_marginBottom="40dp"
@@ -29,16 +29,50 @@
                 android:layout_marginTop="20dp"/>
 
             <!-- Botón de subir foto -->
-            <Button
-                android:id="@+id/btnSubirFotoperfil"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@color/button_color"
-                android:textColor="@color/white"
-                android:text="Subir Foto"
-                android:padding="12dp"
-                android:textSize="16sp"
-                android:layout_marginTop="16dp"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+
+                >
+                <Button
+                    android:id="@+id/btnSubirFotoperfil"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/button_color"
+                    android:textColor="@color/white"
+                    android:text="Subir"
+                    android:padding="12dp"
+                    android:layout_margin="12dp"
+                    android:textSize="16sp"
+                    android:layout_marginTop="16dp"/>
+
+                <!-- Botón de actualizar foto (inicialmente oculto) -->
+                <Button
+                    android:id="@+id/btnActualizarFoto"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/button_color"
+                    android:textColor="@color/white"
+                    android:text="Actualizar"
+                    android:padding="12dp"
+                    android:layout_margin="12dp"
+                    android:textSize="16sp" />
+
+                <!-- Botón de eliminar foto (inicialmente oculto) -->
+                <Button
+                    android:id="@+id/btnEliminarFoto"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/button_color"
+                    android:textColor="@color/white"
+                    android:text="Eliminar"
+                    android:padding="12dp"
+                    android:textSize="16sp"
+                    android:layout_margin="12dp"
+                    android:layout_marginTop="16dp"/>
+
+            </LinearLayout>
 
             <!-- CardView con campos de entrada -->
             <androidx.cardview.widget.CardView
