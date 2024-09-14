@@ -6,6 +6,7 @@ import com.luisavillacorte.gosportapp.jugador.adapters.model.crearEquipo.Campeon
 import com.luisavillacorte.gosportapp.jugador.adapters.model.crearEquipo.EquipoInscriptoResponse
 import com.luisavillacorte.gosportapp.jugador.adapters.model.crearEquipo.ValidacionResponse
 import com.luisavillacorte.gosportapp.jugador.adapters.model.crearEquipo.ValidarInscripcionResponse
+import com.luisavillacorte.gosportapp.jugador.adapters.model.editarPerfil.Programas
 import com.luisavillacorte.gosportapp.jugador.adapters.model.homeCampeonatos.Campeonatos
 import okhttp3.MultipartBody
 import retrofit2.Call
@@ -47,6 +48,10 @@ interface HomeApiService {
         @Path("id") userId: String,
         @Header("Authorization") token: String
     ): Call<PerfilUsuarioResponse>
+
+    @GET("/programa")
+    fun getProgramas(): Call<List<Programas>>
+
 
     @Multipart
     @PATCH("/usuarios/{id}/pati")

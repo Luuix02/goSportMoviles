@@ -12,6 +12,7 @@ interface EditarPerfilContract {
         fun showError(message: String)
         fun showLoading()
         fun hideLoading()
+        fun mostrarProgramas(programas: List<Programas>)  // Método para mostrar programas
     }
 
     interface Presenter {
@@ -20,6 +21,7 @@ interface EditarPerfilContract {
         fun subirFoto(uri: Uri, userId: String)
         fun actualizarFoto(uri: Uri, userId: String)
         fun eliminarFoto(userId: String)
+        fun obtenerProgramas()  // Método para obtener programas
     }
 
     interface Model {
@@ -28,5 +30,6 @@ interface EditarPerfilContract {
         fun uploadFoto(uri: Uri, userId: String, callback: (Boolean) -> Unit)
         fun updateFoto(uri: Uri, userId: String, callback: (Boolean) -> Unit)
         fun deleteFoto(userId: String, callback: (Boolean) -> Unit)
+        fun fetchProgramas(callback: (List<Programas>?) -> Unit)  // Método para obtener programas
     }
 }
