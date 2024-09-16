@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:layout_marginTop="200dp"
+    android:background="@android:color/white">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        android:padding="8dp">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:padding="8dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingBottom="8dp">
+
+                <ImageView
+                    android:id="@+id/imgEquipo1"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:background="@drawable/border_imagenes"
+                    android:clipToOutline="true"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/logosinfondo" />
+
+                <TextView
+                    android:id="@+id/marcador1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="16dp"
+                    android:text="1"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingTop="8dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="55dp"
+                    android:orientation="horizontal"
+                    android:paddingBottom="8dp">
+
+                    <ImageView
+                        android:id="@+id/gol1"
+                        android:layout_width="38dp"
+                        android:layout_height="43dp"
+                        android:src="@drawable/balonfut" />
+
+                    <TextView
+                        android:id="@+id/nombreJugGol1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:text="Nombre del jugador" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingBottom="8dp">
+
+                    <ImageView
+                        android:id="@+id/amarilla1"
+                        android:layout_width="37dp"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/tarjetaamarillaaa" />
+
+                    <TextView
+                        android:id="@+id/nombreJugAmarilla1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:text="Nombre del jugador" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/roja1"
+                        android:layout_width="41dp"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/tarjetarooja" />
+
+                    <TextView
+                        android:id="@+id/nombreJugRoja1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:text="Nombre del jugador" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:padding="8dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingBottom="8dp">
+
+                <ImageView
+                    android:id="@+id/imgEquipo2"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:background="@drawable/border_imagenes"
+                    android:clipToOutline="true"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/logosinfondo" />
+
+                <TextView
+                    android:id="@+id/marcador2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="16dp"
+                    android:textSize="24sp"
+                    android:text="1"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingTop="8dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingBottom="8dp">
+
+                    <ImageView
+                        android:id="@+id/gol2"
+                        android:layout_width="38dp"
+                        android:layout_height="43dp"
+                        android:src="@drawable/balonfut" />
+
+                    <TextView
+                        android:id="@+id/nombreJugGol2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Nombre del jugador"
+                        android:layout_marginStart="8dp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingBottom="8dp">
+
+                    <ImageView
+                        android:id="@+id/amarilla2"
+                        android:layout_width="37dp"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/tarjetaamarillaaa" />
+
+                    <TextView
+                        android:id="@+id/nombreJugAmarilla2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Nombre del jugador"
+                        android:layout_marginStart="8dp" />
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/roja2"
+                        android:layout_width="41dp"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/tarjetarooja" />
+
+                    <TextView
+                        android:id="@+id/nombreJugRoja2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Nombre del jugador"
+                        android:layout_marginStart="8dp" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

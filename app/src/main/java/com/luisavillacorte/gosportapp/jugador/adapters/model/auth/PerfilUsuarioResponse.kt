@@ -11,7 +11,7 @@ data class PerfilUsuarioResponse(
 
     val public_id: String?,
     val url_foto: String? ,
-    val contrasena: String,
+    val contrasena: String? = null,
 
     //val contrasena: String,  // Contraseña encriptada
 

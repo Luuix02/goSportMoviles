@@ -135,5 +135,22 @@ class CambiarContrasena : Fragment(), HomeCampeonatosContract.View {
     override fun showValidacionInscripcion(estaInscrito: Boolean, equipo: Equipo?) {
         TODO("Not yet implemented")
     }
+//    override fun actualizarEstadoInscripcion(idCampeonato: String) {
+//        // Lógica para actualizar el estado de inscripción
+//        // Por ejemplo, podrías mostrar un mensaje al usuario o actualizar la UI
+//
+//        Toast.makeText(context, "Estado de inscripción actualizado para el campeonato: $idCampeonato", Toast.LENGTH_LONG).show()
+//    }
+//    override fun showInscripcionDetails(equipos: List<CampeonatoInscripcion>) {
+//        // Lógica para mostrar los detalles de inscripción
+//        // Por ejemplo, podrías actualizar una vista o un RecyclerView con la lista de equipos
+//
+//        // Si tienes un RecyclerView para mostrar la lista de equipos
+//
+//    }
+//    override fun mostrarMensaje(message: String) {
+//        // Mostrar un mensaje al usuario, por ejemplo, usando un Toast
+//        Toast.makeText(context, message, Toast.LENGTH_LONG).show()
+//    }
 
 }

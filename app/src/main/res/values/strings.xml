@@ -28,7 +28,7 @@
     <string name="edit_profile">Editar Perfil</string>
     <string name="settings">Configuraciones</string>
     <string name="Dar">Imagen de Argentina</string>
-    <string name="titulogo">Bienvenido a Go Sport</string>
+    <string name="titulogo">bienvenido a Go Sport, en esta sección podrás ver los campeonatos disponibles para que hagas parte de la diversión</string>
     <string name="campeonatosdisponibles">Campeonatos Disponibles</string>
     <string name="Torneo">Torneo del Ascenso Dorado</string>
     <string name="disciplina">Disciplina: Fútbol</string>
@@ -116,7 +116,7 @@
     <string name="toggle_password_visibility">d</string>
     <string name="nueva_contrasena">Nueva  cotraseña</string>
     <string name="contrasena_actual">Contrasena Actual</string>
-
+    <string name="gossport">GosSport</string>
 
 
 </resources>

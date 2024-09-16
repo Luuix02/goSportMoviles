@@ -137,12 +137,11 @@
                     <Button
                         android:id="@+id/btnincribirme"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="50dp"
                         android:text="Inscribirme"
                         android:visibility="gone"
                         android:textStyle="bold"
                         android:textSize="14sp"
-
                         android:backgroundTint="#11A3BD"
                         android:layout_marginStart="16dp"
                         />
