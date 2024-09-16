@@ -1,6 +1,5 @@
-package com.luisavillacorte.gosportapp
+package com.luisavillacorte.gosportapp.jugador.viewActivities.fragments.miEquipoFragments
 
-import android.os.Build
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -11,11 +10,11 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.luisavillacorte.gosportapp.R
 import com.luisavillacorte.gosportapp.common.apiRetrofit.RetrofitInstance
 import com.luisavillacorte.gosportapp.jugador.adapters.apiService.miEquipoService.MiEquipoApiService
 import com.luisavillacorte.gosportapp.jugador.adapters.model.auth.PerfilUsuarioResponse
 import com.luisavillacorte.gosportapp.jugador.adapters.model.crearEquipo.Equipo
-import com.luisavillacorte.gosportapp.jugador.adapters.model.crearEquipo.JugadoresSeleccionadosAdapter
 import com.luisavillacorte.gosportapp.jugador.adapters.model.miEquipo.MiEquipoContract
 import com.luisavillacorte.gosportapp.jugador.adapters.model.miEquipo.MiEquipoPresenter
 import com.luisavillacorte.gosportapp.jugador.adapters.model.miEquipo.VerJugadoresAdapter

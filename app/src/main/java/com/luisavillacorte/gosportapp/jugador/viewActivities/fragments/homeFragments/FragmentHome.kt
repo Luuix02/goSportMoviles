@@ -104,7 +104,7 @@ class FragmentHome : Fragment(), HomeCampeonatosContract.View {
 
     override fun showCampeonatos(campeonatos: List<Campeonatos>) {
         if (campeonatos.isNotEmpty()) {
-            campeonatosAdapter = CampeonatosAdapter(campeonatos)
+            campeonatosAdapter = CampeonatosAdapter(campeonatos, presenter)
             recyclerViewCampeonatos.adapter = campeonatosAdapter
         } else {
             context?.let {
@@ -124,7 +124,7 @@ class FragmentHome : Fragment(), HomeCampeonatosContract.View {
         val idJugador = perfilUsuarioResponse.id
         esCapitan = perfilUsuarioResponse.esCapitan
         this.idJugador = idJugador
-        nombrejuga.text = "Hola $nombreJugador, Bienvenido a GoSport"
+        nombrejuga.text = "Hola $nombreJugador, bienvenido a Go Sport, en esta sección podrás ver los campeonatos disponibles para que hagas parte de la diversión"
         Log.d("HomeFragment", "Nombre del usuario: $nombreJugador")
         presenter.validarInscripcionJugador(idJugador)
 //        if (esCapitan){
@@ -206,4 +206,6 @@ class FragmentHome : Fragment(), HomeCampeonatosContract.View {
     override fun showSuccess(message: String) {
         TODO("Not yet implemented")
     }
+
+
 }

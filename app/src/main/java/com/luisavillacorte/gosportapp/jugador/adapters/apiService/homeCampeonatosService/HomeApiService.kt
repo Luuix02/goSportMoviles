@@ -2,10 +2,10 @@ package com.luisavillacorte.gosportapp.jugador.adapters.apiService.homeCampeonat
 
 import com.luisavillacorte.gosportapp.jugador.adapters.model.auth.NuevaContrasenaRequest
 import com.luisavillacorte.gosportapp.jugador.adapters.model.auth.PerfilUsuarioResponse
-import com.luisavillacorte.gosportapp.jugador.adapters.model.crearEquipo.CampeonatoInscripcion
+import com.luisavillacorte.gosportapp.jugador.adapters.model.crearEquipo.EquipoInscriptoRequest
 import com.luisavillacorte.gosportapp.jugador.adapters.model.crearEquipo.EquipoInscriptoResponse
-import com.luisavillacorte.gosportapp.jugador.adapters.model.crearEquipo.ValidacionResponse
 import com.luisavillacorte.gosportapp.jugador.adapters.model.crearEquipo.ValidarInscripcionResponse
+import com.luisavillacorte.gosportapp.jugador.adapters.model.crearEquipo.VerificarEquipoResponse
 import com.luisavillacorte.gosportapp.jugador.adapters.model.homeCampeonatos.Campeonatos
 import retrofit2.Call
 import retrofit2.http.Body
@@ -48,11 +48,11 @@ interface HomeApiService {
     @GET("equipoInscripto/validarInscripcion")
     fun verificarEquipoEnCampeonato(
         @Header("cedulajugador") identificacion: String
-    ): Call<ValidacionResponse>
+    ): Call<VerificarEquipoResponse>
 
     @POST("/equipoInscripto")
     fun inscribirEquipoCampeonato(
-        @Body Equipo: CampeonatoInscripcion
+        @Body Equipo: EquipoInscriptoRequest
     ): Call<EquipoInscriptoResponse>
 
 

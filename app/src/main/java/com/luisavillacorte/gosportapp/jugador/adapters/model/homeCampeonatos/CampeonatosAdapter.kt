@@ -1,26 +1,29 @@
 package com.luisavillacorte.gosportapp.jugador.adapters.model.homeCampeonatos
 
+import android.content.Context
 import android.sax.EndElementListener
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
 import com.luisavillacorte.gosportapp.R
+import com.luisavillacorte.gosportapp.jugador.adapters.model.crearEquipo.Equipo
 
 class CampeonatosAdapter(
 
     private val campeonatos: List<Campeonatos>,
-    private val listener: onCampeonatoClickListener
+//    private val equipoActual: Equipo?,
+//    private val esCapitan: Boolean,
+    private val presenter: HomeCampeonatosContract.Presenter
 
 
     ) : RecyclerView.Adapter<CampeonatosAdapter.CampeonatoViewHolder>() {
 
-        interface onCampeonatoClickListener{
-            fun onInscribirClick(campeonato: Campeonatos)
-        }
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CampeonatoViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -45,7 +48,6 @@ class CampeonatosAdapter(
         private val fechaini:TextView=itemView.findViewById(R.id.fechaInicio)
         private val fechafinal:TextView=itemView.findViewById(R.id.fechaFin)
 
-
         fun bind(campeonato: Campeonatos) {
             nombreCampeonato.text = campeonato.nombreCampeonato
             descripcion.text = campeonato.descripcion
@@ -54,29 +56,53 @@ class CampeonatosAdapter(
             fechaini.text=campeonato.fechaInicio
             fechafinal.text=campeonato.fechaFin
 
-            // Verificar el estado del campeonato
-            when (campeonato.estadoCampeonato) {
-                "Ejecucion" -> {
-                    btnVerDetalles.visibility = View.VISIBLE
-                    btnincribir.visibility = View.GONE
-                    // Configurar el botón para llevar a otra actividad
-                    btnVerDetalles.setOnClickListener {
-                        // Código para navegar a la página de detalles
+            val sharedPreferences = itemView.context.getSharedPreferences("AppPreferences", Context.MODE_PRIVATE)
+            val identificacion = sharedPreferences.getString("CEDULA", "")
+
+            if (campeonato.estadoCampeonato == "Inscripcion") {
+                btnincribir.visibility = View.VISIBLE
+                btnincribir.setOnClickListener {
+                    if (identificacion.isNullOrEmpty()) {
+                        Toast.makeText(itemView.context, "Identificación no disponible", Toast.LENGTH_SHORT).show()
+                    } else {
+                        presenter.verificarEquipoEnCampeonato(identificacion) { isInscrito ->
+                            if (isInscrito) {
+                                Toast.makeText(itemView.context, "El equipo ya está inscrito en este campeonato.", Toast.LENGTH_SHORT).show()
+                            } else {
+                                presenter.inscribirEquipoEnCampeonato(campeonato._id)
+                            }
+                        }
                     }
                 }
-                "Inscripcion" -> {
-                    btnincribir.visibility = View.VISIBLE
-                    btnVerDetalles.visibility = View.GONE
-                    btnincribir.setOnClickListener{
-                        listener.onInscribirClick(campeonato)
-                    }
-                }
-                else -> {
-                    // Si hay otros estados, ocultar ambos
-                    btnVerDetalles.visibility = View.GONE
-                    btnincribir.visibility = View.GONE
-                }
+            } else {
+                btnincribir.visibility = View.GONE
             }
+
+            // Siempre ocultar el botón "Ver Detalles"
+            btnVerDetalles.visibility = View.GONE
+
+
+
+
+//            when (campeonato.estadoCampeonato) {
+//                "Ejecucion" -> {
+//                    btnVerDetalles.visibility = View.VISIBLE
+//                    btnincribir.visibility = View.GONE
+//                    // Configurar el botón para llevar a otra actividad
+//                    btnVerDetalles.setOnClickListener {
+//                        // Código para navegar a la página de detalles
+//                    }
+//                }
+//                "Inscripcion" -> {
+//                    btnincribir.visibility = View.VISIBLE
+//                    btnVerDetalles.visibility = View.GONE
+//                }
+//                else -> {
+//                    // Si hay otros estados, ocultar ambos
+//                    btnVerDetalles.visibility = View.GONE
+//                    btnincribir.visibility = View.GONE
+//                }
+//            }
         }
 
     }

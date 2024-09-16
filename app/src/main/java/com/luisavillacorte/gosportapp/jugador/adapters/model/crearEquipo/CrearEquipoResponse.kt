@@ -3,6 +3,7 @@ package com.luisavillacorte.gosportapp.jugador.adapters.model.crearEquipo
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 import com.luisavillacorte.gosportapp.jugador.adapters.model.auth.User
+import com.luisavillacorte.gosportapp.jugador.adapters.model.misPartidos.EquipoResponse
 import kotlinx.parcelize.Parcelize
 
 data class CrearEquipoResponse(
@@ -13,7 +14,7 @@ data class CrearEquipoResponse(
 
 @Parcelize
 data class  Equipo(
-    @SerializedName("_id") val id: String,
+    @SerializedName("_id") val id: String, //capturar este id junto con la cedula y lo guardo en el sharedPreferences
     val nombreEquipo: String,
     val nombreCapitan: String,
     val contactoUno: String,
@@ -47,28 +48,27 @@ data class ValidarInscripcionResponse(
     val msg: String,
     val equipo: List<Equipo>
 )
-data class CampeonatoInscripcion(
+data class EquipoInscriptoRequest(
     @SerializedName("_id") val id: String,
-    @SerializedName("Equipo") val equipo: Equipo,
-    @SerializedName("idCampeonato") val idCampeonato: String
+    val equipo: Equipo, // Asegúrate de incluir todos los campos necesarios
+    val idCampeonato: String
 
 )
 
-data class ValidacionResponse(
-    @SerializedName("msg") val mensaje: String,
-    @SerializedName("data") val data: List<List<CampeonatoInscripcion>>
+data class VerificarEquipoResponse(
+    val msg: String,
+    val data: List<List<EquipoInscritoData>>
+)
+
+data class EquipoInscritoData(
+    val _id: String,
+    val Equipo: Equipo,
+    val idCampeonato: String,
 )
 
 data class EquipoInscriptoResponse(
-    val msg: String,
-    val inscripto: Inscripto
-)
-
-data class Inscripto(
-    @SerializedName("Equipo") val equipo: Equipo,
-    @SerializedName("idCampeonato") val idCampeonato: String,
-    @SerializedName("_id") val id: String,
+  val msg: String,
+    val inscripto: EquipoInscritoData
 
 )
-
 

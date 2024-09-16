@@ -5,6 +5,7 @@ import android.net.Uri
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
+import com.google.gson.Gson
 import com.luisavillacorte.gosportapp.jugador.adapters.apiService.formCrearEquipoService.CrearEquipoApiService
 import com.luisavillacorte.gosportapp.jugador.adapters.model.auth.PerfilUsuarioResponse
 import com.luisavillacorte.gosportapp.jugador.adapters.model.auth.User
@@ -64,6 +65,8 @@ class CrearEquipoPresenter(
                     if (validarResponse != null) {
                         if (validarResponse.equipo.isNotEmpty()) {
                             // Si el jugador ya está inscrito en un equipo
+                            val equipo = validarResponse.equipo[0]
+                            guardarEquipoEnSharedPreferences1(context, equipo)
                             view.showError("El jugador ya está inscrito en un equipo: ${validarResponse.equipo[0].nombreEquipo}")
                         } else {
                             // Si el jugador no está inscrito en ningún equipo
@@ -234,5 +237,23 @@ class CrearEquipoPresenter(
 //                view.showError("Error en la solicitud: ${t.message}")
             }
         })
+    }
+    private fun guardarEquipoEnSharedPreferences1(context: Context, equipo: Equipo) {
+        val sharedPreferences = context.getSharedPreferences("AppPreferences", Context.MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        val gson = Gson() // Para convertir el equipo a JSON
+        val equipoJson = gson.toJson(equipo)
+        editor.putString("EQUIPO", equipoJson)
+        editor.apply()
+    }
+    private fun obtenerEquipoDeSharedPreferences(context: Context): Equipo? {
+        val sharedPreferences = context.getSharedPreferences("AppPreferences", Context.MODE_PRIVATE)
+        val gson = Gson()
+        val equipoJson = sharedPreferences.getString("EQUIPO", null)
+        return if (equipoJson != null) {
+            gson.fromJson(equipoJson, Equipo::class.java)
+        } else {
+            null
+        }
     }
 }

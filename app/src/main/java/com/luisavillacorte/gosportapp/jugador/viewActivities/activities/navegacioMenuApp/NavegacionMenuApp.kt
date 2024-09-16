@@ -5,9 +5,8 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.luisavillacorte.gosportapp.FragmentMiEquipo
+import com.luisavillacorte.gosportapp.jugador.viewActivities.fragments.miEquipoFragments.FragmentMiEquipo
 import com.luisavillacorte.gosportapp.R
-import com.luisavillacorte.gosportapp.jugador.viewActivities.fragments.gestionarMiEquipoFragments.FragmentGestionarMiEquipo
 import com.luisavillacorte.gosportapp.jugador.viewActivities.fragments.misPartidosFragments.FragmentMisPartidos
 import com.luisavillacorte.gosportapp.jugador.viewActivities.fragments.homeFragments.FragmentHome
 import com.luisavillacorte.gosportapp.jugador.viewActivities.fragments.perfilFragments.FragmentPerfil
