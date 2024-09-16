@@ -75,8 +75,16 @@ class Fragment_Ver_Resultados : Fragment(), verResultadosContract.View {
                     _id = id,
                     nombres = participantes.first().nombres,
                     ficha = participantes.first().ficha,
-                    dorsal = participantes.first().dorsal
+                    dorsal = participantes.first().dorsal,
+                    totalGoles = participantes.first().totalGoles
                 )
+            }
+    }
+    private fun agruparParticipantesConGoles(goleadores: List<Participante>): List<Participante> {
+        return goleadores.groupBy { it._id }
+            .map { (id, participantes) ->
+                val participante = participantes.first()
+                participante.copy(totalGoles = participantes.size)
             }
     }
 

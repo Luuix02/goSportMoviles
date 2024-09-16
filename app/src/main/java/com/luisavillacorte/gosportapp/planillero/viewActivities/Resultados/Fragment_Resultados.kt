@@ -160,37 +160,126 @@ class Fragment_Resultados : Fragment(), ResultadosContract.View {
     private fun objetoEnviarResultados(): Resultados {
         val idVs = arguments?.getString("idVs") ?: "Error"
 
-        // Obtener los goles por jugador y los participantes del ViewModel
+
         val golesPorJugadorEquipo1 = viewModel.golesPorJugadorEquipo1PorVs.value?.get(idVs) ?: emptyMap()
         val golesPorJugadorEquipo2 = viewModel.golesPorJugadorEquipo2PorVs.value?.get(idVs) ?: emptyMap()
-        val participantes = viewModel.jugadoresPorVs.value?.get(idVs) ?: emptyMap()
-
-        // Crear la lista de goleadores para el equipo 1
-        val jugadoresGoleadoresEquipo1 = golesPorJugadorEquipo1.mapNotNull { (jugadorId, goles) ->
+        val amarillasporJugadorEquipo1 = viewModel.amarillasEquipo1.value?.get(idVs) ?: emptyMap()
+        val rojasPoJugadorEquipo1 = viewModel.rojasEquipo1.value?.get(idVs) ?: emptyMap()
+        val amarillasPorJugadorEquipo2 = viewModel.amarillasEquipo2.value?.get(idVs) ?: emptyMap();
+        val rojasPorJugadorEquipo2 = viewModel.rojasEquipo2.value?.get(idVs) ?: emptyMap();
+//        val jugadoresGoleadoresEquipo1 = golesPorJugadorEquipo1.flatMap { (jugadorId, goles) ->
+//            val participante = ResultadosPrim.equipo1.informacion.team1.Equipo?.participantes?.find { it._id == jugadorId }
+//            participante?.let { jugador ->
+//                List(goles) {
+//                    Participante(
+//                        _id = jugador._id,
+//                        nombres = jugador.nombres,
+//                        ficha = jugador.ficha,
+//                        dorsal = jugador.dorsal
+//                    )
+//                }
+//            } ?: emptyList()
+//        }
+//
+//        val jugadoresGoleadoresEquipo2 = golesPorJugadorEquipo2.flatMap { (jugadorId, goles) ->
+//            val participante = ResultadosPrim.equipo2.informacion.team2.Equipo?.participantes?.find { it._id == jugadorId }
+//            participante?.let { jugador ->
+//                List(goles) {
+//                    Participante(
+//                        _id = jugador._id,
+//                        nombres = jugador.nombres,
+//                        ficha = jugador.ficha,
+//                        dorsal = jugador.dorsal
+//                    )
+//                }
+//            } ?: emptyList();
+//        }
+        val jugadoresGoleadoresEquipo1 = golesPorJugadorEquipo1.map { (jugadorId, goles) ->
             val participante = ResultadosPrim.equipo1.informacion.team1.Equipo?.participantes?.find { it._id == jugadorId }
             participante?.let {
                 Participante(
                     _id = it._id,
                     nombres = it.nombres,
                     ficha = it.ficha,
-                    dorsal = it.dorsal
+                    dorsal = it.dorsal,
+                    totalGoles = goles // Añade el total de goles aquí
                 )
             }
+        }.filterNotNull().groupBy { it._id }.map { (_, participantes) ->
+            val participante = participantes.first()
+            participante.copy(totalGoles = participantes.sumOf { it.totalGoles })
         }
 
-        // Crear la lista de goleadores para el equipo 2
-        val jugadoresGoleadoresEquipo2 = golesPorJugadorEquipo2.mapNotNull { (jugadorId, goles) ->
+        val jugadoresGoleadoresEquipo2 = golesPorJugadorEquipo2.map { (jugadorId, goles) ->
             val participante = ResultadosPrim.equipo2.informacion.team2.Equipo?.participantes?.find { it._id == jugadorId }
             participante?.let {
                 Participante(
                     _id = it._id,
                     nombres = it.nombres,
                     ficha = it.ficha,
-                    dorsal = it.dorsal
+                    dorsal = it.dorsal,
+                    totalGoles = goles // Añade el total de goles aquí
+                )
+            }
+        }.filterNotNull().groupBy { it._id }.map { (_, participantes) ->
+            val participante = participantes.first()
+            participante.copy(totalGoles = participantes.sumOf { it.totalGoles })
+        }
+
+        val tarjetasAmarillasEquipo1 = amarillasporJugadorEquipo1.filter { it.value > 0 }.mapNotNull { (jugadorId, _) ->
+            ResultadosPrim.equipo1.informacion.team1.Equipo?.participantes?.find { it._id == jugadorId }?.let { jugador ->
+                Participante(
+                    _id = jugador._id,
+                    nombres = jugador.nombres,
+                    ficha = jugador.ficha,
+                    dorsal = jugador.dorsal,
+                    totalGoles = jugador.totalGoles
+                )
+            }
+        } ?: emptyList()
+        val tarjetasAmarillasEquipo2Datos = amarillasPorJugadorEquipo2.filter { it.value > 0}.mapNotNull { (jugadorId, _) ->
+            ResultadosPrim.equipo2.informacion.team2.Equipo?.participantes?.find{
+                it._id == jugadorId }?.let { jugador ->
+                Participante(
+                    _id = jugador._id,
+                    nombres = jugador.nombres,
+                    ficha = jugador.ficha,
+                    dorsal = jugador.dorsal,
+                    totalGoles = jugador.totalGoles
+
                 )
             }
         }
-        // Crear el objeto Equipo1
+        val tarjetasRojasEquipo1 = rojasPoJugadorEquipo1.filter { it.value > 0 }.mapNotNull { (jugadorId, _) ->
+            ResultadosPrim.equipo1.informacion.team1.Equipo?.participantes?.find { it._id == jugadorId }?.let { jugador ->
+                Participante(
+                    _id = jugador._id,
+                    nombres = jugador.nombres,
+                    ficha = jugador.ficha,
+                    dorsal = jugador.dorsal,
+                    totalGoles = jugador.totalGoles
+
+                )
+            }
+        } ?: emptyList()
+        val tarjetasRojasEquipo2Datos = rojasPorJugadorEquipo2.filter { it.value > 0 }.mapNotNull { (jugadorId, _) ->
+            ResultadosPrim.equipo2.informacion.team2.Equipo?.participantes?.find { it._id == jugadorId }
+                ?.let { jugador ->
+                    Participante(
+                        _id = jugador._id,
+                        nombres = jugador.nombres,
+                        ficha = jugador.ficha,
+                        dorsal = jugador.dorsal,
+                        totalGoles = jugador.totalGoles
+
+                    )
+                }
+        } ?: emptyList();
+        Log.d("TarjetasAmarillas", "Equipo 1: $tarjetasRojasEquipo1")
+
+        Log.d("TarjetasRojas", "Equipo 1: $tarjetasRojasEquipo1")
+
+
         val equipo1 = ResultadosPrim.equipo1.informacion.team1.Equipo?.let {
             EquipoR(
                 _id = ResultadosPrim._id ?: "",
@@ -207,15 +296,17 @@ class Fragment_Resultados : Fragment(), ResultadosContract.View {
                         _id = participante._id,
                         nombres = participante.nombres,
                         ficha = participante.ficha,
-                        dorsal = participante.dorsal
+                        dorsal = participante.dorsal,
+                        totalGoles = participante.totalGoles
+
                     )
                 }
             )
         }?.let {
             InscripcionEquipos1(
                 Equipo1 = it,
-                tarjetasAmarillas = listOf(), // Aquí puedes añadir lógica para las tarjetas amarillas
-                tarjetasRojas = listOf(), // Aquí puedes añadir lógica para las tarjetas rojas
+                tarjetasAmarillas = tarjetasAmarillasEquipo1,
+                tarjetasRojas = tarjetasRojasEquipo1,
                 goles = Goles(
                     marcador = marcadorEquipo1.text.toString().toInt(),
                     jugadorGoleador = jugadoresGoleadoresEquipo1,
@@ -223,7 +314,7 @@ class Fragment_Resultados : Fragment(), ResultadosContract.View {
             )
         }
 
-        // Crear el objeto Equipo2
+
         val equipo2 = ResultadosPrim.equipo2.informacion.team2.Equipo?.let {
             EquipoR(
                 _id = ResultadosPrim._id ?: "",
@@ -240,15 +331,17 @@ class Fragment_Resultados : Fragment(), ResultadosContract.View {
                         _id = participante._id,
                         nombres = participante.nombres,
                         ficha = participante.ficha,
-                        dorsal = participante.dorsal
+                        dorsal = participante.dorsal,
+                        totalGoles = participante.totalGoles
+
                     )
                 }
             )
         }?.let {
             InscripcionEquipos2(
                 Equipo2 = it,
-                tarjetasAmarillas = listOf(), // Aquí puedes añadir lógica para las tarjetas amarillas
-                tarjetasRojas = listOf(), // Aquí puedes añadir lógica para las tarjetas rojas
+                tarjetasAmarillas = tarjetasAmarillasEquipo2Datos, // Aquí puedes añadir lógica para las tarjetas amarillas
+                tarjetasRojas = tarjetasRojasEquipo2Datos, // Aquí puedes añadir lógica para las tarjetas rojas
                 goles = Goles(
                     marcador = marcadorEquipo2.text.toString().toInt(),
                     jugadorGoleador = jugadoresGoleadoresEquipo2,
@@ -261,17 +354,16 @@ class Fragment_Resultados : Fragment(), ResultadosContract.View {
                 equipo1 = equipo1,
                 equipo2 = equipo2,
                 IdVs = idVs,
-                estadoPartido = true
+                estadoPartido = false
             )
         } else {
             null
         }
 
-        // Imprimir el resultado en el log
         if (resultados != null) {
-            Log.d("RESULTADOS", "Resultados: $resultados")
+            Log.d("RESULTADOS subidos", "Resultados: $resultados")
         } else {
-            Log.d("RESULTADOS", "No se generaron resultados")
+            Log.d("RESULTADOS subidos", "No se generaron resultados")
         }
 
         return resultados!!
