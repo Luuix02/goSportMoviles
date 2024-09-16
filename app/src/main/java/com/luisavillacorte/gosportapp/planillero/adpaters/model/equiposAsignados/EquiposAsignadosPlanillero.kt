@@ -32,7 +32,8 @@ class Participantes(
     val _id: String,
     val nombres: String,
     val ficha: Int,
-    val dorsal: Int
+    val dorsal: Int,
+    val totalGoles: Int
 )
 
 class Informacion(

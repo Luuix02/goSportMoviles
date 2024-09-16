@@ -83,9 +83,10 @@ class PresenterVerResultados(
                         arr.getJSONObject(index).let {
                             Participante(
                                 _id = it.getString("_id"),
-                                nombres = it.getString("nombreJugador"),
+                                nombres = it.getString("nombres"),
                                 ficha = it.getInt("ficha"),
-                                dorsal = it.getInt("dorsal")
+                                dorsal = it.getInt("dorsal"),
+                                totalGoles = it.getInt("totalGoles")
                             )
                         }
                     }
@@ -105,9 +106,11 @@ class PresenterVerResultados(
                             arr.getJSONObject(index).let {
                                 Participante(
                                     _id = it.getString("_id"),
-                                    nombres = it.getString("nombreJugador"),
+                                    nombres = it.getString("nombres"),
                                     ficha = it.getInt("ficha"),
-                                    dorsal = it.getInt("dorsal")
+                                    dorsal = it.getInt("dorsal"),
+                                    totalGoles = it.getInt("totalGoles")
+
                                 )
                             }
                         }
@@ -134,9 +137,11 @@ class PresenterVerResultados(
                         arr.getJSONObject(index).let {
                             Participante(
                                 _id = it.getString("_id"),
-                                nombres = it.getString("nombreJugador"),
+                                nombres = it.getString("nombres"),
                                 ficha = it.getInt("ficha"),
-                                dorsal = it.getInt("dorsal")
+                                dorsal = it.getInt("dorsal"),
+                                totalGoles = it.getInt("totalGoles")
+
                             )
                         }
                     }
@@ -156,9 +161,11 @@ class PresenterVerResultados(
                             arr.getJSONObject(index).let {
                                 Participante(
                                     _id = it.getString("_id"),
-                                    nombres = it.getString("nombreJugador"),
+                                    nombres = it.getString("nombres"),
                                     ficha = it.getInt("ficha"),
-                                    dorsal = it.getInt("dorsal")
+                                    dorsal = it.getInt("dorsal"),
+                                    totalGoles = it.getInt("totalGoles")
+
                                 )
                             }
                         }
@@ -173,9 +180,11 @@ class PresenterVerResultados(
             tarjetasArray.getJSONObject(index).let {
                 Participante(
                     _id = it.getString("_id"),
-                    nombres = it.getString("nombreJugador"),
+                    nombres = it.getString("nombres"),
                     ficha = it.getInt("ficha"),
-                    dorsal = it.getInt("dorsal")
+                    dorsal = it.getInt("dorsal"),
+                    totalGoles = it.getInt("totalGoles")
+
                 )
             }
         }

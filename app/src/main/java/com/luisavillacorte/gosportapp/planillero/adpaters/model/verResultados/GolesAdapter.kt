@@ -27,6 +27,7 @@ class GolesAdapter (private val items: List<Participante>) : RecyclerView.Adapte
             itemView.findViewById<TextView>(R.id.DorsalGoleadorVerResultados).text = item.dorsal.toString()
             itemView.findViewById<TextView>(R.id.NombreGoleadorVerResultados).text = item.nombres
             itemView.findViewById<TextView>(R.id.FichaVerResultados).text = item.ficha.toString()
+            itemView.findViewById<TextView>(R.id.NumeroDeCometidas).text = item.totalGoles.toString()
         }
     }
 }
