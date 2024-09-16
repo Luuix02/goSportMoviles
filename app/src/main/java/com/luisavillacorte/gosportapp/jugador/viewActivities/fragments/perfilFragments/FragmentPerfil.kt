@@ -1,14 +1,16 @@
 package com.luisavillacorte.gosportapp.jugador.viewActivities.fragments.perfilFragments
 
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.replace
+import com.bumptech.glide.Glide
 import com.luisavillacorte.gosportapp.R
 import com.luisavillacorte.gosportapp.common.apiRetrofit.RetrofitInstance
 import com.luisavillacorte.gosportapp.jugador.adapters.apiService.homeCampeonatosService.HomeApiService
@@ -20,6 +22,7 @@ import com.luisavillacorte.gosportapp.jugador.adapters.model.crearEquipo.Equipo
 import com.luisavillacorte.gosportapp.jugador.adapters.model.homeCampeonatos.Campeonatos
 import com.luisavillacorte.gosportapp.jugador.viewActivities.fragments.cambiarContrasena.CambiarContrasena
 import com.luisavillacorte.gosportapp.jugador.viewActivities.fragments.editarPerfil.Editarperfil
+import com.luisavillacorte.gosportapp.jugador.viewActivities.fragments.interCentros.InterCentros
 
 class FragmentPerfil : Fragment(), HomeCampeonatosContract.View {
 
@@ -27,7 +30,10 @@ class FragmentPerfil : Fragment(), HomeCampeonatosContract.View {
     private lateinit var nombreTextView: TextView
     private lateinit var telefonoTextView: TextView
     private lateinit var editarperfil: TextView
-    private lateinit var cambiarcontrasena:TextView
+    private lateinit var cambiarcontrasena: TextView
+    private lateinit var fotoperfil: ImageView
+    private lateinit var intercentros: TextView
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,25 +44,36 @@ class FragmentPerfil : Fragment(), HomeCampeonatosContract.View {
         nombreTextView = view.findViewById(R.id.nombre_text_view)
         telefonoTextView = view.findViewById(R.id.telefono_text_view)
         editarperfil = view.findViewById(R.id.editar_perfil)
-        cambiarcontrasena=view.findViewById(R.id.link_cambiar_contrasena)
+        cambiarcontrasena = view.findViewById(R.id.link_cambiar_contrasena)
+        fotoperfil = view.findViewById(R.id.foto_perfil_image_view)
+        intercentros=view.findViewById(R.id.intercentros)
 
-        cambiarcontrasena.setOnClickListener{
-            val cambiarfragment=CambiarContrasena()
-            val fragmentManager=parentFragmentManager
-            val fragmentTransaction=fragmentManager.beginTransaction()
+        cambiarcontrasena.setOnClickListener {
+            val cambiarfragment = CambiarContrasena()
+            val fragmentManager = parentFragmentManager
+            val fragmentTransaction = fragmentManager.beginTransaction()
 
-            fragmentTransaction.replace(R.id.fragment_container,cambiarfragment)
+            fragmentTransaction.replace(R.id.fragment_container, cambiarfragment)
             fragmentTransaction.addToBackStack(null)
             fragmentTransaction.commit()
         }
+
         editarperfil.setOnClickListener {
             val editarPerfilFragment = Editarperfil()
             val fragmentManager = parentFragmentManager
             val fragmentTransaction = fragmentManager.beginTransaction()
 
-            // Reemplaza el fragmento actual con el nuevo
             fragmentTransaction.replace(R.id.fragment_container, editarPerfilFragment)
-            fragmentTransaction.addToBackStack(null) // Permite volver atrás con el botón de retroceso
+            fragmentTransaction.addToBackStack(null)
+            fragmentTransaction.commit()
+        }
+        intercentros.setOnClickListener{
+            val intercentros = InterCentros()
+            val fragmentManager= parentFragmentManager
+            val fragmentTransaction=fragmentManager.beginTransaction()
+
+            fragmentTransaction.replace(R.id.fragment_container,intercentros)
+            fragmentTransaction.addToBackStack(null)
             fragmentTransaction.commit()
         }
 
@@ -73,10 +90,21 @@ class FragmentPerfil : Fragment(), HomeCampeonatosContract.View {
         Log.d("FragmentPerfil", "Perfil recibido: ${perfilUsuarioResponse.nombres}, Tel: ${perfilUsuarioResponse.telefono}")
         nombreTextView.text = perfilUsuarioResponse.nombres
         telefonoTextView.text = "Tel: ${perfilUsuarioResponse.telefono}"
+
+        // Verificar si la URL de la foto de perfil está disponible
+        perfilUsuarioResponse.url_foto?.let { url ->
+            // Usar Glide para cargar la imagen en el ImageView
+            Glide.with(this)
+                .load(url)
+                .into(fotoperfil) // Solo carga la imagen sin placeholder ni error
+        } ?: run {
+            // Si no hay URL de foto, mostrar una imagen por defecto o hacer algo
+            //fotoperfil.setImageResource(R.drawable.default_profile_image) // Asegúrate de tener esta imagen en drawable
+        }
     }
 
     override fun showSuccess(message: String) {
-        TODO("Not yet implemented")
+        // Aquí solo se mostraría un mensaje de éxito, si implementas la lógica
     }
 
     override fun showError(message: String) {
@@ -97,30 +125,30 @@ class FragmentPerfil : Fragment(), HomeCampeonatosContract.View {
     }
 
     override fun navigateToCrearEquipo() {
-
+        // Navegar a la creación de equipo
     }
 
     override fun showInscripcionError(message: String) {
-        TODO("Not yet implemented")
+        // Mostrar un error relacionado con la inscripción
     }
 
     override fun navigateToGestionarEquipo(equipo: Equipo) {
-        TODO("Not yet implemented")
+        // Navegar a la gestión del equipo
     }
 
     override fun mostrarBotonGestionarEquipo() {
-        TODO("Not yet implemented")
+        // Mostrar botón para gestionar equipo
     }
 
     override fun mostrarMensajeSnackBar(message: String) {
-        TODO("Not yet implemented")
+        // Mostrar un Snackbar
     }
 
     override fun mostrarBotonCrearEquipo() {
-        TODO("Not yet implemented")
+        // Mostrar botón para crear equipo
     }
 
     override fun showValidacionInscripcion(estaInscrito: Boolean, equipo: Equipo?) {
-        TODO("Not yet implemented")
+        // Validar la inscripción del usuario y mostrar si está inscrito
     }
 }

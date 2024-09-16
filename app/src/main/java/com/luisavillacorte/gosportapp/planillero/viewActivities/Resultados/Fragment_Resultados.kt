@@ -30,7 +30,11 @@ import com.luisavillacorte.gosportapp.planillero.adpaters.model.resultadosEquipo
 import com.luisavillacorte.gosportapp.planillero.adpaters.model.resultadosEquiposAsignados.ResultadosContract
 import com.luisavillacorte.gosportapp.planillero.adpaters.model.resultadosEquiposAsignados.ResultadosPresenter
 import com.luisavillacorte.gosportapp.planillero.helper.VerTarjetas
+import com.luisavillacorte.gosportapp.planillero.viewActivities.verResultados.Fragment_Ver_Resultados
 import com.squareup.picasso.Picasso
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 
 class Fragment_Resultados : Fragment(), ResultadosContract.View {
@@ -100,16 +104,20 @@ class Fragment_Resultados : Fragment(), ResultadosContract.View {
         val resultadosService = RetrofitInstance.createService(ApiServiceResultados::class.java)
         presenter = ResultadosPresenter(this, resultadosService)
 
-        presenter.obtenerResultados(idVs)
+
 
         botonGuardarDatos.setOnClickListener {
-            val subirResultados = objetoEnviarResultados();
+            val subirResultados = objetoEnviarResultados()
             if (subirResultados != null) {
                 presenter.subirDatosResultados(subirResultados)
-            };
-            Toast.makeText(requireContext(), "Resultados guardados correctamente", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(requireContext(), "No se pudieron obtener los resultados", Toast.LENGTH_SHORT).show()
+            }
+
+
         }
 
+        presenter.obtenerResultados(idVs)
 
     }
 
@@ -122,7 +130,7 @@ class Fragment_Resultados : Fragment(), ResultadosContract.View {
         nombreEquipo2Result.text = resultados.equipo2.informacion.team2.Equipo.nombreEquipo
         BotonEquipo1.text = resultados.equipo1.informacion.team1.Equipo.nombreEquipo
         BotonEquipo2.text = resultados.equipo2.informacion.team2.Equipo.nombreEquipo
-//        marcadorEquipo1.text = resultados.equipo1.goles.marcador.toString()
+//       marcadorEquipo1.text = resultados.equipo1.goles.marcador.toString()
 //        marcadorEquipo2.text = resultados.equipo2.goles.marcador.toString()
         Picasso.get().load(resultados.equipo1.informacion.team1.Equipo.imgLogo).into(logoEquipo1Result)
         Picasso.get().load(resultados.equipo2.informacion.team2.Equipo.imgLogo).into(logoEquipo2Result)
@@ -148,77 +156,126 @@ class Fragment_Resultados : Fragment(), ResultadosContract.View {
     override fun messageExito(message: String) {
         Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
     }
-    private fun objetoEnviarResultados(): Resultados? {
-        val participantesAmarillasEquipo1 = listOf<Participante>() // Aquí deberías cargar los participantes reales
-        val participantesRojasEquipo1 = listOf<Participante>() // Aquí también los participantes reales
 
-        val participantesAmarillasEquipo2 = listOf<Participante>() // Lo mismo para el equipo 2
-        val participantesRojasEquipo2 = listOf<Participante>() // Lo mismo para el equipo 2
+    private fun objetoEnviarResultados(): Resultados {
+        val idVs = arguments?.getString("idVs") ?: "Error"
 
-        // Crear el objeto equipo1
-        val equipo1 = ResultadosPrim._id?.let {
+        // Obtener los goles por jugador y los participantes del ViewModel
+        val golesPorJugadorEquipo1 = viewModel.golesPorJugadorEquipo1PorVs.value?.get(idVs) ?: emptyMap()
+        val golesPorJugadorEquipo2 = viewModel.golesPorJugadorEquipo2PorVs.value?.get(idVs) ?: emptyMap()
+        val participantes = viewModel.jugadoresPorVs.value?.get(idVs) ?: emptyMap()
+
+        // Crear la lista de goleadores para el equipo 1
+        val jugadoresGoleadoresEquipo1 = golesPorJugadorEquipo1.mapNotNull { (jugadorId, goles) ->
+            val participante = ResultadosPrim.equipo1.informacion.team1.Equipo?.participantes?.find { it._id == jugadorId }
+            participante?.let {
+                Participante(
+                    _id = it._id,
+                    nombres = it.nombres,
+                    ficha = it.ficha,
+                    dorsal = it.dorsal
+                )
+            }
+        }
+
+        // Crear la lista de goleadores para el equipo 2
+        val jugadoresGoleadoresEquipo2 = golesPorJugadorEquipo2.mapNotNull { (jugadorId, goles) ->
+            val participante = ResultadosPrim.equipo2.informacion.team2.Equipo?.participantes?.find { it._id == jugadorId }
+            participante?.let {
+                Participante(
+                    _id = it._id,
+                    nombres = it.nombres,
+                    ficha = it.ficha,
+                    dorsal = it.dorsal
+                )
+            }
+        }
+        // Crear el objeto Equipo1
+        val equipo1 = ResultadosPrim.equipo1.informacion.team1.Equipo?.let {
             EquipoR(
-                _id = it, // Asigna el ID real del equipo 1
-                nombreEquipo = ResultadosPrim.equipo1.informacion.team1.Equipo.nombreEquipo,
-                nombreCapitan = ResultadosPrim.equipo1.informacion.team1.Equipo.nombreCapitan,
-                contactoUno =  ResultadosPrim.equipo1.informacion.team1.Equipo.contactoUno,
-                contactoDos =  ResultadosPrim.equipo1.informacion.team1.Equipo.contactoDos,
-                jornada =  ResultadosPrim.equipo1.informacion.team1.Equipo.jornada,
-                cedula =  ResultadosPrim.equipo1.informacion.team1.Equipo.cedula,
-                imgLogo = ResultadosPrim.equipo1.informacion.team1.Equipo.imgLogo,
+                _id = ResultadosPrim._id ?: "",
+                nombreEquipo = it.nombreEquipo,
+                nombreCapitan = it.nombreCapitan,
+                contactoUno = it.contactoUno,
+                contactoDos = it.contactoDos,
+                jornada = it.jornada,
+                cedula = it.cedula,
+                imgLogo = it.imgLogo,
                 estado = true,
-                participantes = ResultadosPrim.equipo1.informacion.team1.Equipo.participantes.map { participante ->
+                participantes = it.participantes.map { participante ->
                     Participante(
                         _id = participante._id,
                         nombres = participante.nombres,
                         ficha = participante.ficha,
                         dorsal = participante.dorsal
                     )
-                })
+                }
+            )
         }?.let {
             InscripcionEquipos1(
                 Equipo1 = it,
-                tarjetasAmarillas = participantesAmarillasEquipo1,
-                tarjetasRojas = participantesRojasEquipo1,
+                tarjetasAmarillas = listOf(), // Aquí puedes añadir lógica para las tarjetas amarillas
+                tarjetasRojas = listOf(), // Aquí puedes añadir lógica para las tarjetas rojas
                 goles = Goles(
                     marcador = marcadorEquipo1.text.toString().toInt(),
-                    jugadorGoleador = listOf()
+                    jugadorGoleador = jugadoresGoleadoresEquipo1,
                 )
             )
         }
 
-        // Crear el objeto equipo2
-        val equipo2 = InscripcionEquipos2(
-            Equipo2 = EquipoR(
-                _id = "ID_Equipo2", // Asigna el ID real del equipo 2
-                nombreEquipo = "Nombre del Equipo 2",
-                nombreCapitan = "Capitán Equipo 2",
-                contactoUno = "Contacto 1",
-                contactoDos = "Contacto 2",
-                jornada = "Jornada del partido",
-                cedula = "Cédula equipo",
-                imgLogo = "URL del logo del equipo 2",
+        // Crear el objeto Equipo2
+        val equipo2 = ResultadosPrim.equipo2.informacion.team2.Equipo?.let {
+            EquipoR(
+                _id = ResultadosPrim._id ?: "",
+                nombreEquipo = it.nombreEquipo,
+                nombreCapitan = it.nombreCapitan,
+                contactoUno = it.contactoUno,
+                contactoDos = it.contactoDos,
+                jornada = it.jornada,
+                cedula = it.cedula,
+                imgLogo = it.imgLogo,
                 estado = true,
-                participantes = listOf() // Lista de participantes del equipo 2
-            ),
-            tarjetasAmarillas = participantesAmarillasEquipo2,
-            tarjetasRojas = participantesRojasEquipo2,
-            goles = Goles(
-                marcador = marcadorEquipo2.text.toString().toInt(),
-                jugadorGoleador = listOf() // Lista de goleadores del equipo 2
+                participantes = it.participantes.map { participante ->
+                    Participante(
+                        _id = participante._id,
+                        nombres = participante.nombres,
+                        ficha = participante.ficha,
+                        dorsal = participante.dorsal
+                    )
+                }
             )
-        )
-        val resultado = equipo1?.let {
-            Resultados(
-                equipo1 = it,
-                equipo2 = equipo2,
-                IdVs = "ID del VS",
-                estadoPartido = true
+        }?.let {
+            InscripcionEquipos2(
+                Equipo2 = it,
+                tarjetasAmarillas = listOf(), // Aquí puedes añadir lógica para las tarjetas amarillas
+                tarjetasRojas = listOf(), // Aquí puedes añadir lógica para las tarjetas rojas
+                goles = Goles(
+                    marcador = marcadorEquipo2.text.toString().toInt(),
+                    jugadorGoleador = jugadoresGoleadoresEquipo2,
+                )
             )
         }
-      Log.d("TAG","Resultados ${resultado}")
-        // Devolver el objeto Resultados completo
-        return resultado
+
+        val resultados = if (equipo1 != null && equipo2 != null) {
+            Resultados(
+                equipo1 = equipo1,
+                equipo2 = equipo2,
+                IdVs = idVs,
+                estadoPartido = true
+            )
+        } else {
+            null
+        }
+
+        // Imprimir el resultado en el log
+        if (resultados != null) {
+            Log.d("RESULTADOS", "Resultados: $resultados")
+        } else {
+            Log.d("RESULTADOS", "No se generaron resultados")
+        }
+
+        return resultados!!
+
     }
     private fun actualizarAdapter(participantes: List<Participantes>, equipo: Int) {
         val idVs = arguments?.getString("idVs") ?: "Error"

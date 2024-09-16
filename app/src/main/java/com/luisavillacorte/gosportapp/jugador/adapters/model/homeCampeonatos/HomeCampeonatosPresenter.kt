@@ -24,48 +24,17 @@ import retrofit2.Response
 class HomeCampeonatosPresenter(
     private val view: HomeCampeonatosContract.View,
     private val context: Context,
-    private val apiService: HomeApiService,
+    private val apiService: HomeApiService
 ) : HomeCampeonatosContract.Presenter {
 
     private var campeonatoSeleccionado: Campeonatos? = null
     private val tokenManager = TokenManager(context)
     private val TAG = "HomePresenter"
 
+
 //    override fun setCampeonatoSeleccionado(campeonato: Campeonatos) {
 //        this.campeonatoSeleccionado = campeonato
 //    }
-
-    fun actualizarPerfilUsuario(perfilActualizado: PerfilUsuarioResponse) {
-        val token = tokenManager.getToken() ?: return view.showError("Token no disponible")
-        val userId = tokenManager.getUserId() // Recupera el userId del TokenManager
-        Log.d(TAG, "Token obtenido: $token")
-        Log.d(TAG, "User ID en actualizarPerfilUsuario: $userId")
-
-        userId?.let {
-            val call = apiService.actualizarPerfilUsuario("Bearer $token", it, perfilActualizado)
-            call.enqueue(object : Callback<PerfilUsuarioResponse> {
-                override fun onResponse(
-                    call: Call<PerfilUsuarioResponse>,
-                    response: Response<PerfilUsuarioResponse>
-                ) {
-                    if (response.isSuccessful) {
-                        val perfil = response.body()
-                        if (perfil != null) {
-                            view.traernombre(perfil)
-                        } else {
-                            view.showError("Perfil de usuario vacío")
-                        }
-                    } else {
-                        view.showError("Error al actualizar el perfil ${response.code()}: ${response.message()}")
-                    }
-                }
-
-                override fun onFailure(call: Call<PerfilUsuarioResponse>, t: Throwable) {
-                    view.showError(t.message ?: "Error desconocido")
-                }
-            })
-        } ?: view.showError("User ID no disponible")
-    }
 
     fun cambiarContrasena(nuevaContrasenaRequest: NuevaContrasenaRequest) {
         val token = tokenManager.getToken() ?: return view.showError("Token no disponible")
@@ -114,7 +83,6 @@ class HomeCampeonatosPresenter(
 
                         tokenManager.saveUserId(perfil.id) // Guarda el userId en TokenManager
                         Log.d(TAG, "User ID guardado: ${perfil.id}")
-
                     } else {
                         view.showError("Perfil de usuario vacío")
                     }
@@ -142,13 +110,11 @@ class HomeCampeonatosPresenter(
                         val equipo = validarInscripcionResponse.equipo[0]
                         guardarEquipoEnSharedPreferences(context, equipo.id, equipo.cedula)
                         view.showInscripcionError("Ya estás inscrito en el equipo: ${validarInscripcionResponse.equipo[0].nombreEquipo}")
+
+                        view.showInscripcionError("Ya estás inscrito en el equipo: ${equipo.nombreEquipo}")
                         view.showValidacionInscripcion(true, equipo)
-//                        view.mostrarBotonGestionarEquipo()
-                        //                        view.navigateToGestionarEquipo(equipo)
                     } else {
                         view.showValidacionInscripcion(false, null)
-//                        view.mostrarBotonGestionarEquipo()
-//                        view.navigateToCrearEquipo()
                     }
                 } else {
                     view.showError("Error en la respuesta del servidor.")
@@ -156,7 +122,6 @@ class HomeCampeonatosPresenter(
             }
 
             override fun onFailure(call: Call<ValidarInscripcionResponse>, t: Throwable) {
-                // Manejo de fallas en la llamada de red
                 view.showError("Error al conectar con el servidor: ${t.message}")
             }
         })
@@ -180,7 +145,7 @@ class HomeCampeonatosPresenter(
 
                         view.showCampeonatos(campeonatosFiltrados)
                         Log.d(TAG, "Campeonatos filtered and shown: ${campeonatosFiltrados.size}")
-                    }
+                    } ?: view.showError("No se recibieron campeonatos.")
                 } else {
                     view.showError("Error: ${response.code()}")
                     Log.e(TAG, "Error response code: ${response.code()}")
@@ -234,7 +199,9 @@ class HomeCampeonatosPresenter(
                 callback(false) // En caso de fallo en la llamada, asumimos que el equipo no está inscrito
             }
         })
-}
+
+    }
+
 
     override fun inscribirEquipoEnCampeonato(idCampeonato: String) {
         val equipo = obtenerEquipoDeSharedPreferences(context)

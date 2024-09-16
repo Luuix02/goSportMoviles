@@ -6,14 +6,20 @@ import com.luisavillacorte.gosportapp.jugador.adapters.model.crearEquipo.EquipoI
 import com.luisavillacorte.gosportapp.jugador.adapters.model.crearEquipo.EquipoInscriptoResponse
 import com.luisavillacorte.gosportapp.jugador.adapters.model.crearEquipo.ValidarInscripcionResponse
 import com.luisavillacorte.gosportapp.jugador.adapters.model.crearEquipo.VerificarEquipoResponse
+import com.luisavillacorte.gosportapp.jugador.adapters.model.editarPerfil.Programas
 import com.luisavillacorte.gosportapp.jugador.adapters.model.homeCampeonatos.Campeonatos
+import com.luisavillacorte.gosportapp.jugador.adapters.model.interCentros.Partidos
+import okhttp3.MultipartBody
 import retrofit2.Call
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.Header
+import retrofit2.http.Multipart
 import retrofit2.http.PATCH
 import retrofit2.http.POST
 import retrofit2.http.PUT
+import retrofit2.http.Part
 import retrofit2.http.Path
 
 
@@ -31,6 +37,43 @@ interface HomeApiService {
         idJugador: String
     ): Call<ValidarInscripcionResponse>
 
+    @GET("/vsInter/buscarInter/{equipoId}")
+    fun getPartidosJugados(@Path("equipoId") equipoId: String): Call<List<Partidos>>
+
+
+    @Multipart
+    @POST("/usuarios/{id}/foto")
+    fun subirFotousuario(
+        @Path("id") id: String,
+        @Header("Authorization") token: String,
+        @Part file: MultipartBody.Part
+    ): Call<PerfilUsuarioResponse>
+
+    @DELETE("/usuarios/{id}/eli")
+    fun eliminarFotoUsuario(
+        @Path("id") userId: String,
+        @Header("Authorization") token: String
+    ): Call<PerfilUsuarioResponse>
+
+    @GET("/programa")
+    fun getProgramas(): Call<List<Programas>>
+
+
+    @PUT("/programa/{id}")
+    fun actualizarPrograma(
+        @Path("id") idPrograma: String,
+        @Header("Authorization") token: String,
+        @Body programa: Programas
+    ): Call<Void>
+
+    @Multipart
+    @PATCH("/usuarios/{id}/pati")
+    fun actualizarfoto(
+        @Path("id") userId: String,
+        @Header("Authorization") token: String,
+        @Part body: MultipartBody.Part
+    ): Call<PerfilUsuarioResponse>
+
 
     @PATCH("/usuarios/{id}")
     fun actualizarPerfilUsuario(
@@ -38,6 +81,7 @@ interface HomeApiService {
         @Path("id") id: String,
         @Body perfilActualizado: PerfilUsuarioResponse
     ): Call<PerfilUsuarioResponse>
+
     @PATCH("/usuarios/{id}")
     fun cambiarContrasena(
         @Header("Authorization") token: String,
