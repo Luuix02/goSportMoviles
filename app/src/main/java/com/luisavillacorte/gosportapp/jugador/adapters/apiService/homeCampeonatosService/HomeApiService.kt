@@ -8,6 +8,7 @@ import com.luisavillacorte.gosportapp.jugador.adapters.model.crearEquipo.Validac
 import com.luisavillacorte.gosportapp.jugador.adapters.model.crearEquipo.ValidarInscripcionResponse
 import com.luisavillacorte.gosportapp.jugador.adapters.model.editarPerfil.Programas
 import com.luisavillacorte.gosportapp.jugador.adapters.model.homeCampeonatos.Campeonatos
+import com.luisavillacorte.gosportapp.jugador.adapters.model.interCentros.Partidos
 import okhttp3.MultipartBody
 import retrofit2.Call
 import retrofit2.http.Body
@@ -17,6 +18,7 @@ import retrofit2.http.Header
 import retrofit2.http.Multipart
 import retrofit2.http.PATCH
 import retrofit2.http.POST
+import retrofit2.http.PUT
 import retrofit2.http.Part
 import retrofit2.http.Path
 
@@ -35,6 +37,10 @@ interface HomeApiService {
         idJugador: String
     ): Call<ValidarInscripcionResponse>
 
+    @GET("/vsInter/buscarInter/{equipoId}")
+    fun getPartidosJugados(@Path("equipoId") equipoId: String): Call<List<Partidos>>
+
+
     @Multipart
     @POST("/usuarios/{id}/foto")
     fun subirFotousuario(
@@ -52,6 +58,13 @@ interface HomeApiService {
     @GET("/programa")
     fun getProgramas(): Call<List<Programas>>
 
+
+    @PUT("/programa/{id}")
+    fun actualizarPrograma(
+        @Path("id") idPrograma: String,
+        @Header("Authorization") token: String,
+        @Body programa: Programas
+    ): Call<Void>
 
     @Multipart
     @PATCH("/usuarios/{id}/pati")

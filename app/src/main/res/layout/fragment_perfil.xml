@@ -138,6 +138,19 @@
                     android:text="@string/salir"
                     android:textColor="@android:color/black" />
 
+
+                <TextView
+                    android:id="@+id/intercentros"
+                    android:drawableStart="@drawable/cerrar_sesion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:gravity="center"
+                    android:padding="16dp"
+                    android:text="Intercentros"
+                    android:textColor="@android:color/black" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 

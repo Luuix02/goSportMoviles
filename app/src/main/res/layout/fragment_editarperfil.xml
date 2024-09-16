@@ -35,40 +35,38 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="center">
 
-                <Button
+                <ImageView
                     android:id="@+id/btnSubirFotoperfil"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:backgroundTint="@color/button_color"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:src="@drawable/ubicacion"
                     android:textColor="@color/white"
-                    android:text="Subir"
+
                     android:padding="12dp"
                     android:layout_margin="12dp"
                     android:textSize="16sp"
                     android:layout_marginTop="16dp"/>
 
                 <!-- Botón de actualizar foto (inicialmente oculto) -->
-                <Button
+                <ImageView
                     android:id="@+id/btnActualizarFoto"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
                     android:backgroundTint="@color/button_color"
                     android:textColor="@color/white"
-                    android:text="Actualizar"
+                    android:src="@drawable/update"
                     android:padding="12dp"
                     android:layout_margin="12dp"
                     android:textSize="16sp" />
 
                 <!-- Botón de eliminar foto (inicialmente oculto) -->
-                <Button
+                <ImageView
                     android:id="@+id/btnEliminarFoto"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:backgroundTint="@color/button_color"
-                    android:textColor="@color/white"
-                    android:text="Eliminar"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+
                     android:padding="12dp"
-                    android:textSize="16sp"
+                    android:src="@drawable/borrargris"
                     android:layout_margin="12dp"
                     android:layout_marginTop="16dp"/>
             </LinearLayout>

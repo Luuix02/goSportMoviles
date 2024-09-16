@@ -6,9 +6,6 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
@@ -40,9 +37,9 @@ class Editarperfil : Fragment(), EditarPerfilContract.View {
     private lateinit var correo: TextView
     private lateinit var programa: Spinner
     private lateinit var btnGuardarCambios: Button
-    private lateinit var btnSubirFotoPerfil: Button
-    private lateinit var btnActualizarFoto: Button
-    private lateinit var btnEliminarFoto: Button
+    private lateinit var btnSubirFotoPerfil: ImageView
+    private lateinit var btnActualizarFoto: ImageView
+    private lateinit var btnEliminarFoto: ImageView
     private lateinit var imageView: ImageView
 
     private var userId: String? = null
@@ -67,7 +64,7 @@ class Editarperfil : Fragment(), EditarPerfilContract.View {
         btnActualizarFoto = view.findViewById(R.id.btnActualizarFoto)
         btnEliminarFoto = view.findViewById(R.id.btnEliminarFoto)
 
-
+        // Solicitar permisos para acceder a la galería
         if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(requireActivity(), arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE), PICK_IMAGE_REQUEST)
         }
@@ -90,7 +87,6 @@ class Editarperfil : Fragment(), EditarPerfilContract.View {
                 return@setOnClickListener
             }
 
-            // Verifica que se haya seleccionado un programa antes de convertirlo a String
             val selectedProgram = programa.selectedItem?.toString() ?: run {
                 showError("No se ha seleccionado ningún programa")
                 return@setOnClickListener
@@ -110,7 +106,6 @@ class Editarperfil : Fragment(), EditarPerfilContract.View {
                 rol = "jugador",
                 url_foto = ""
             )
-
 
             presenter.actualizarPerfilUsuario(userId!!, perfilActualizado)
         }
@@ -221,6 +216,4 @@ class Editarperfil : Fragment(), EditarPerfilContract.View {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         programa.adapter = adapter
     }
-
-
 }

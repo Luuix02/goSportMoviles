@@ -46,7 +46,6 @@ class EditarPerfilPresenter(
         })
     }
 
-
     override fun actualizarPerfilUsuario(id: String, perfilUsuarioResponse: PerfilUsuarioResponse) {
         view.showLoading()
         apiService.actualizarPerfilUsuario(token, id, perfilUsuarioResponse).enqueue(object : Callback<PerfilUsuarioResponse> {
@@ -87,6 +86,29 @@ class EditarPerfilPresenter(
             override fun onFailure(call: Call<PerfilUsuarioResponse>, t: Throwable) {
                 Log.e("EditarPerfilPresenter", "Error: ${t.message}")
                 view.showError("Error: ${t.message}")
+            }
+        })
+    }
+
+    override fun actualizarPrograma(idPrograma: String, programa: Programas) {
+        view.showLoading()
+        Log.d("EditarPerfilPresenter", "Actualizando programa con ID: $idPrograma, Datos: ${programa.namePrograma}")
+        apiService.actualizarPrograma(idPrograma, token, programa).enqueue(object : Callback<Void> {
+            override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                view.hideLoading()
+                if (response.isSuccessful) {
+                    Log.d("EditarPerfilPresenter", "Programa actualizado con éxito")
+                    view.showSuccess("Programa actualizado con éxito")
+                } else {
+                    Log.e("EditarPerfilPresenter", "Error al actualizar programa: ${response.errorBody()?.string()}")
+                    view.showError("Error al actualizar programa")
+                }
+            }
+
+            override fun onFailure(call: Call<Void>, t: Throwable) {
+                view.hideLoading()
+                Log.e("EditarPerfilPresenter", "Error al actualizar programa: ${t.message}")
+                view.showError("Error al actualizar programa")
             }
         })
     }

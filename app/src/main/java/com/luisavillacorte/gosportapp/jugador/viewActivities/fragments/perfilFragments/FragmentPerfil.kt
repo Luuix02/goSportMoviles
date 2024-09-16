@@ -9,6 +9,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.replace
 import com.bumptech.glide.Glide
 import com.luisavillacorte.gosportapp.R
 import com.luisavillacorte.gosportapp.common.apiRetrofit.RetrofitInstance
@@ -21,6 +22,7 @@ import com.luisavillacorte.gosportapp.jugador.adapters.model.crearEquipo.Equipo
 import com.luisavillacorte.gosportapp.jugador.adapters.model.homeCampeonatos.Campeonatos
 import com.luisavillacorte.gosportapp.jugador.viewActivities.fragments.cambiarContrasena.CambiarContrasena
 import com.luisavillacorte.gosportapp.jugador.viewActivities.fragments.editarPerfil.Editarperfil
+import com.luisavillacorte.gosportapp.jugador.viewActivities.fragments.interCentros.InterCentros
 
 class FragmentPerfil : Fragment(), HomeCampeonatosContract.View {
 
@@ -30,6 +32,8 @@ class FragmentPerfil : Fragment(), HomeCampeonatosContract.View {
     private lateinit var editarperfil: TextView
     private lateinit var cambiarcontrasena: TextView
     private lateinit var fotoperfil: ImageView
+    private lateinit var intercentros: TextView
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,6 +46,7 @@ class FragmentPerfil : Fragment(), HomeCampeonatosContract.View {
         editarperfil = view.findViewById(R.id.editar_perfil)
         cambiarcontrasena = view.findViewById(R.id.link_cambiar_contrasena)
         fotoperfil = view.findViewById(R.id.foto_perfil_image_view)
+        intercentros=view.findViewById(R.id.intercentros)
 
         cambiarcontrasena.setOnClickListener {
             val cambiarfragment = CambiarContrasena()
@@ -59,6 +64,15 @@ class FragmentPerfil : Fragment(), HomeCampeonatosContract.View {
             val fragmentTransaction = fragmentManager.beginTransaction()
 
             fragmentTransaction.replace(R.id.fragment_container, editarPerfilFragment)
+            fragmentTransaction.addToBackStack(null)
+            fragmentTransaction.commit()
+        }
+        intercentros.setOnClickListener{
+            val intercentros = InterCentros()
+            val fragmentManager= parentFragmentManager
+            val fragmentTransaction=fragmentManager.beginTransaction()
+
+            fragmentTransaction.replace(R.id.fragment_container,intercentros)
             fragmentTransaction.addToBackStack(null)
             fragmentTransaction.commit()
         }

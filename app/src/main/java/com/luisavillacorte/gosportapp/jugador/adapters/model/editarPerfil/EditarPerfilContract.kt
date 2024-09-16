@@ -21,10 +21,12 @@ interface EditarPerfilContract {
         fun subirFoto(uri: Uri, userId: String)
         fun actualizarFoto(uri: Uri, userId: String)
         fun eliminarFoto(userId: String)
-        fun obtenerProgramas()  // Método para obtener programas
+        fun obtenerProgramas()
+        fun actualizarPrograma(idPrograma: String, programa: Programas)// Método para obtener programas
     }
 
     interface Model {
+        fun updatePrograma(idPrograma: String, programa: Programas, callback: (Boolean) -> Unit)
         fun fetchPerfilUsuario(callback: (PerfilUsuarioResponse?) -> Unit)
         fun updatePerfilUsuario(userId: String, perfilUsuarioResponse: PerfilUsuarioResponse, callback: (Boolean) -> Unit)
         fun uploadFoto(uri: Uri, userId: String, callback: (Boolean) -> Unit)
