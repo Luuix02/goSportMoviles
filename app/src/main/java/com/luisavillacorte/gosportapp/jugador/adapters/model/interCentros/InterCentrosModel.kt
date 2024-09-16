@@ -24,9 +24,9 @@ class InterCentrosModel {
             }
 
             override fun onFailure(call: Call<List<Partidos>>, t: Throwable) {
-
+                // Si la llamada falla, devolvemos el mensaje de error
                 callback(null, t.message)
-                Log.d("API_ERROR", "onFailure: ${t.message}")
+                Log.e("API_ERROR", "onFailure: ${t.message}")
             }
         })
     }
