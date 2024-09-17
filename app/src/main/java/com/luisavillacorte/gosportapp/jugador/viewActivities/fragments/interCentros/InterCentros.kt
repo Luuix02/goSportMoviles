@@ -1,10 +1,12 @@
 package com.luisavillacorte.gosportapp.jugador.viewActivities.fragments.interCentros
 
 import InterCentrosPresenter
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -13,7 +15,6 @@ import com.luisavillacorte.gosportapp.jugador.adapters.model.interCentros.InterC
 import com.luisavillacorte.gosportapp.jugador.adapters.model.interCentros.InterCentrosModel
 import com.luisavillacorte.gosportapp.jugador.adapters.model.interCentros.Partidos
 import com.luisavillacorte.gosportapp.jugador.adapters.model.interCentros.PartidosAdapter
-
 
 class InterCentros : Fragment(), InterCentrosContract.View {
 
@@ -35,9 +36,19 @@ class InterCentros : Fragment(), InterCentrosContract.View {
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter = partidosAdapter
 
-        presenter = InterCentrosPresenter(this, InterCentrosModel())
+        presenter = InterCentrosPresenter(this, InterCentrosModel(), requireContext())
 
-        presenter.loadPartidos("66e51f36c847dc29b9c65fb3")
+        val equipoId = obtenerEquipoId()
+        if (equipoId != null) {
+            presenter.loadPartidos(equipoId)
+        } else {
+            showError("No se encontró el ID del equipo en las preferencias.")
+        }
+    }
+
+    private fun obtenerEquipoId(): String? {
+        val sharedPreferences = requireContext().getSharedPreferences("AppPreferences", Context.MODE_PRIVATE)
+        return sharedPreferences.getString("EQUIPO_ID", null)
     }
 
     override fun showPartidos(partidos: List<Partidos>) {
@@ -45,5 +56,6 @@ class InterCentros : Fragment(), InterCentrosContract.View {
     }
 
     override fun showError(message: String) {
+        Toast.makeText(context, message, Toast.LENGTH_LONG).show()
     }
 }
