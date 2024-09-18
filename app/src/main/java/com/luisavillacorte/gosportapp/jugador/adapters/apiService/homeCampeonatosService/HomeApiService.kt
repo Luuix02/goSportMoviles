@@ -4,6 +4,7 @@ import com.luisavillacorte.gosportapp.jugador.adapters.model.auth.NuevaContrasen
 import com.luisavillacorte.gosportapp.jugador.adapters.model.auth.PerfilUsuarioResponse
 import com.luisavillacorte.gosportapp.jugador.adapters.model.crearEquipo.EquipoInscriptoRequest
 import com.luisavillacorte.gosportapp.jugador.adapters.model.crearEquipo.EquipoInscriptoResponse
+import com.luisavillacorte.gosportapp.jugador.adapters.model.crearEquipo.EquipoInscritoData
 import com.luisavillacorte.gosportapp.jugador.adapters.model.crearEquipo.ValidarInscripcionResponse
 import com.luisavillacorte.gosportapp.jugador.adapters.model.crearEquipo.VerificarEquipoResponse
 import com.luisavillacorte.gosportapp.jugador.adapters.model.editarPerfil.Programas
@@ -101,6 +102,10 @@ interface HomeApiService {
 
 
 
+    @GET("/equipoInscripto")
+    fun obtenerEquiposInscritos(
+        @Header("id") idCampeonato: String
+    ): Call<List<EquipoInscritoData>>
 
 }
 

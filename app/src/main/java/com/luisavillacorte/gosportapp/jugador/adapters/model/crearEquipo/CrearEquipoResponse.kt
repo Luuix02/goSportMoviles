@@ -63,12 +63,13 @@ data class VerificarEquipoResponse(
 data class EquipoInscritoData(
     val _id: String,
     val Equipo: Equipo,
-    val idCampeonato: String,
+    val idCampeonato: String
 )
 
 data class EquipoInscriptoResponse(
-  val msg: String,
-    val inscripto: EquipoInscritoData
-
+    val msg: String,
+//    val inscripto: EquipoInscritoData
+//
+    val inscripto: List<EquipoInscritoData>
 )
 
