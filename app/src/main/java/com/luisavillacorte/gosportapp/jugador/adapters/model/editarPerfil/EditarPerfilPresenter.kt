@@ -28,14 +28,14 @@ class EditarPerfilPresenter(
         apiService.obtenerPerfilUsuario(token).enqueue(object : Callback<PerfilUsuarioResponse> {
             override fun onResponse(call: Call<PerfilUsuarioResponse>, response: Response<PerfilUsuarioResponse>) {
                 view.hideLoading()
-                if (response.isSuccessful) {
-                    response.body()?.let {
-                        view.traernombre(it)
+                if(response.isSuccessful){
+                    val perfil = response.body()
+                    if(perfil!=null){
+                        saveUserId(context,perfil.id)
+                        view.traernombre(perfil)
                     }
-                } else {
-                    Log.e("EditarPerfilPresenter", "Error al obtener perfil: ${response.errorBody()?.string()}")
-                    view.showError("Error al obtener perfil")
-                }
+                }else{
+                    view.showError("Error al obtener el perfil")}
             }
 
             override fun onFailure(call: Call<PerfilUsuarioResponse>, t: Throwable) {
@@ -76,7 +76,15 @@ class EditarPerfilPresenter(
         apiService.subirFotousuario(idUser, token, body).enqueue(object : Callback<PerfilUsuarioResponse> {
             override fun onResponse(call: Call<PerfilUsuarioResponse>, response: Response<PerfilUsuarioResponse>) {
                 if (response.isSuccessful) {
-                    view.showSuccess("Foto subida con éxito")
+                    val datosjugador=response.body()
+                    if (datosjugador !=null){
+                        view.traernombre(datosjugador)
+                        getPerfilUsuario()
+                        view.showSuccess("Foto subida con éxito")
+                    }else{
+                        view.showError("error de servidor ")
+                    }
+
                 } else {
                     Log.e("EditarPerfilPresenter", "Error al subir foto: ${response.errorBody()?.string()}")
                     view.showError("Error al subir foto")
@@ -122,8 +130,15 @@ class EditarPerfilPresenter(
         apiService.actualizarfoto(idUser, token, body).enqueue(object : Callback<PerfilUsuarioResponse> {
             override fun onResponse(call: Call<PerfilUsuarioResponse>, response: Response<PerfilUsuarioResponse>) {
                 if (response.isSuccessful) {
-                    view.showSuccess("Foto actualizada con éxito")
-                } else {
+
+                    val datosjugador=response.body()
+                    if (datosjugador !=null){
+                        view.traernombre(datosjugador)
+                        getPerfilUsuario()
+                        view.showSuccess("Foto subida con éxito")
+                    }else{
+                        view.showError("error de servidor ")
+                    }  } else {
                     Log.e("EditarPerfilPresenter", "Error al actualizar foto: ${response.errorBody()?.string()}")
                     view.showError("Error al actualizar foto")
                 }
@@ -200,4 +215,9 @@ class EditarPerfilPresenter(
             null
         }
     }
+    fun saveUserId(context: Context, id: String) {
+        val sharedPreferences = context.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        editor.putString("jugador_id", id)
+        editor.apply()}
 }
