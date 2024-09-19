@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".planillero.viewActivities.Resultados.Fragment_Resultados"  >
+    tools:context=".planillero.viewActivities.AgregarResultadosIntercenntros.Fragment_AgregarResultadosIntercentros">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -70,7 +70,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center"
                                     android:layout_marginTop="0dp"
-                                    android:id="@+id/ContadorTarjetaAmarillaEquipo1"
+                                    android:id="@+id/ContadorTarjetaAmarillaEquipo1Intercentros"
                                     android:text="0"
                                     android:textColor="@android:color/black"
                                     android:textSize="17sp"/>
@@ -90,14 +90,14 @@
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center"
                                     android:layout_marginTop="0dp"
-                                    android:id="@+id/ContadorTarjetaRojaEquipo1"
+                                    android:id="@+id/ContadorTarjetaRojaEquipo1Intercentros"
                                     android:text="0"
                                     android:textColor="@android:color/white"
                                     android:textSize="17sp"/>
                             </FrameLayout>
                         </LinearLayout>
                         <ImageView
-                            android:id="@+id/FotoLogoEquipo1Result"
+                            android:id="@+id/FotoLogoEquipo1Intercentros"
                             android:layout_width="70dp"
                             android:layout_height="70dp"
                             android:src="@drawable/nacional"
@@ -108,7 +108,7 @@
                             android:scaleType="centerCrop"/>
                     </LinearLayout>
                     <TextView
-                        android:id="@+id/nombreEquipo1Result"
+                        android:id="@+id/nombreEquipo1Intercentros"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
@@ -137,7 +137,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="0"
-                            android:id="@+id/GolEquipo1R"
+                            android:id="@+id/GolEquipo1Intercentros"
                             android:textSize="29dp" />
 
                         <TextView
@@ -152,7 +152,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="0"
-                            android:id="@+id/GolEquipo2R"
+                            android:id="@+id/GolEquipo2Intercentros"
                             android:textSize="29dp" />
 
                     </LinearLayout>
@@ -180,7 +180,7 @@
                         android:orientation="horizontal"
                         >
                         <ImageView
-                            android:id="@+id/FotoLogoEquipo2Result"
+                            android:id="@+id/FotoLogoEquipo2Intercentros"
                             android:layout_width="70dp"
                             android:layout_height="70dp"
                             android:src="@drawable/nacional"
@@ -208,7 +208,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center"
                                     android:layout_marginTop="0dp"
-                                    android:id="@+id/ContadorTarjetaAmarillaEquipo2"
+                                    android:id="@+id/ContadorTarjetaAmarillaEquipo2Intercentros"
                                     android:text="0"
                                     android:textColor="@android:color/black"
                                     android:textSize="17sp"/>
@@ -228,7 +228,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center"
                                     android:layout_marginTop="0dp"
-                                    android:id="@+id/ContadorTarjetaRojaEquipo2"
+                                    android:id="@+id/ContadorTarjetaRojaEquipo2Intercentros"
                                     android:text="0"
                                     android:textColor="@android:color/white"
                                     android:textSize="17sp"/>
@@ -239,7 +239,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:id="@+id/equipo2Result"
+                        android:id="@+id/equipo2Intercentros"
                         android:text="@string/equipo_2"
                         android:textSize="14dp"
                         android:padding="1dp"
@@ -280,7 +280,7 @@
                         android:layout_width="140dp"
                         android:layout_height="45dp"
                         android:text="@string/equipo_1"
-                        android:id="@+id/BotonEquipo1Result"
+                        android:id="@+id/BotonEquipo1Intercentros"
                         android:layout_gravity="center"
                         android:gravity="center"
                         android:textAlignment="center"
@@ -307,7 +307,7 @@
                         android:layout_width="140dp"
                         android:layout_height="45dp"
                         android:text="@string/equipo_1"
-                        android:id="@+id/BotonEquipo2Result"
+                        android:id="@+id/BotonEquipo2Intercentros"
                         android:layout_gravity="center"
                         android:gravity="center"
                         android:textAlignment="center"
@@ -330,7 +330,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/equipo_name"
-                android:id="@+id/nombreEquipoSeleccionadoR"
+                android:id="@+id/nombreEquipoSeleccionadoIntercentros"
                 android:textAlignment="center"
                 android:layout_marginBottom="5dp"
                 android:layout_marginTop="5dp"
@@ -345,7 +345,7 @@
                 <androidx.recyclerview.widget.RecyclerView
                     android:layout_width="wrap_content"
                     android:layout_height="425dp"
-                    android:id="@+id/recicleJugadorParticipantes"
+                    android:id="@+id/recicleJugadorParticipantesIntercentros"
                     android:orientation="vertical"
                     android:scrollbars="vertical"
                     android:layout_marginBottom="5dp"
@@ -362,13 +362,14 @@
                     android:layout_height="wrap_content"
                     android:backgroundTint="#11A3BD"
                     android:textColor="@color/white"
-                    android:id="@+id/BotonFinalizar"
+                    android:id="@+id/BotonFinalizarIntercentros"
                     android:text="@string/finalizar_partido"
                     />
             </LinearLayout>
         </LinearLayout>
 
     </LinearLayout>
+
 
 
 </FrameLayout>

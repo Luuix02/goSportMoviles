@@ -1,4 +1,4 @@
-package com.luisavillacorte.gosportapp.planillero.adpaters.model.resultadosEquiposAsignados
+package com.luisavillacorte.gosportapp.planillero.adpaters.model.IntercentrosAgregarResultadosView
 
 import android.util.Log
 import android.view.LayoutInflater
@@ -11,9 +11,12 @@ import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.luisavillacorte.gosportapp.R
 import com.luisavillacorte.gosportapp.planillero.adpaters.model.equiposAsignados.Participantes
+import com.luisavillacorte.gosportapp.planillero.adpaters.model.equiposAsignados.ParticipantesInter
+import com.luisavillacorte.gosportapp.planillero.adpaters.model.resultadosEquiposAsignados.JugadorViewHolder
 import com.luisavillacorte.gosportapp.planillero.helper.VerTarjetas
+import com.luisavillacorte.gosportapp.planillero.viewActivities.AgregarResultadosIntercenntros.Fragment_AgregarResultadosIntercentros
 import com.luisavillacorte.gosportapp.planillero.viewActivities.Resultados.Fragment_Resultados
-class JugadorViewHolder(itemView: View, private val fragment: Fragment_Resultados) : RecyclerView.ViewHolder(itemView) {
+class JugadorViewHolderInter(itemView: View, private val fragment: Fragment_AgregarResultadosIntercentros) : RecyclerView.ViewHolder(itemView) {
     private val nombreJugador: TextView = itemView.findViewById(R.id.nombresJugadoresR)
     private val dorsal: TextView = itemView.findViewById(R.id.dorsalParticipante)
     private val aumentarGol: ImageView = itemView.findViewById(R.id.añadirGol)
@@ -27,7 +30,7 @@ class JugadorViewHolder(itemView: View, private val fragment: Fragment_Resultado
     private val contadorGol: TextView = itemView.findViewById(R.id.ContadorGolesR)
     private val checkJugadorDestacado: CheckBox = itemView.findViewById(R.id.CheckJugadorDestacado);
 
-    fun bind(jugador: Participantes, viewModel: VerTarjetas, equipo: Int, idVs:String) {
+    fun bind(jugador: ParticipantesInter, viewModel: VerTarjetas, equipo: Int, idVs:String) {
         nombreJugador.text = jugador.nombres
         dorsal.text = jugador.dorsal.toString()
         contadorGol.text = viewModel.getGoles(idVs, jugador._id, equipo ).toString()
@@ -57,7 +60,7 @@ class JugadorViewHolder(itemView: View, private val fragment: Fragment_Resultado
             if (exito) {
                 contadorGol.text = viewModel.getGoles(idVs , jugador._id, equipo).toString()
                 fragment.actualizarContadoresGenerales(equipo, idVs)
-               Log.d("Gol", "\"Gol descontado por: ${jugador.nombres}\",")
+                Log.d("Gol", "\"Gol descontado por: ${jugador.nombres}\",")
             } else {
                 Toast.makeText(
                     itemView.context,
@@ -134,23 +137,23 @@ class JugadorViewHolder(itemView: View, private val fragment: Fragment_Resultado
         }
     }
 }
-class ParticipanteAdapter(
-    private val participantes: List<Participantes>,
+class AdapterAgregarResultadosIntercentros(
+    private val participantes: List<ParticipantesInter>,
     private val viewModel: VerTarjetas,
-    private val fragment: Fragment_Resultados,
+    private val fragment: Fragment_AgregarResultadosIntercentros,
     private val equipo: Int,
     private val idVs: String
-) : RecyclerView.Adapter<JugadorViewHolder>() {
+) : RecyclerView.Adapter<JugadorViewHolderInter>() {
 
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): JugadorViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): JugadorViewHolderInter {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.item_jugadores_resultado, parent, false)
-        return JugadorViewHolder(view, fragment)
+        return JugadorViewHolderInter(view, fragment)
     }
 
 
-    override fun onBindViewHolder(holder: JugadorViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: JugadorViewHolderInter, position: Int) {
         holder.bind(participantes[position], viewModel, equipo, idVs)
     }
 

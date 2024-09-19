@@ -3,20 +3,18 @@ package com.luisavillacorte.gosportapp.planillero.adpaters.model.equiposAsignado
 import android.content.Context
 import java.io.Serializable
 
-class Vs(
+class EquiposIntercentrosAsignados (
     val _id: String?,
-    val equipo1: InscripcionEquipos,
-    val equipo2: InscripcionEquipos,
-    val IdFase: String,
+    val equipo1: EquipoInter,
+    val equipo2: EquipoInter,
     val fecha: String? = null,
     val hora: String? = null,
     val estado: Boolean? = null,
     val idPlanillero: String,
     val idCampeonato: String,
-    @Transient val context: Context? = null // example of a non-serializable field
-) : Serializable
-
-class Equipo(
+    @Transient val context: Context? = null
+): Serializable
+class EquipoInter(
     val id: String,
     val nombreEquipo: String,
     val nombreCapitan: String,
@@ -26,10 +24,9 @@ class Equipo(
     val cedula: String,
     val imgLogo: String,
     val estado: Boolean,
-    val participantes: List<Participantes>
+    val participantes: List<ParticipantesInter>
 ) : Serializable
-
-class Participantes(
+class ParticipantesInter(
     val _id: String,
     val nombres: String,
     val ficha: Int,
@@ -37,18 +34,3 @@ class Participantes(
     val totalGoles: Int,
     val amarillas : Int
 )
-
-class Informacion(
-    val team1: Team,
-    val team2: Team
-) : Serializable
-
-class Team(
-    val id: String,
-    val Equipo: Equipo,
-    val idCampeonato: String
-) : Serializable
-
-class InscripcionEquipos(
-    val informacion: Informacion
-) : Serializable

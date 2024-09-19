@@ -76,7 +76,8 @@ class Fragment_Ver_Resultados : Fragment(), verResultadosContract.View {
                     nombres = participantes.first().nombres,
                     ficha = participantes.first().ficha,
                     dorsal = participantes.first().dorsal,
-                    totalGoles = participantes.first().totalGoles
+                    totalGoles = participantes.first().totalGoles,
+                    amarillas = participantes.first().amarillas
                 )
             }
     }

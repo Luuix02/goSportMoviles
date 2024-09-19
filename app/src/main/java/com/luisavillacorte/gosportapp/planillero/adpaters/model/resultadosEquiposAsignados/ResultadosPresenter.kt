@@ -11,38 +11,6 @@ class ResultadosPresenter ( private val view: ResultadosContract.View,
                             private val resultadosService: ApiServiceResultados
 ) : ResultadosContract.Presenter {
 
-//    override fun obtenerResultados(idVs: String) {
-//        val call = resultadosService.getResultados(idVs)
-//        call.enqueue(object : Callback<Any> {
-//            override fun onResponse(call: Call<Any>, response: Response<Any>) {
-//                if (response.isSuccessful) {
-//                    val body = response.body()
-//                    when (body) {
-//                        is Boolean -> {
-//                            if (body) {
-//                                view.error("Datos no disponibles para el ID proporcionado.")
-//                            } else {
-//                                view.error("El ID proporcionado no fue encontrado.")
-//                            }
-//                        }
-//                        is Map<*, *> -> {
-//                            val resultados = Gson().fromJson(Gson().toJson(body), Resultados::class.java)
-//                            view.onResultadosRecibidos(resultados)
-//                        }
-//                        else -> {
-//                            view.error("Formato de respuesta inesperado.")
-//                        }
-//                    }
-//                } else {
-//                    handleErrorResponse(response)
-//                }
-//            }
-//
-//            override fun onFailure(call: Call<Any>, t: Throwable) {
-//                view.error("Error al recuperar datos: ${t.message}")
-//            }
-//        })
-//    }
 
     private fun handleErrorResponse(response: Response<Any>) {
         val errorMessage = when (response.code()) {
@@ -91,4 +59,56 @@ class ResultadosPresenter ( private val view: ResultadosContract.View,
         })
     }
 
-}
+    override fun obtenerDatosUsuario(idJugador: String) {
+        val call = resultadosService.getDatosUsuario(idJugador)
+        call.enqueue(object : Callback<UsuariosJugadorDestacado> {
+            override fun onResponse(call: Call<UsuariosJugadorDestacado>, response: Response<UsuariosJugadorDestacado>) {
+                if (response.isSuccessful && response.body() != null) {
+                    view.onJugadorDestacadoRecibido(response.body()!!)
+                } else {
+                    view.error("Error al obtener detalles del jugador")
+                }
+            }
+
+            override fun onFailure(call: Call<UsuariosJugadorDestacado>, t: Throwable) {
+                view.error("Error: ${t.message}")
+            }
+        })
+    }
+
+    override fun obtenerCampeonato(idCampeonato: String) {
+        val call = resultadosService.getCampeonato(idCampeonato)
+        call.enqueue(object : Callback<CampeonatoGetNombre> {
+            override fun onResponse(call: Call<CampeonatoGetNombre>, response: Response<CampeonatoGetNombre>) {
+                if (response.isSuccessful && response.body() != null) {
+                    view.onCampeonatoRecibido(response.body()!!)
+                } else {
+                    view.error("Error al obtener detalles del campeonato")
+                }
+            }
+
+            override fun onFailure(call: Call<CampeonatoGetNombre>, t: Throwable) {
+                view.error("Error: ${t.message}")
+            }
+        })
+    }
+
+    override fun subirJugadorDestacado(jugadoresDestacados: DatosJugadorDestacado) {
+        val call = resultadosService.agregarJugadorDestacado(jugadoresDestacados)
+        call.enqueue(object : Callback<DatosJugadorDestacado> {
+            override fun onResponse(call: Call<DatosJugadorDestacado>, response: Response<DatosJugadorDestacado>) {
+                if (response.isSuccessful) {
+                    view.onJugadorDestacadoSubido("Jugador(es) destacado(s) subido(s) con éxito")
+                } else {
+                    view.error("Error al subir jugador destacado")
+                }
+            }
+
+            override fun onFailure(call: Call<DatosJugadorDestacado>, t: Throwable) {
+                view.error("Error: ${t.message}")
+            }
+        })
+    }
+    }
+
+
