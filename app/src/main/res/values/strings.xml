@@ -117,6 +117,8 @@
     <string name="nueva_contrasena">Nueva  cotraseña</string>
     <string name="contrasena_actual">Contrasena Actual</string>
     <string name="gossport">GosSport</string>
+    <string name="penales">Penales</string>
+    <string name="equipo_a">Equipo A</string>
 
 
 </resources>

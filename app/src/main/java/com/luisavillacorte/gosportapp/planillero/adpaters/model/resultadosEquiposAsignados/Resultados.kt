@@ -31,6 +31,8 @@ data class Resultados(
     val IdVs: String,
 //    val IdFase: String,
     val estadoPartido: Boolean,
+    val idCampeonato: String,
+    val penales : Boolean
 )
 data class InscripcionEquipos1(
     val Equipo1: EquipoR,
@@ -65,7 +67,8 @@ data class Participante(
     val nombres: String,
     val ficha: Int,
     val dorsal: Int,
-    val totalGoles: Int
+    val totalGoles: Int,
+    val amarillas: Int
 )
 
 

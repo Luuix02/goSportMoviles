@@ -47,7 +47,9 @@ class PresenterVerResultados(
                                 equipo2 = equipo2,
                                 IdVs = jsonObject.getString("IdVs"),
                                 //IdFase = jsonObject.getString("IdFase"),
-                                estadoPartido = jsonObject.getBoolean("estadoPartido")
+                                estadoPartido = jsonObject.getBoolean("estadoPartido"),
+                                idCampeonato = jsonObject.getString("idCampeonato"),
+                                penales = jsonObject.getBoolean("penales")
                             )
 
                             view.onVerReultados(resultados)
@@ -86,7 +88,9 @@ class PresenterVerResultados(
                                 nombres = it.getString("nombres"),
                                 ficha = it.getInt("ficha"),
                                 dorsal = it.getInt("dorsal"),
-                                totalGoles = it.getInt("totalGoles")
+                                totalGoles = it.getInt("totalGoles"),
+                                amarillas = it.getInt("amarillas")
+
                             )
                         }
                     }
@@ -109,7 +113,9 @@ class PresenterVerResultados(
                                     nombres = it.getString("nombres"),
                                     ficha = it.getInt("ficha"),
                                     dorsal = it.getInt("dorsal"),
-                                    totalGoles = it.getInt("totalGoles")
+                                    totalGoles = it.getInt("totalGoles"),
+                                    amarillas = it.getInt("amarillas")
+
 
                                 )
                             }
@@ -140,7 +146,8 @@ class PresenterVerResultados(
                                 nombres = it.getString("nombres"),
                                 ficha = it.getInt("ficha"),
                                 dorsal = it.getInt("dorsal"),
-                                totalGoles = it.getInt("totalGoles")
+                                totalGoles = it.getInt("totalGoles"),
+                                amarillas = it.getInt("amarillas")
 
                             )
                         }
@@ -164,7 +171,8 @@ class PresenterVerResultados(
                                     nombres = it.getString("nombres"),
                                     ficha = it.getInt("ficha"),
                                     dorsal = it.getInt("dorsal"),
-                                    totalGoles = it.getInt("totalGoles")
+                                    totalGoles = it.getInt("totalGoles"),
+                                    amarillas = it.getInt("amarillas")
 
                                 )
                             }
@@ -183,7 +191,9 @@ class PresenterVerResultados(
                     nombres = it.getString("nombres"),
                     ficha = it.getInt("ficha"),
                     dorsal = it.getInt("dorsal"),
-                    totalGoles = it.getInt("totalGoles")
+                    totalGoles = it.getInt("totalGoles"),
+                    amarillas = it.getInt("amarillas")
+
 
                 )
             }
