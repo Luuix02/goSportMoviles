@@ -126,7 +126,10 @@ class Editarperfil : Fragment(), EditarPerfilContract.View {
         btnEliminarFoto.setOnClickListener {
             userId?.let { id ->
                 presenter.eliminarFoto(id)
-            } ?: showError("User ID no disponible")
+            } ?: run {
+                Log.e("Editar perfil","user Id no disponible Intenta de nuevo")
+                showError( "User ID no disponible")
+            }
         }
 
 
@@ -206,7 +209,7 @@ class Editarperfil : Fragment(), EditarPerfilContract.View {
 //        editor.apply()
 //        Log.d("Editarperfil", "User ID guardado: ${perfilUsuarioResponse.id}")
 //
-//        userId = perfilUsuarioResponse.id
+     userId = perfilUsuarioResponse.id
 
     }
 
