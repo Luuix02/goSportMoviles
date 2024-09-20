@@ -20,7 +20,7 @@ class EquiposAdapter(private var equipos: List<EquipoInscritoData> = listOf()) :
     override fun onBindViewHolder(holder: EquipoViewHolder, position: Int) {
         val equipo = equipos[position]
         holder.nombreEquipo.text = equipo.Equipo.nombreEquipo
-        holder.capitan.text = equipo.Equipo.nombreCapitan
+        //holder.capitan.text = equipo.Equipo.nombreCapitan
         // Configura otros campos si es necesario
     }
 
@@ -38,7 +38,7 @@ class EquiposAdapter(private var equipos: List<EquipoInscritoData> = listOf()) :
 
     class EquipoViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val nombreEquipo: TextView = view.findViewById(R.id.textViewNombreEquipo)
-        val capitan: TextView = view.findViewById(R.id.textViewCapitan)
+        //val capitan: TextView = view.findViewById(R.id.textViewCapitan)
         // Declara otros TextViews si es necesario
     }
 }

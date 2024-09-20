@@ -45,6 +45,42 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"/>
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tabla de Posiciones"
+            android:layout_gravity="center"
+            android:textSize="25sp"/>
+
+        <!-- Encabezados de la tabla de posiciones -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="8dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Posición"
+                android:textColor="@android:color/white" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:text="Nombre del Equipo"
+                android:textColor="@android:color/white" />
+        </LinearLayout>
+
+        <!-- RecyclerView para las posiciones -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewPosiciones"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"/>
+
     </LinearLayout>
 
 </FrameLayout>

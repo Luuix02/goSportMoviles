@@ -10,6 +10,22 @@ data class Partidos(
     val hora: String?,
     val idPlanillero: String?
 )
+data class PosicionEquipoResponse(
+    val message: String, // Si tu API devuelve un mensaje
+    val posiciones: List<PosicionEquipoData> // Asegúrate de que este es el campo correcto en tu respuesta
+)
+
+data class PosicionEquipoData(
+    val _id: String,
+    val equipo: Equipo,
+    val idCampeonato: String,
+    val pts: Int,
+    val goles: Int,
+    val amarillas: Int,
+    val rojas: Int,
+    val createdAt: String,
+    val updatedAt: String
+)
 
 data class Equipo(
     val _id: String?,

@@ -8,12 +8,14 @@ import com.luisavillacorte.gosportapp.jugador.adapters.model.interCentros.InterC
 import com.luisavillacorte.gosportapp.jugador.adapters.model.interCentros.InterCentrosModel
 import com.luisavillacorte.gosportapp.jugador.adapters.model.crearEquipo.Equipo as CrearEquipo // Renombrar para evitar conflicto
 import com.luisavillacorte.gosportapp.jugador.adapters.model.crearEquipo.EquipoInscriptoResponse
+import com.luisavillacorte.gosportapp.jugador.adapters.storage.TokenManager
 
 class InterCentrosPresenter(
     private val view: InterCentrosContract.View,
     private val model: InterCentrosModel,
     private val context: Context // Necesitamos el contexto para obtener SharedPreferences
 ) : InterCentrosContract.Presenter {
+    private val tokenManager: TokenManager = TokenManager(context)
 
     override fun loadPartidos(equipoId: String) {
         model.getPartidosJugados(equipoId) { result ->
@@ -27,6 +29,29 @@ class InterCentrosPresenter(
             }
         }
     }
+
+    override fun loadTablaPosiciones(idCampeonato: String) {
+        val token = tokenManager.getToken()
+        if (token == null) {
+            view.showError("Token no disponible")
+            return
+        }
+
+        Log.d("InterCentrosPresenter", "Cargando posiciones para el campeonato: $idCampeonato") // Log agregado
+
+        model.getPosiciones(idCampeonato, token) { result ->
+            result.onSuccess { posiciones ->
+                Log.d("InterCentrosPresenter", "Posiciones obtenidas: $posiciones") // Log agregado
+                view.showTablaPosiciones(posiciones)
+            }
+            result.onFailure { error ->
+                view.showError(error.message ?: "Error desconocido")
+                Log.e("InterCentrosPresenter", "Error al obtener posiciones: ${error.message}")
+            }
+        }
+    }
+
+
 
     override fun loadEquiposInscritos(idCampeonato: String) {
         model.obtenerEquiposInscritos(idCampeonato) { result ->

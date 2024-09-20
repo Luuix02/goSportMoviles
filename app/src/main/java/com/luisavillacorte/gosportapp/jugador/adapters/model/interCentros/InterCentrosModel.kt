@@ -33,6 +33,28 @@ class InterCentrosModel {
         })
     }
 
+    // Método para obtener posiciones
+    fun getPosiciones(idCampeonato: String, token: String, callback: (Result<List<PosicionEquipoData>>) -> Unit) {
+        apiService.getPosiciones(idCampeonato, token).enqueue(object : Callback<List<PosicionEquipoData>> {
+            override fun onResponse(call: Call<List<PosicionEquipoData>>, response: Response<List<PosicionEquipoData>>) {
+                if (response.isSuccessful) {
+                    val posiciones = response.body() ?: emptyList()
+                    Log.d("InterCentrosModel", "Posiciones recibidas: $posiciones")
+                    callback(Result.success(posiciones))
+                } else {
+                    callback(Result.failure(Exception("Error: ${response.code()} - ${response.message()}")))
+                    Log.e("InterCentrosModel", "Error al obtener posiciones: ${response.code()} - ${response.message()}")
+                }
+            }
+
+            override fun onFailure(call: Call<List<PosicionEquipoData>>, t: Throwable) {
+                callback(Result.failure(t))
+                Log.e("InterCentrosModel", "Falló la solicitud de posiciones: ${t.message}")
+            }
+        })
+    }
+
+
     // Método para obtener partidos jugados
     fun getPartidosJugados(equipoId: String, callback: (Result<List<Partidos>>) -> Unit) {
         apiService.getPartidosJugados(equipoId).enqueue(object : Callback<List<Partidos>> {
