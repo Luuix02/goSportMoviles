@@ -41,8 +41,7 @@ class CambiarContrasena : Fragment(), CambiarContrasenaContract.View{
         val etNewPassword = view.findViewById<EditText>(R.id.etNewPassword)
         val etConfirmNewPassword = view.findViewById<EditText>(R.id.etConfirmNewPassword)
         val btnGuardarCambios = view.findViewById<Button>(R.id.btnguardarcambios)
-
-
+        val ivTogglePassword = view.findViewById<ImageView>(R.id.ivTogglePasswordNew)
 
         // Inicializar el presenter
         val apiService = RetrofitInstance.createService(HomeApiService::class.java)
@@ -52,47 +51,109 @@ class CambiarContrasena : Fragment(), CambiarContrasenaContract.View{
             val nuevaContrasena = etNewPassword.text.toString()
             val confirmarContrasena = etConfirmNewPassword.text.toString()
 
-            if (nuevaContrasena == confirmarContrasena) {
-                val sharedPreferences = requireActivity().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
-                val userId = sharedPreferences.getString("user_id", null)
-
-                Log.d("CambiarContrasena", "User ID recuperado: $userId")
-
-                if (userId != null) {
+            if (nuevaContrasena.isNotBlank() && confirmarContrasena.isNotBlank()) {
+                if (nuevaContrasena == confirmarContrasena) {
                     val nuevaContrasenaRequest = NuevaContrasenaRequest(nuevaContrasena)
+
 //                    presenter(nuevaContrasenaRequest)
+
+
+                    presenter.cambiarContrasena(nuevaContrasenaRequest)
+
                 } else {
-                    showError("User ID no disponible")
+                    Toast.makeText(requireContext(), "Las contraseñas no coinciden", Toast.LENGTH_SHORT).show()
                 }
             } else {
-                showError("Las contraseñas no coinciden")
+                Toast.makeText(requireContext(), "Por favor, complete todos los campos", Toast.LENGTH_SHORT).show()
             }
         }
 
+        // Toggle visibility of password fields
+        ivTogglePassword.setOnClickListener {
+            isCurrentPasswordVisible = !isCurrentPasswordVisible
+            isNewPasswordVisible = !isNewPasswordVisible
+            isConfirmNewPasswordVisible = !isConfirmNewPasswordVisible
 
+            togglePasswordVisibility(
+                etCurrentPassword,
+                isCurrentPasswordVisible
+            )
+            togglePasswordVisibility(
+                etNewPassword,
+                isNewPasswordVisible
+            )
+            togglePasswordVisibility(
+                etConfirmNewPassword,
+                isConfirmNewPasswordVisible
+            )
+        }
 
         return view
     }
 
-    private fun togglePasswordVisibility(editText: EditText, isPasswordVisible: Boolean): Boolean {
-        if (isPasswordVisible) {
-            editText.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
-            editText.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_ver_contra, 0)
+    private fun togglePasswordVisibility(editText: EditText, isVisible: Boolean) {
+        if (isVisible) {
+            editText.inputType = InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
         } else {
-            editText.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
-            editText.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_ver_contra, 0) // Asegúrate de usar el drawable correcto
+            editText.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
         }
-        editText.setSelection(editText.text.length)
-        return !isPasswordVisible
+        editText.setSelection(editText.text.length) // Mantiene el cursor al final del texto
     }
 
     override fun showSuccess(message: String) {
-        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
     }
 
     override fun showError(message: String) {
+
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
     }
 
 
-}
+    }
+
+//    override fun traernombre(perfil: PerfilUsuarioResponse) {
+//        // No aplica en este fragmento
+//    }
+//
+//    override fun mostrarBotonGestionarEquipo() {
+//        // No aplica en este fragmento
+//    }
+//
+//    override fun mostrarBotonCrearEquipo() {
+//
+//    }
+//
+//    override fun mostrarMensajeSnackBar(message: String) {
+//
+//    }
+//
+//    override fun showValidacionInscripcion(success: Boolean, equipo: Equipo?) {
+//        // No aplica en este fragmento
+//    }
+//
+//    override fun showInscripcionError(message: String) {
+//        // No aplica en este fragmento
+//    }
+//
+//    override fun navigateToCrearEquipo() {
+//
+//    }
+//
+//    override fun navigateToGestionarEquipo(equipo: Equipo) {
+//
+//    }
+//
+//
+//    override fun showCampeonatos(campeonatos: List<Campeonatos>) {
+//        // No aplica en este fragmento
+//    }
+//
+//    override fun showLoading() {
+//        // Muestra un indicador de carga si es necesario
+//    }
+//
+//    override fun hideLoading() {
+//        // Oculta el indicador de carga si es necesario
+//    }
+

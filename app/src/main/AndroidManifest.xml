@@ -26,15 +26,6 @@
             android:name=".ActivityVerificarCodigo"
             android:exported="false" />
         <activity
-            android:name=".recuperarContrasenaCheck"
-            android:exported="false" />
-        <activity
-            android:name=".dialog_codigo_verificacion1"
-            android:exported="false" />
-        <activity
-            android:name=".DialogRecuperarContrasena1"
-            android:exported="false" />
-        <activity
             android:name=".planillero.viewActivities.EquiposAsignadosPlanillero.PlanilleroFragment"
             android:exported="false" />
         <activity

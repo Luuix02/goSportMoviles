@@ -23,8 +23,7 @@ import com.luisavillacorte.gosportapp.jugador.adapters.apiService.homeCampeonato
 import com.luisavillacorte.gosportapp.jugador.adapters.model.auth.PerfilUsuarioResponse
 import com.luisavillacorte.gosportapp.jugador.adapters.model.editarPerfil.EditarPerfilContract
 import com.luisavillacorte.gosportapp.jugador.adapters.model.editarPerfil.Programas
-import okhttp3.MultipartBody
-import java.io.InputStream
+
 
 class Editarperfil : Fragment(), EditarPerfilContract.View {
 
@@ -69,17 +68,21 @@ class Editarperfil : Fragment(), EditarPerfilContract.View {
             ActivityCompat.requestPermissions(requireActivity(), arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE), PICK_IMAGE_REQUEST)
         }
 
-        val sharedPreferences = requireActivity().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
-        userId = sharedPreferences.getString("user_id", null)
-        Log.d("Editarperfil", "User ID recuperado: $userId")
+//        val sharedPreferences = requireActivity().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+//        userId = sharedPreferences.getString("user_id", null)
+//        Log.d("Editarperfil", "User ID recuperado: $userId")
+
+
+
+
 
         val apiService = RetrofitInstance.createService(HomeApiService::class.java)
         presenter = EditarPerfilPresenter(this, requireContext(), apiService)
         presenter.obtenerProgramas()
 
-        userId?.let {
+
             presenter.getPerfilUsuario()
-        }
+
 
         btnGuardarCambios.setOnClickListener {
             if (userId == null) {
@@ -123,32 +126,48 @@ class Editarperfil : Fragment(), EditarPerfilContract.View {
         btnEliminarFoto.setOnClickListener {
             userId?.let { id ->
                 presenter.eliminarFoto(id)
-            } ?: showError("User ID no disponible")
+            } ?: run {
+                Log.e("Editar perfil","user Id no disponible Intenta de nuevo")
+                showError( "User ID no disponible")
+            }
         }
+
+
 
         return view
     }
 
+
+    private fun getUserId(): String? {
+        val userId = requireContext().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
+        return userId.getString("jugador_id",null)
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
+        val fotosjugador=getUserId() ?: return Toast.makeText(requireContext(),"id no encontrado",Toast.LENGTH_SHORT).show()
+        Log.d("idjugador","${fotosjugador}")
+
+
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK && data?.data != null) {
             val filePath = data.data
             Log.d("Editarperfil", "Imagen seleccionada: $filePath")
             filePath?.let { uri ->
                 if (btnActualizarFoto.visibility == View.VISIBLE) {
-                    presenter.actualizarFoto(uri, userId!!)
+                    presenter.actualizarFoto(uri, fotosjugador)
                 } else {
-                    presenter.subirFoto(uri, userId!!)
+                    presenter.subirFoto(uri, fotosjugador)
                 }
                 Glide.with(this)
                     .load(uri)
                     .into(imageView)
             } ?: showError("No se pudo obtener la URI de la imagen")
         }
+
     }
 
+
     override fun traernombre(perfilUsuarioResponse: PerfilUsuarioResponse) {
-        Log.d("Editarperfil", "Datos del perfil: ${perfilUsuarioResponse.nombres}, ${perfilUsuarioResponse.url_foto}")
+        Log.d("Editarperfil", "Datos del perfil:${perfilUsuarioResponse.public_id}, ${perfilUsuarioResponse.nombres}, ${perfilUsuarioResponse.url_foto}")
         nombreTextView.text = perfilUsuarioResponse.nombres
         identificacio.text = perfilUsuarioResponse.identificacion
         fichaperfil.text = perfilUsuarioResponse.ficha
@@ -184,13 +203,14 @@ class Editarperfil : Fragment(), EditarPerfilContract.View {
             btnSubirFotoPerfil.visibility = View.VISIBLE
         }
 
-        val sharedPreferences = requireActivity().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
-        val editor = sharedPreferences.edit()
-        editor.putString("user_id", perfilUsuarioResponse.id)
-        editor.apply()
-        Log.d("Editarperfil", "User ID guardado: ${perfilUsuarioResponse.id}")
+//        val sharedPreferences = requireActivity().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+//        val editor = sharedPreferences.edit()
+//        editor.putString("user_id", perfilUsuarioResponse.id)
+//        editor.apply()
+//        Log.d("Editarperfil", "User ID guardado: ${perfilUsuarioResponse.id}")
+//
+     userId = perfilUsuarioResponse.id
 
-        userId = perfilUsuarioResponse.id
     }
 
     override fun showSuccess(message: String) {

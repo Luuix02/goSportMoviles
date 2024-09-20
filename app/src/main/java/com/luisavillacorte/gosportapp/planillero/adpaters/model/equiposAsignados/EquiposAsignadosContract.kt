@@ -5,6 +5,7 @@ import com.luisavillacorte.gosportapp.jugador.adapters.model.auth.PerfilUsuarioR
 interface EquiposAsignadosContract {
     interface View{
         fun onEquposRecibidos(equiposAsignados: List<Vs>)
+        fun EquiposIntercentrosRecibidos(equiposIntercentros: List<EquiposIntercentrosAsignados>)
         fun PerfilPlanillero(perfil: PerfilUsuarioResponse)
         fun error(error: String)
 
@@ -12,6 +13,7 @@ interface EquiposAsignadosContract {
     }
     interface Presenter{
         fun obtenerEquiposAsignados(idPlanillero: String);
+        fun obtenerEquiposIntercentros(id: String);
         fun obtenerPerfilUsuario()
     }
 }

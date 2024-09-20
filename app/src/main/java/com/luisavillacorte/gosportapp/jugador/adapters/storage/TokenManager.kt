@@ -2,6 +2,7 @@ package com.luisavillacorte.gosportapp.jugador.adapters.storage
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.util.Log
 
 class TokenManager(context: Context) {
 
@@ -13,10 +14,13 @@ class TokenManager(context: Context) {
             putString("auth_token", token)
             apply()
         }
+        Log.d("TokenManager", "Token guardado: $token")
     }
 
     fun getToken(): String? {
-        return sharedPreferences.getString("auth_token", null)
+        val token = sharedPreferences.getString("auth_token", null)
+        Log.d("TokenManager", "Token recuperado: $token")
+        return token
     }
 
     fun saveUserEmail(email: String) {
@@ -24,10 +28,13 @@ class TokenManager(context: Context) {
             putString("user_email", email)
             apply()
         }
+        Log.d("TokenManager", "Email guardado: $email")
     }
 
     fun getUserEmail(): String? {
-        return sharedPreferences.getString("user_email", null)
+        val email = sharedPreferences.getString("user_email", null)
+        Log.d("TokenManager", "Email recuperado: $email")
+        return email
     }
 
     fun saveUserId(userId: String) {
@@ -35,9 +42,12 @@ class TokenManager(context: Context) {
             putString("user_id", userId)
             apply()
         }
+        Log.d("TokenManager", "User ID guardado: $userId")
     }
 
     fun getUserId(): String? {
-        return sharedPreferences.getString("user_id", null)
+        val userId = sharedPreferences.getString("user_id", null)
+        Log.d("TokenManager", "User ID recuperado: $userId")
+        return userId
     }
 }

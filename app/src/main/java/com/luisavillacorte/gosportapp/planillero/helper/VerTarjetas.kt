@@ -5,7 +5,9 @@ import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.luisavillacorte.gosportapp.planillero.adpaters.model.equiposAsignados.Equipo
 import com.luisavillacorte.gosportapp.planillero.adpaters.model.equiposAsignados.Participantes
+import com.luisavillacorte.gosportapp.planillero.adpaters.model.resultadosEquiposAsignados.UsuariosJugadorDestacado
 
 
 class VerTarjetas:ViewModel() {
@@ -50,6 +52,56 @@ class VerTarjetas:ViewModel() {
         _rojasPorJugadorEquipo1.value = mutableMapOf()
         _rojasPorJugadorEquipo2.value = mutableMapOf()
     }
+    private val _jugadoresDestacados = MutableLiveData<MutableMap<String, MutableSet<String>>>()
+    val jugadoresDestacados: LiveData<MutableMap<String, MutableSet<String>>> get() = _jugadoresDestacados
+
+    init {
+        _jugadoresDestacados.value = mutableMapOf()
+    }
+
+    fun agregarJugadorDestacado(idVs: String, jugadorId: String) {
+        val jugadoresDestacadosMap = _jugadoresDestacados.value ?: mutableMapOf()
+        val listaDestacados = jugadoresDestacadosMap[idVs] ?: mutableSetOf()
+
+        if (listaDestacados.add(jugadorId)) {
+            jugadoresDestacadosMap[idVs] = listaDestacados
+            _jugadoresDestacados.value = jugadoresDestacadosMap
+        }
+    }
+    private val equipos: List<Equipo> = listOf()
+    private fun obtenerEquipoPorId(idEquipo: String): Equipo? {
+        return equipos.find { it.id == idEquipo } // Devuelve el objeto equipo correspondiente
+    }
+    fun ganador(idVs: String): Equipo? {
+        val golesEquipo1 = obtenerTotalGolesEquipo1(idVs)
+        val golesEquipo2 = obtenerTotalGolesEquipo2(idVs)
+
+        return if (golesEquipo1 > golesEquipo2) {
+            obtenerEquipoPorId("idEquipo1") // Reemplazar con el ID real del equipo 1
+        } else {
+            obtenerEquipoPorId("idEquipo2") // Reemplazar con el ID real del equipo 2
+        }
+    }
+
+    // Función para determinar el perdedor basado en goles y retornar el objeto del equipo
+    fun perdedor(idVs: String): Equipo? {
+        val golesEquipo1 = obtenerTotalGolesEquipo1(idVs)
+        val golesEquipo2 = obtenerTotalGolesEquipo2(idVs)
+
+        return if (golesEquipo1 < golesEquipo2) {
+            obtenerEquipoPorId("idEquipo1") // Reemplazar con el ID real del equipo 1
+        } else {
+            obtenerEquipoPorId("idEquipo2") // Reemplazar con el ID real del equipo 2
+        }
+    }
+
+
+    fun quitarJugadorDestacado(idVs: String, jugadorId: String) {
+        val jugadoresDestacadosMap = _jugadoresDestacados.value ?: mutableMapOf()
+        jugadoresDestacadosMap[idVs]?.remove(jugadorId)
+        _jugadoresDestacados.value = jugadoresDestacadosMap
+    }
+
 
     fun obtenerTotalGolesEquipo1(idVs: String): Int {
         return _golesPorJugadorEquipo1PorVs.value?.get(idVs)?.values?.sum() ?: 0

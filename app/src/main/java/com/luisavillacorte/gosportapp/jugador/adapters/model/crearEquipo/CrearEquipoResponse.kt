@@ -65,7 +65,7 @@ data class VerificarEquipoResponse(
 data class EquipoInscritoInfo(
     val _id: String,
     val Equipo: Equipo,
-    val idCampeonato: String,
+    val idCampeonato: String
 )
 
 
@@ -76,9 +76,10 @@ data class EquipoInscritoData(
 )
 
 data class EquipoInscriptoResponse(
-  val msg: String,
-    val inscripto: EquipoInscritoData
-
+    val msg: String,
+//    val inscripto: EquipoInscritoData
+//
+    val inscripto: List<EquipoInscritoData>
 )
 data class Participantes(
     @SerializedName("_id") val id: String,

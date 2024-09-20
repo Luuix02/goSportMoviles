@@ -41,6 +41,34 @@ class EquiposAsignadosPresenter (
                     Log.e("PlanilleroFragment", "Error: ${t.message}")
                 }
             })        }
+
+    override fun obtenerEquiposIntercentros(id: String) {
+        val call = equiposAsignadosService.equiposAsignadosIntercentros(id)
+        call.enqueue(object : Callback<List<EquiposIntercentrosAsignados>> {
+            override fun onResponse(call: Call<List<EquiposIntercentrosAsignados>>, response: Response<List<EquiposIntercentrosAsignados>>) {
+                if (response.isSuccessful) {
+                    val equipos = response.body()
+                    Log.d("PlanilleroFragment", "Equipos recibidos: ${equipos?.size}")
+                    if (equipos != null && equipos.isNotEmpty()) {
+                        // Enviar los equipos recibidos a la vista
+                        view.EquiposIntercentrosRecibidos(equipos)
+                    } else {
+                        // Manejar el caso donde el array es vacío
+                        view.error("No se encontraron equipos asignados")
+                        Log.e("PlanilleroFragment", "Equipos recibidos es vacío o null")
+                    }
+                } else {
+                    view.error("Error al obtener equipos asignados")
+                }
+            }
+
+            override fun onFailure(call: Call<List<EquiposIntercentrosAsignados>>, t: Throwable) {
+                view.error("Error de conexión: ${t.message}")
+                Log.e("PlanilleroFragment", "Error: ${t.message}")
+            }
+        })
+    }
+
     fun saveIdentificaionPlanillero(context: Context, identificaion: String) {
         val sharedPreferences = context.getSharedPreferences("planillero", Context.MODE_PRIVATE)
         val editor = sharedPreferences.edit()

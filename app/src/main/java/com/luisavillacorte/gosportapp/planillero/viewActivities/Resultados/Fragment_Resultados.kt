@@ -1,5 +1,6 @@
 package com.luisavillacorte.gosportapp.planillero.viewActivities.Resultados
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -18,17 +19,22 @@ import androidx.recyclerview.widget.RecyclerView
 import com.luisavillacorte.gosportapp.R
 import com.luisavillacorte.gosportapp.common.apiRetrofit.RetrofitInstance
 import com.luisavillacorte.gosportapp.planillero.adpaters.api.vsEquiposResultados.ApiServiceResultados
+import com.luisavillacorte.gosportapp.planillero.adpaters.model.equiposAsignados.Equipo
 import com.luisavillacorte.gosportapp.planillero.adpaters.model.equiposAsignados.Participantes
 import com.luisavillacorte.gosportapp.planillero.adpaters.model.equiposAsignados.Vs
+import com.luisavillacorte.gosportapp.planillero.adpaters.model.resultadosEquiposAsignados.CampeonatoGetNombre
+import com.luisavillacorte.gosportapp.planillero.adpaters.model.resultadosEquiposAsignados.DatosJugadorDestacado
 import com.luisavillacorte.gosportapp.planillero.adpaters.model.resultadosEquiposAsignados.EquipoR
 import com.luisavillacorte.gosportapp.planillero.adpaters.model.resultadosEquiposAsignados.Goles
 import com.luisavillacorte.gosportapp.planillero.adpaters.model.resultadosEquiposAsignados.InscripcionEquipos1
 import com.luisavillacorte.gosportapp.planillero.adpaters.model.resultadosEquiposAsignados.InscripcionEquipos2
+import com.luisavillacorte.gosportapp.planillero.adpaters.model.resultadosEquiposAsignados.JugadoresPenalesAdapter
 import com.luisavillacorte.gosportapp.planillero.adpaters.model.resultadosEquiposAsignados.Participante
 import com.luisavillacorte.gosportapp.planillero.adpaters.model.resultadosEquiposAsignados.ParticipanteAdapter
 import com.luisavillacorte.gosportapp.planillero.adpaters.model.resultadosEquiposAsignados.Resultados
 import com.luisavillacorte.gosportapp.planillero.adpaters.model.resultadosEquiposAsignados.ResultadosContract
 import com.luisavillacorte.gosportapp.planillero.adpaters.model.resultadosEquiposAsignados.ResultadosPresenter
+import com.luisavillacorte.gosportapp.planillero.adpaters.model.resultadosEquiposAsignados.UsuariosJugadorDestacado
 import com.luisavillacorte.gosportapp.planillero.helper.VerTarjetas
 import com.luisavillacorte.gosportapp.planillero.viewActivities.verResultados.Fragment_Ver_Resultados
 import com.squareup.picasso.Picasso
@@ -42,8 +48,9 @@ class Fragment_Resultados : Fragment(), ResultadosContract.View {
     private lateinit var presenter: ResultadosPresenter
     private lateinit var adapter: ParticipanteAdapter
     private lateinit var recyclerView: RecyclerView
+    private lateinit var reciclePenalesEquipo1: RecyclerView
+    private lateinit var reciclePenalesEquipo2: RecyclerView
 
-    //private lateinit var ResultadosPrim: Resultados
     private lateinit var ResultadosPrim: Vs
     private lateinit var nombreEquipo1Resultados: TextView
     private lateinit var nombreEquipo2Result: TextView
@@ -63,21 +70,75 @@ class Fragment_Resultados : Fragment(), ResultadosContract.View {
     private lateinit var contadorRojaEquipo1: TextView
     private lateinit var contadorRojaEquipo2: TextView
     private  lateinit var nombreEquipoSeleccionado : TextView;
-    //private  lateinit var  BotonVerResultado : Button;
+    private  lateinit var  botonVerPenales : Button;
 
+    private var IdCampeonato: String? = null
+    private var NombreCampeonato: String? = null
+    private var jugadorDestacado: UsuariosJugadorDestacado? = null
+    private val jugadoresDestacadosList = mutableListOf<UsuariosJugadorDestacado>()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         return inflater.inflate(R.layout.fragment__resultados, container, false)
     }
+    private fun obtenerPenalesParticipantesDelEquipo1(resultados: Vs): List<Participantes> {
+        return resultados.equipo1.informacion.team1.Equipo.participantes // Ajusta según tu modelo de datos
+    }
 
+    private fun obtenerPenalesParticipantesDelEquipo2(resultados: Vs): List<Participantes> {
+        return resultados.equipo2.informacion.team2.Equipo.participantes // Ajusta según tu modelo de datos
+    }
+    private fun mostrarPenales(participantesEquipoPenal1: List<Participantes>, participantesEquipoPenal2: List<Participantes>){
+        val builder = AlertDialog.Builder(requireContext())
+        val inflater = layoutInflater
+        val view = inflater.inflate(R.layout.penales_subir_resultados_r_i, null)
+        builder.setView(view)
+        reciclePenalesEquipo1 = view.findViewById(R.id.reciclePenalesEquipo1)
+        reciclePenalesEquipo1.layoutManager = LinearLayoutManager(requireContext())
+
+        // Adaptador para Equipo 1
+        val penalAdapterEquipo1 = JugadoresPenalesAdapter(participantesEquipoPenal1)
+        reciclePenalesEquipo1.adapter = penalAdapterEquipo1
+
+        // RecyclerView para Equipo 2
+        reciclePenalesEquipo2 = view.findViewById(R.id.reciclePenalesEquipo2)
+        reciclePenalesEquipo2.layoutManager = LinearLayoutManager(requireContext())
+
+        // Adaptador para Equipo 2
+        val penalAdapterEquipo2 = JugadoresPenalesAdapter(participantesEquipoPenal2)
+        reciclePenalesEquipo2.adapter = penalAdapterEquipo2
+
+
+        val tvGoalsEquipoA: TextView = view.findViewById(R.id.nombresEquipo1Penaless)
+        val tvGoalsEquipoB: TextView = view.findViewById(R.id.nombresEquipo2Penales)
+        val logoEquiopo1 : ImageView = view.findViewById(R.id.FotoLogoPenalesEquipo1);
+        val logoEquiopo2 : ImageView = view.findViewById(R.id.FotoLogoPenalesEquipo2);
+
+
+        tvGoalsEquipoA.text = ResultadosPrim.equipo1.informacion.team1.Equipo.nombreEquipo;
+        tvGoalsEquipoB.text = ResultadosPrim.equipo2.informacion.team2.Equipo.nombreEquipo;
+        Picasso.get().load(ResultadosPrim.equipo1.informacion.team1.Equipo.imgLogo).into(logoEquiopo1)
+        Picasso.get().load(ResultadosPrim.equipo2.informacion.team2.Equipo.imgLogo).into(logoEquiopo2)
+
+
+        val btnFinish: Button = view.findViewById(R.id.btn_finish)
+
+
+        btnFinish.setOnClickListener {
+            // Acciones al finalizar el marcador (ejemplo: guardar resultados)
+            builder.create().dismiss()
+        }
+
+        // Mostrar el diálogo
+        builder.create().show()
+
+    }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         val idVs = arguments?.getString("idVs") ?: "Error"
         Log.d("Fragment_resultados", "ID VS: $idVs")
-
         nombreEquipo1Resultados = view.findViewById(R.id.nombreEquipo1Result)
         nombreEquipo2Result = view.findViewById(R.id.equipo2Result)
         logoEquipo1Result = view.findViewById(R.id.FotoLogoEquipo1Result)
@@ -94,44 +155,109 @@ class Fragment_Resultados : Fragment(), ResultadosContract.View {
         contadorRojaEquipo1 = view.findViewById(R.id.ContadorTarjetaRojaEquipo1)
         contadorRojaEquipo2 = view.findViewById(R.id.ContadorTarjetaRojaEquipo2)
         nombreEquipoSeleccionado = view.findViewById(R.id.nombreEquipoSeleccionadoR)
-
+          botonVerPenales = view.findViewById(R.id.VerPenales);
         recyclerView = view.findViewById(R.id.recicleJugadorParticipantes)
+
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
         viewModel = ViewModelProvider(requireActivity()).get(VerTarjetas::class.java)
 
+        val equipoGanador = viewModel.ganador(idVs)
+        val equipoPerdedor = viewModel.perdedor(idVs)
+
+        if (equipoGanador != null) {
+            Log.d("EquipoGanador", "El equipo ganador es: ${equipoGanador.nombreEquipo}") // Ajusta el campo según tu clase de equipo
+        } else {
+            Log.d("EquipoGanador", "No hay equipo ganador.")
+        }
 
         val resultadosService = RetrofitInstance.createService(ApiServiceResultados::class.java)
         presenter = ResultadosPresenter(this, resultadosService)
 
 
+        botonVerPenales.setOnClickListener {
+            val participantesEquipo1 = obtenerPenalesParticipantesDelEquipo1(ResultadosPrim)
+            val participantesEquipo2 = obtenerPenalesParticipantesDelEquipo2(ResultadosPrim)
+            mostrarPenales(participantesEquipo1, participantesEquipo2)
+
+            equipoGanador?.let {
+                mostrarGanador(it) // Puedes hacer lo que quieras con el equipo ganador
+            }
+
+            equipoPerdedor?.let {
+                mostrarPerdedor(it) // Puedes hacer lo que quieras con el equipo perdedor
+            }
+        }
 
         botonGuardarDatos.setOnClickListener {
             val subirResultados = objetoEnviarResultados()
-            if (subirResultados != null) {
+            Log.d("DatosJugadorDestacado", "Lista de jugadores destacados: $jugadoresDestacadosList")
+
+            if (subirResultados != null && jugadoresDestacadosList.isNotEmpty()) {
+                // Subimos los resultados
                 presenter.subirDatosResultados(subirResultados)
+
+                val datosJugadorDestacado = DatosJugadorDestacado(
+                    jugadorDestacado = jugadoresDestacadosList,
+                    Campeonato = NombreCampeonato.toString()
+                )
+                presenter.subirJugadorDestacado(datosJugadorDestacado)
             } else {
-                Toast.makeText(requireContext(), "No se pudieron obtener los resultados", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "No se pudieron obtener los resultados o los datos del jugador destacado", Toast.LENGTH_SHORT).show()
             }
-
-
         }
 
+        Log.d("NombreCam", "Nombre Campeonato ${NombreCampeonato}")
+
+        viewModel.jugadoresDestacados.observe(viewLifecycleOwner, Observer { jugadoresDestacados ->
+            val idsJugadoresDestacados = jugadoresDestacados.flatMap { it.value }.toSet()
+            idsJugadoresDestacados.forEach { id ->
+                presenter.obtenerDatosUsuario(id)
+            }
+        })
         presenter.obtenerResultados(idVs)
 
     }
+    private fun mostrarGanador(equipo: Equipo) {
+        Toast.makeText(requireContext(), "El equipo ganador es: ${equipo.nombreEquipo}", Toast.LENGTH_SHORT).show()
+    }
+
+    private fun mostrarPerdedor(equipo: Equipo) {
+        Log.d("E","Equipo perdedor${equipo}")
+
+    }
+    override fun onJugadorDestacadoRecibido(jugador: UsuariosJugadorDestacado) {
+        Log.d("jugador","juagdorrrrr ${jugador.nombres}")
+        jugadoresDestacadosList.add(jugador)
+    }
+
+    override fun onCampeonatoRecibido(campeonato: CampeonatoGetNombre) {
+        Log.d("cm","Campeonatooo  ${campeonato.nombreCampeonato}")
+        NombreCampeonato = campeonato.nombreCampeonato;
+
+    }
+
+    override fun onJugadorDestacadoSubido(message: String) {
+        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+    }
+
+
+
 
     override fun onResultadosRecibidos(resultados: Vs) {
         this.ResultadosPrim = resultados
         Log.d("Fragment_resultados", "Datos resultados: $resultados")
 
+        IdCampeonato = resultados.idCampeonato
+        Log.d("IdCam", "Campeonato ${IdCampeonato}")
+        presenter.obtenerCampeonato(IdCampeonato!!)
+
 
         nombreEquipo1Resultados.text = resultados.equipo1.informacion.team1.Equipo.nombreEquipo
+
         nombreEquipo2Result.text = resultados.equipo2.informacion.team2.Equipo.nombreEquipo
         BotonEquipo1.text = resultados.equipo1.informacion.team1.Equipo.nombreEquipo
         BotonEquipo2.text = resultados.equipo2.informacion.team2.Equipo.nombreEquipo
-//       marcadorEquipo1.text = resultados.equipo1.goles.marcador.toString()
-//        marcadorEquipo2.text = resultados.equipo2.goles.marcador.toString()
         Picasso.get().load(resultados.equipo1.informacion.team1.Equipo.imgLogo).into(logoEquipo1Result)
         Picasso.get().load(resultados.equipo2.informacion.team2.Equipo.imgLogo).into(logoEquipo2Result)
 
@@ -157,6 +283,7 @@ class Fragment_Resultados : Fragment(), ResultadosContract.View {
         Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
     }
 
+
     private fun objetoEnviarResultados(): Resultados {
         val idVs = arguments?.getString("idVs") ?: "Error"
 
@@ -167,34 +294,7 @@ class Fragment_Resultados : Fragment(), ResultadosContract.View {
         val rojasPoJugadorEquipo1 = viewModel.rojasEquipo1.value?.get(idVs) ?: emptyMap()
         val amarillasPorJugadorEquipo2 = viewModel.amarillasEquipo2.value?.get(idVs) ?: emptyMap();
         val rojasPorJugadorEquipo2 = viewModel.rojasEquipo2.value?.get(idVs) ?: emptyMap();
-//        val jugadoresGoleadoresEquipo1 = golesPorJugadorEquipo1.flatMap { (jugadorId, goles) ->
-//            val participante = ResultadosPrim.equipo1.informacion.team1.Equipo?.participantes?.find { it._id == jugadorId }
-//            participante?.let { jugador ->
-//                List(goles) {
-//                    Participante(
-//                        _id = jugador._id,
-//                        nombres = jugador.nombres,
-//                        ficha = jugador.ficha,
-//                        dorsal = jugador.dorsal
-//                    )
-//                }
-//            } ?: emptyList()
-//        }
-//
-//        val jugadoresGoleadoresEquipo2 = golesPorJugadorEquipo2.flatMap { (jugadorId, goles) ->
-//            val participante = ResultadosPrim.equipo2.informacion.team2.Equipo?.participantes?.find { it._id == jugadorId }
-//            participante?.let { jugador ->
-//                List(goles) {
-//                    Participante(
-//                        _id = jugador._id,
-//                        nombres = jugador.nombres,
-//                        ficha = jugador.ficha,
-//                        dorsal = jugador.dorsal
-//                    )
-//                }
-//            } ?: emptyList();
-//        }
-        val jugadoresGoleadoresEquipo1 = golesPorJugadorEquipo1.map { (jugadorId, goles) ->
+       val jugadoresGoleadoresEquipo1 = golesPorJugadorEquipo1.map { (jugadorId, goles) ->
             val participante = ResultadosPrim.equipo1.informacion.team1.Equipo?.participantes?.find { it._id == jugadorId }
             participante?.let {
                 Participante(
@@ -202,7 +302,8 @@ class Fragment_Resultados : Fragment(), ResultadosContract.View {
                     nombres = it.nombres,
                     ficha = it.ficha,
                     dorsal = it.dorsal,
-                    totalGoles = goles // Añade el total de goles aquí
+                    totalGoles = goles, // Añade el total de goles aquí
+                    amarillas =  it.amarillas
                 )
             }
         }.filterNotNull().groupBy { it._id }.map { (_, participantes) ->
@@ -218,7 +319,8 @@ class Fragment_Resultados : Fragment(), ResultadosContract.View {
                     nombres = it.nombres,
                     ficha = it.ficha,
                     dorsal = it.dorsal,
-                    totalGoles = goles // Añade el total de goles aquí
+                    totalGoles = goles,
+                    amarillas = it.amarillas
                 )
             }
         }.filterNotNull().groupBy { it._id }.map { (_, participantes) ->
@@ -226,29 +328,38 @@ class Fragment_Resultados : Fragment(), ResultadosContract.View {
             participante.copy(totalGoles = participantes.sumOf { it.totalGoles })
         }
 
-        val tarjetasAmarillasEquipo1 = amarillasporJugadorEquipo1.filter { it.value > 0 }.mapNotNull { (jugadorId, _) ->
-            ResultadosPrim.equipo1.informacion.team1.Equipo?.participantes?.find { it._id == jugadorId }?.let { jugador ->
+        val tarjetasAmarillasEquipo1 = amarillasporJugadorEquipo1.map { (jugadorId, amarillas) ->
+            val participante = ResultadosPrim.equipo1.informacion.team1.Equipo?.participantes?.find { it._id == jugadorId }
+            participante?.let {
                 Participante(
-                    _id = jugador._id,
-                    nombres = jugador.nombres,
-                    ficha = jugador.ficha,
-                    dorsal = jugador.dorsal,
-                    totalGoles = jugador.totalGoles
+                    _id = it._id,
+                    nombres = it.nombres,
+                    ficha = it.ficha,
+                    dorsal = it.dorsal,
+                    totalGoles = it.totalGoles,  // No modificamos los goles en esta parte
+                    amarillas = amarillas         // Aquí asignamos el número de amarillas
                 )
             }
-        } ?: emptyList()
-        val tarjetasAmarillasEquipo2Datos = amarillasPorJugadorEquipo2.filter { it.value > 0}.mapNotNull { (jugadorId, _) ->
-            ResultadosPrim.equipo2.informacion.team2.Equipo?.participantes?.find{
-                it._id == jugadorId }?.let { jugador ->
+        }.filterNotNull().groupBy { it._id }.map { (_, participantes) ->
+            val participante = participantes.first()
+            participante.copy(amarillas = participantes.sumOf { it.amarillas }) // Sumar las amarillas
+        }
+        val tarjetasAmarillasEquipo2Datos = amarillasPorJugadorEquipo2.map { (jugadorId, amarillas) ->
+           val participante = ResultadosPrim.equipo2.informacion.team2.Equipo?.participantes?.find{ it._id == jugadorId }
+            participante?.let {
                 Participante(
-                    _id = jugador._id,
-                    nombres = jugador.nombres,
-                    ficha = jugador.ficha,
-                    dorsal = jugador.dorsal,
-                    totalGoles = jugador.totalGoles
+                    _id = it._id,
+                    nombres = it.nombres,
+                    ficha = it.ficha,
+                    dorsal = it.dorsal,
+                    totalGoles = it.totalGoles,
+                    amarillas = amarillas
 
                 )
             }
+        }.filterNotNull().groupBy { it._id }.map { (_, participantes) ->
+            val participante = participantes.first()
+            participante.copy(amarillas = participantes.sumOf { it.amarillas }) // Sumar las amarillas
         }
         val tarjetasRojasEquipo1 = rojasPoJugadorEquipo1.filter { it.value > 0 }.mapNotNull { (jugadorId, _) ->
             ResultadosPrim.equipo1.informacion.team1.Equipo?.participantes?.find { it._id == jugadorId }?.let { jugador ->
@@ -257,7 +368,8 @@ class Fragment_Resultados : Fragment(), ResultadosContract.View {
                     nombres = jugador.nombres,
                     ficha = jugador.ficha,
                     dorsal = jugador.dorsal,
-                    totalGoles = jugador.totalGoles
+                    totalGoles = jugador.totalGoles,
+                    amarillas = jugador.amarillas
 
                 )
             }
@@ -270,7 +382,8 @@ class Fragment_Resultados : Fragment(), ResultadosContract.View {
                         nombres = jugador.nombres,
                         ficha = jugador.ficha,
                         dorsal = jugador.dorsal,
-                        totalGoles = jugador.totalGoles
+                        totalGoles = jugador.totalGoles,
+                        amarillas = jugador.amarillas
 
                     )
                 }
@@ -297,8 +410,8 @@ class Fragment_Resultados : Fragment(), ResultadosContract.View {
                         nombres = participante.nombres,
                         ficha = participante.ficha,
                         dorsal = participante.dorsal,
-                        totalGoles = participante.totalGoles
-
+                        totalGoles = participante.totalGoles,
+                        amarillas = participante.amarillas
                     )
                 }
             )
@@ -332,7 +445,8 @@ class Fragment_Resultados : Fragment(), ResultadosContract.View {
                         nombres = participante.nombres,
                         ficha = participante.ficha,
                         dorsal = participante.dorsal,
-                        totalGoles = participante.totalGoles
+                        totalGoles = participante.totalGoles,
+                        amarillas = participante.amarillas
 
                     )
                 }
@@ -348,13 +462,16 @@ class Fragment_Resultados : Fragment(), ResultadosContract.View {
                 )
             )
         }
-
+        val idCampeonato = ResultadosPrim.idCampeonato
+        Log.d("idCam","Id campeonnato ${idCampeonato}")
         val resultados = if (equipo1 != null && equipo2 != null) {
             Resultados(
                 equipo1 = equipo1,
                 equipo2 = equipo2,
                 IdVs = idVs,
-                estadoPartido = false
+                estadoPartido = false,
+                idCampeonato =idCampeonato,
+                penales = false
             )
         } else {
             null

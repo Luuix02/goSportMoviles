@@ -4,11 +4,14 @@ import com.luisavillacorte.gosportapp.jugador.adapters.model.auth.NuevaContrasen
 import com.luisavillacorte.gosportapp.jugador.adapters.model.auth.PerfilUsuarioResponse
 import com.luisavillacorte.gosportapp.jugador.adapters.model.crearEquipo.EquipoInscriptoRequest
 import com.luisavillacorte.gosportapp.jugador.adapters.model.crearEquipo.EquipoInscriptoResponse
+import com.luisavillacorte.gosportapp.jugador.adapters.model.crearEquipo.EquipoInscritoData
 import com.luisavillacorte.gosportapp.jugador.adapters.model.crearEquipo.ValidarInscripcionResponse
 import com.luisavillacorte.gosportapp.jugador.adapters.model.crearEquipo.VerificarEquipoResponse
 import com.luisavillacorte.gosportapp.jugador.adapters.model.editarPerfil.Programas
 import com.luisavillacorte.gosportapp.jugador.adapters.model.homeCampeonatos.Campeonatos
 import com.luisavillacorte.gosportapp.jugador.adapters.model.interCentros.Partidos
+import com.luisavillacorte.gosportapp.jugador.adapters.model.interCentros.PosicionEquipoData
+import com.luisavillacorte.gosportapp.jugador.adapters.model.interCentros.PosicionEquipoResponse
 import okhttp3.MultipartBody
 import retrofit2.Call
 import retrofit2.http.Body
@@ -58,6 +61,17 @@ interface HomeApiService {
     @GET("/programa")
     fun getProgramas(): Call<List<Programas>>
 
+//    @GET("/posicionesIntercentros")
+//    fun getPosiciones(
+//        @Header("idCampeonato") idCampeonato: String,
+//        @Header("Authorization") token: String
+//    ): Call<PosicionEquipoResponse>
+@GET("/posicionesIntercentros")
+fun getPosiciones(
+    @Header("idCampeonato") idCampeonato: String,
+    @Header("Authorization") token: String
+): Call<List<PosicionEquipoData>>
+
 
     @PUT("/programa/{id}")
     fun actualizarPrograma(
@@ -101,6 +115,10 @@ interface HomeApiService {
 
 
 
+    @GET("/equipoInscripto")
+    fun obtenerEquiposInscritos(
+        @Header("id") idCampeonato: String
+    ): Call<List<EquipoInscritoData>>
 
 }
 

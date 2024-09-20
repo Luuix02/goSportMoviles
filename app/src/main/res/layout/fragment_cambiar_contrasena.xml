@@ -59,6 +59,12 @@
             android:inputType="textPassword"
             android:padding="12dp" />
 
+        <ImageView
+            android:id="@+id/ivTogglePasswordCurrent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:src="@drawable/ic_ver_contra"  />
 
         <EditText
             android:id="@+id/etNewPassword"
@@ -73,7 +79,12 @@
             android:inputType="textPassword"
             android:padding="12dp" />
 
-
+        <ImageView
+            android:id="@+id/ivTogglePasswordNew"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:src="@drawable/ic_ver_contra"  />
 
         <EditText
             android:id="@+id/etConfirmNewPassword"
@@ -88,7 +99,12 @@
             android:inputType="textPassword"
             android:padding="12dp" />
 
-
+        <ImageView
+            android:id="@+id/ivTogglePasswordConfirm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:src="@drawable/ic_ver_contra" />
 
         <Button
             android:id="@+id/btnguardarcambios"
