@@ -62,30 +62,14 @@ class FragmentGestionarMiEquipo : Fragment(), GestionarMiEquipoContract.View {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        equipo = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            arguments?.getParcelable("equipo", Equipo::class.java)
-        } else {
-            arguments?.getParcelable("equipo")
-        } ?: throw IllegalArgumentException("Equipo no encontrado")
-
-        val idJugador = arguments?.getString("idJugador") ?: throw IllegalArgumentException("ID del jugador no encontrado")
+        equipo = arguments?.getParcelable("equipo")
+            ?: throw IllegalArgumentException("Equipo no encontrado")
+        val idJugador = arguments?.getString("idJugador")
+            ?: throw IllegalArgumentException("ID del jugador no encontrado")
         mostrarDatosEquipo(equipo)
 
         view.findViewById<Button>(R.id.btnActualizarEquipo).setOnClickListener {
-            val nuevoNombreEquipo = view.findViewById<EditText>(R.id.nombreEquipo).text.toString()
-            val nuevoNombreCapitan = view.findViewById<TextView>(R.id.nombreCapitan).text.toString()
-            val nuevoCelularPrincipal = view.findViewById<TextView>(R.id.CelularPrincipal).text.toString()
-            val nuevoCelularSecundario = view.findViewById<EditText>(R.id.CelularSecundario).text.toString()
-
-            val equipoActualizado = equipo.copy(
-                nombreEquipo = nuevoNombreEquipo,
-                nombreCapitan = nuevoNombreCapitan,
-                contactoUno = nuevoCelularPrincipal,
-                contactoDos = nuevoCelularSecundario
-            )
-
-            presenter.actualizarEquipo(equipoActualizado, equipo.id)
-            subirLogoEquipo()
+            subirLogoEquipoYActualizar()
         }
 
         view.findViewById<ImageView>(R.id.iconoCamara).setOnClickListener {
@@ -93,74 +77,92 @@ class FragmentGestionarMiEquipo : Fragment(), GestionarMiEquipoContract.View {
         }
     }
 
+
     private val getImageLauncher = registerForActivityResult(
         ActivityResultContracts.GetContent()
     ) { uri: Uri? ->
         uri?.let {
             selectedImageUri = uri
             view?.findViewById<ImageView>(R.id.logoEquipo)?.setImageURI(selectedImageUri)
+        }
+    }
 
-            val file = getFileFromUri(uri)
-            if (file != null && file.exists()) {
-                uploadImage(file)
+    private fun subirLogoEquipoYActualizar() {
+        if (selectedImageUri != null) {
+            val file = getFileFromUri(selectedImageUri!!)
+            if (file != null) {
+                showLoading(true)
+                uploadImage(file) { success ->
+                    showLoading(false)
+                    if (success) {
+                        actualizarDatosEquipo()
+                    } else {
+                        showError("Error al subir la imagen.")
+                    }
+                }
             } else {
-                Log.e("ImageUpload", "El archivo no se encuentra en la ruta proporcionada")
+                showError("No se pudo obtener el archivo de la imagen seleccionada.")
             }
+        } else {
+            actualizarDatosEquipo()
+        }
+    }
+
+    private fun uploadImage(file: File, callback: (Boolean) -> Unit) {
+        val requestFile = file.asRequestBody("image/*".toMediaTypeOrNull())
+        val body = MultipartBody.Part.createFormData("file", file.name, requestFile)
+
+        equipo.id?.let { equipoId ->
+            equipo.idLogo?.let { publicId ->
+                Log.d("ImageUpload", "Uploading image for equipoId: $equipoId, idLogo: $publicId")
+                presenter.actualizarLogoEquipo(equipoId, publicId, body)
+                callback(true)
+            } ?: run {
+                Log.e("ImageUpload", "Error: El idLogo del equipo es nulo.")
+                callback(false)
+            }
+        } ?: run {
+            Log.e("ImageUpload", "Error: El ID del equipo es nulo.")
+            callback(false)
+        }
+    }
+
+    private fun actualizarDatosEquipo() {
+        val nuevoNombreEquipo = view?.findViewById<EditText>(R.id.nombreEquipo)?.text.toString()
+        val nuevoNombreCapitan = view?.findViewById<TextView>(R.id.nombreCapitan)?.text.toString()
+        val nuevoCelularPrincipal = view?.findViewById<TextView>(R.id.CelularPrincipal)?.text.toString()
+        val nuevoCelularSecundario = view?.findViewById<EditText>(R.id.CelularSecundario)?.text.toString()
+
+        val equipoActualizado = equipo.copy(
+            nombreEquipo = nuevoNombreEquipo,
+            nombreCapitan = nuevoNombreCapitan,
+            contactoUno = nuevoCelularPrincipal,
+            contactoDos = nuevoCelularSecundario
+        )
+
+        equipo.id?.let { equipoId ->
+            presenter.actualizarEquipo(equipoActualizado, equipoId)
+            mostrarDatosEquipo(equipoActualizado)
+        } ?: run {
+            showError("Error: El ID del equipo es nulo.")
         }
     }
 
     private fun getFileFromUri(uri: Uri): File? {
-        val inputStream = context?.contentResolver?.openInputStream(uri)
         return try {
-            val file = File.createTempFile(
-                "temp",
-                ".jpg",
-                context?.cacheDir ?: throw IOException("Cache directory not available")
-            )
+            val inputStream = context?.contentResolver?.openInputStream(uri)
+            val tempFile = File.createTempFile("temp_image", ".jpg", context?.cacheDir).apply {
+                deleteOnExit()
+            }
             inputStream?.use { input ->
-                file.outputStream().use { output ->
+                tempFile.outputStream().use { output ->
                     input.copyTo(output)
                 }
             }
-            file
+            tempFile
         } catch (e: IOException) {
             Log.e("ImageUpload", "Error al crear el archivo temporal", e)
             null
-        }
-
-//    private fun getRealPathFromUri(uri: Uri): String? {
-//        val projection = arrayOf(MediaStore.Images.Media.DATA)
-//        val cursor = requireContext().contentResolver.query(uri, projection, null, null, null)
-//        cursor?.use {
-//            val columnIndex = it.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
-//            if (it.moveToFirst()) {
-//                return it.getString(columnIndex)
-//            }
-//        }
-//        return null
-//    }
-
-    }
-    private fun uploadImage(file: File) {
-        val requestFile = file.asRequestBody("image/*".toMediaTypeOrNull())
-        val body = MultipartBody.Part.createFormData("file", file.name, requestFile)
-
-        val publicId = equipo.idLogo
-        Log.d("ImageUpload", "Subiendo imagen: ${file.absolutePath}, publicId: $publicId")
-        presenter.actualizarLogoEquipo(equipo.id, publicId, body).apply {
-
-        }
-    }
-
-    private fun subirLogoEquipo() {
-        selectedImageUri?.let { uri ->
-            val file = getFileFromUri(uri) ?: run {
-                Toast.makeText(context, "No se pudo obtener el archivo.", Toast.LENGTH_SHORT).show()
-                return
-            }
-            uploadImage(file)
-        } ?: run {
-            Toast.makeText(context, "No se ha seleccionado ninguna imagen.", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -175,7 +177,11 @@ class FragmentGestionarMiEquipo : Fragment(), GestionarMiEquipoContract.View {
             jugadoresAdapter = JugadoresSeleccionadosAdapter(
                 jugadores = equipo.participantes.toMutableList(),
                 onRemove = { jugador ->
-                    Toast.makeText(context, "Jugador eliminado: ${jugador.nombres}", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        context,
+                        "Jugador eliminado: ${jugador.nombres}",
+                        Toast.LENGTH_SHORT
+                    ).show()
                     val updatedList = equipo.participantes.toMutableList().apply {
                         remove(jugador)
                     }
@@ -195,34 +201,49 @@ class FragmentGestionarMiEquipo : Fragment(), GestionarMiEquipoContract.View {
         mostrarDatosEquipo(equipo)
     }
 
-    override fun mostrarActualizacionLogoExitosa() {
-        Toast.makeText(context, "Logo actualizado exitosamente", Toast.LENGTH_SHORT).show()
-    }
-
     override fun showError(message: String) {
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
     }
 
     override fun showValidacionExitosa(idJugador: String) {
-        Toast.makeText(context, "Validación exitosa para el jugador con ID: $idJugador", Toast.LENGTH_SHORT).show()
+        Toast.makeText(
+            context,
+            "Validación exitosa para el jugador con ID: $idJugador",
+            Toast.LENGTH_SHORT
+        ).show()
+    }
+    override fun mostrarActualizacionLogoExitosa(message: String?, url: String?) {
+        Toast.makeText(context, "Logo actualizado exitosamente", Toast.LENGTH_SHORT).show()
+        url?.let {
+            view?.findViewById<ImageView>(R.id.logoEquipo)?.let { imageView ->
+                Picasso.get().load(it).into(imageView)
+            }
+        }
     }
 
     override fun showJugadores(jugadores: List<User>) {
         jugadoresAdapter = JugadoresSeleccionadosAdapter(
             jugadores = jugadores.toMutableList(),
             onRemove = { jugador ->
-                Toast.makeText(context, "Jugador eliminado: ${jugador.nombres}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    context,
+                    "Jugador eliminado: ${jugador.nombres}",
+                    Toast.LENGTH_SHORT
+                ).show()
                 val updatedList = jugadores.toMutableList().apply {
                     remove(jugador)
                 }
                 jugadoresAdapter.notifyDataSetChanged()
             }
         )
-        view?.findViewById<RecyclerView>(R.id.recyclerJugadoresSeleccionados)?.adapter = jugadoresAdapter
+        view?.findViewById<RecyclerView>(R.id.recyclerJugadoresSeleccionados)?.adapter =
+            jugadoresAdapter
     }
 
     override fun showLoading(isLoading: Boolean) {
-        val progressBar = view?.findViewById<ProgressBar>(R.id.progressBar)
+        val progressBar = view?.findViewById<ProgressBar>(R.id.progressBarl)
         progressBar?.visibility = if (isLoading) View.VISIBLE else View.GONE
     }
+
+
 }

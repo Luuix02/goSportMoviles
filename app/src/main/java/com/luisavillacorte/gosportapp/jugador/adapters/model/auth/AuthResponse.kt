@@ -11,4 +11,5 @@ data class AuthResponse(
     override fun toString(): String {
         return "AuthResponse(success=$success, message=$message, token=$token, user=$user)"
     }
+
 }

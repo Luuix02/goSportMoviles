@@ -8,9 +8,11 @@ import com.luisavillacorte.gosportapp.jugador.adapters.apiService.formCrearEquip
 import com.luisavillacorte.gosportapp.jugador.adapters.apiService.homeCampeonatosService.HomeApiService
 import com.luisavillacorte.gosportapp.jugador.adapters.model.auth.NuevaContrasenaRequest
 import com.luisavillacorte.gosportapp.jugador.adapters.model.auth.PerfilUsuarioResponse
+import com.luisavillacorte.gosportapp.jugador.adapters.model.auth.User
 import com.luisavillacorte.gosportapp.jugador.adapters.model.crearEquipo.Equipo
 import com.luisavillacorte.gosportapp.jugador.adapters.model.crearEquipo.EquipoInscriptoRequest
 import com.luisavillacorte.gosportapp.jugador.adapters.model.crearEquipo.EquipoInscriptoResponse
+import com.luisavillacorte.gosportapp.jugador.adapters.model.crearEquipo.Participantes
 
 import com.luisavillacorte.gosportapp.jugador.adapters.model.crearEquipo.ValidarInscripcionResponse
 import com.luisavillacorte.gosportapp.jugador.adapters.model.crearEquipo.VerificarEquipoResponse
@@ -27,38 +29,10 @@ class HomeCampeonatosPresenter(
     private val apiService: HomeApiService
 ) : HomeCampeonatosContract.Presenter {
 
-    private var campeonatoSeleccionado: Campeonatos? = null
+
     private val tokenManager = TokenManager(context)
     private val TAG = "HomePresenter"
 
-
-//    override fun setCampeonatoSeleccionado(campeonato: Campeonatos) {
-//        this.campeonatoSeleccionado = campeonato
-//    }
-
-    fun cambiarContrasena(nuevaContrasenaRequest: NuevaContrasenaRequest) {
-        val token = tokenManager.getToken() ?: return view.showError("Token no disponible")
-        val userId = tokenManager.getUserId() // Recupera el userId del TokenManager
-        Log.d(TAG, "Token obtenido: $token")
-        Log.d(TAG, "User ID en cambiarContrasena: $userId")
-
-        userId?.let {
-            val call = apiService.cambiarContrasena("Bearer $token", it, nuevaContrasenaRequest)
-            call.enqueue(object : Callback<Void> {
-                override fun onResponse(call: Call<Void>, response: Response<Void>) {
-                    if (response.isSuccessful) {
-                        view.showSuccess("Contraseña cambiada exitosamente")
-                    } else {
-                        view.showError("Error al cambiar la contraseña ${response.code()}: ${response.message()}")
-                    }
-                }
-
-                override fun onFailure(call: Call<Void>, t: Throwable) {
-                    view.showError(t.message ?: "Error desconocido")
-                }
-            })
-        } ?: view.showError("User ID no disponible")
-    }
 
     override fun getPerfilUsuario() {
         val token = tokenManager.getToken() ?: return view.showError("Token no disponible")
@@ -108,9 +82,16 @@ class HomeCampeonatosPresenter(
                     val validarInscripcionResponse = response.body()
                     if (validarInscripcionResponse != null && validarInscripcionResponse.equipo.isNotEmpty()) {
                         val equipo = validarInscripcionResponse.equipo[0]
-                        guardarEquipoEnSharedPreferences(context, equipo.id, equipo.cedula)
-                        view.showInscripcionError("Ya estás inscrito en el equipo: ${validarInscripcionResponse.equipo[0].nombreEquipo}")
-
+                        equipo.id?.let { equipoId ->
+                            guardarEquipoEnSharedPreferences(context, equipo)
+                            guardarIdEquipoEnSharedPreferences(context, equipoId)
+                            guardarCedulaEnSharedPreferences(context, equipo.cedula)
+                        }
+//                        view.showInscripcionError("Ya estás inscrito en el equipo: ${validarInscripcionResponse.equipo[0].nombreEquipo}")
+                        Log.d(
+                            "ValidacionInscripcion",
+                            "Equipo: ${equipo.nombreEquipo}, ID: ${equipo.id}, Cédula: ${equipo.cedula}"
+                        )
                         view.showInscripcionError("Ya estás inscrito en el equipo: ${equipo.nombreEquipo}")
                         view.showValidacionInscripcion(true, equipo)
                     } else {
@@ -162,7 +143,10 @@ class HomeCampeonatosPresenter(
     }
 
 
-    override fun verificarEquipoEnCampeonato(identificacion: String, callback: (Boolean) -> Unit) {
+    override fun verificarEquipoEnCampeonato(
+        identificacion: String,
+        callback: (Boolean, String) -> Unit
+    ) {
         val call = apiService.verificarEquipoEnCampeonato(identificacion)
         call.enqueue(object : Callback<VerificarEquipoResponse> {
             override fun onResponse(
@@ -170,90 +154,199 @@ class HomeCampeonatosPresenter(
                 response: Response<VerificarEquipoResponse>
             ) {
                 if (response.isSuccessful) {
-                    val verificarResponse = response.body()
-                    if (verificarResponse != null) {
-                        // Verificar si el equipo está inscrito en algún campeonato
-                        val equipoInscrito = verificarResponse.data.isNotEmpty() && verificarResponse.data[0].isNotEmpty()
-
-                        // Llamar al callback con el resultado
-                        callback(equipoInscrito)
-
-                        // Mostrar mensajes en la vista si es necesario
-                        if (equipoInscrito) {
-                            view.showSuccess("El equipo ya está inscrito en el campeonato.")
-                        } else {
-                            view.showError("El equipo no está inscrito en el campeonato.")
-                        }
-                    } else {
-                        view.showError("Respuesta vacía del servidor")
-                        callback(false) // En caso de respuesta vacía, asumimos que el equipo no está inscrito
-                    }
+                    val body = response.body()
+                    val msg = body?.msg ?: ""
+                    val data = body?.data ?: emptyList()
+                    val isInscrito = data.isNotEmpty() && data.flatten().isNotEmpty()
+                    callback(isInscrito, msg)
+//                    view.mostrarMensaje(msg)
+//                    view.mostrarEstadoInscripcion(isInscrito)
                 } else {
-                    view.showError("Error al verificar inscripción ${response.code()}: ${response.message()}")
-                    callback(false) // En caso de error en la respuesta, asumimos que el equipo no está inscrito
+                    callback(false, "Error en la respuesta")
+//                    view.showError("Error en la respuesta del servidor: ${response.code()} ${response.message()}")
                 }
             }
 
             override fun onFailure(call: Call<VerificarEquipoResponse>, t: Throwable) {
+                callback(false, "Error de red")
+
+//                view.showError("Error de red: ${t.message}")
+            }
+
+        })
+    }
+
+    override fun inscribirEquipoEnCampeonato(equipo: Equipo, idCampeonato: String) {
+
+        Log.d("Presenter", "Inscripción: equipo=$equipo, idCampeonato=$idCampeonato")
+        val equipoData = EquipoInscriptoRequest(equipo, idCampeonato)
+//        // Mostrar modal de confirmación
+//        view.mostrarModalConfirmacion(
+//            mensaje = "¿Estás seguro de que deseas inscribir este equipo en el campeonato?",
+//            onAceptar = {
+//                Log.d("Presenter", "El usuario confirmó la inscripción.")
+//                Log.d("Presenter", "Datos enviados: $equipoData")
+//
+        val call = apiService.inscribirEquipoCampeonato(equipoData)
+        Log.d("Presenter", "Llamada a la API: $call")
+
+        call.enqueue(object : Callback<EquipoInscriptoResponse> {
+            override fun onResponse(
+                call: Call<EquipoInscriptoResponse>,
+                response: Response<EquipoInscriptoResponse>
+            ) {
+                Log.d(
+                    "Presenter",
+                    "Código de respuesta: ${response.code()}, Mensaje: ${response.message()}"
+                )
+                val responseBody = response.body()
+                Log.d("Presenter", "Cuerpo de la respuesta: $responseBody")
+                Log.d(
+                    "Presenter",
+                    "Código de respuesta: ${response.code()}, Mensaje: ${response.message()}, Cuerpo: ${
+                        response.errorBody()?.string()
+                    }"
+                )
+                if (response.isSuccessful) {
+                    val validarInscripcionResponse = response.body()
+                    if (validarInscripcionResponse != null) {
+                        guardarIdCampeonatoEquipoInscrito(context, idCampeonato)
+                        view.showSuccess("Equipo inscrito exitosamente en el campeonato.")
+                    } else {
+                        view.showError("Error al inscribir el equipo: ${response.code()} ${response.message()}")
+                    }
+                }
+            }
+            override fun onFailure(call: Call<EquipoInscriptoResponse>, t: Throwable) {
+                Log.e("Presenter", "Error al inscribir el equipo: ${t.message}")
                 view.showError(t.message ?: "Error desconocido")
-                callback(false) // En caso de fallo en la llamada, asumimos que el equipo no está inscrito
             }
         })
 
-    }
-
-
-    override fun inscribirEquipoEnCampeonato(idCampeonato: String) {
-        val equipo = obtenerEquipoDeSharedPreferences(context)
-
-        if (equipo != null) {
-            val equipoInscriptoRequest = EquipoInscriptoRequest(
-                id = equipo.id, // Usa el ID del equipo
-                equipo = equipo, // Usa el equipo completo
-                idCampeonato = idCampeonato
-            )
-
-            val call = apiService.inscribirEquipoCampeonato(equipoInscriptoRequest)
-
-            call.enqueue(object : Callback<EquipoInscriptoResponse> {
-                override fun onResponse(
-                    call: Call<EquipoInscriptoResponse>,
-                    response: Response<EquipoInscriptoResponse>
-                ) {
-                    if (response.isSuccessful) {
-                        view.showSuccess("Equipo inscrito exitosamente en el campeonato.")
-                    } else {
-                        view.showError("Error al inscribir el equipo ${response.code()}: ${response.message()}")
-                    }
-                }
-
-                override fun onFailure(call: Call<EquipoInscriptoResponse>, t: Throwable) {
-                    view.showError(t.message ?: "Error desconocido")
-                }
-            })
-        } else {
-            view.showError("No se encontró la información del equipo en las preferencias.")
-        }
-    }
-
-    private fun guardarEquipoEnSharedPreferences(context: Context, equipoId: String, cedula: String) {
-        val sharedPreferences = context.getSharedPreferences("AppPreferences", Context.MODE_PRIVATE)
-        val editor = sharedPreferences.edit()
-        editor.putString("EQUIPO_ID", equipoId)
-        editor.putString("CEDULA", cedula)
-        editor.apply()
-    }
-    private fun obtenerEquipoDeSharedPreferences(context: Context): Equipo? {
-        val sharedPreferences = context.getSharedPreferences("AppPreferences", Context.MODE_PRIVATE)
-        val gson = Gson()
-        val equipoJson = sharedPreferences.getString("EQUIPO", null)
-        return if (equipoJson != null) {
-            gson.fromJson(equipoJson, Equipo::class.java)
-        } else {
-            null
-        }
-    }
 
     }
+}
+
+//        val equipo = obtenerEquipoDeSharedPreferences(context)
+//        if (equipo?.id != null) {
+//            val equipoInscriptoRequest = EquipoInscriptoRequest(
+//                id = equipo.id, // Usa el ID del equipo
+//                equipo = equipo, // Usa el equipo completo
+//                idCampeonato = idCampeonato
+//            )
+//
+//
+//    }
+fun guardarIdCampeonatoEquipoInscrito(context: Context, idCampeonato: String) {
+    val sharedPreferences = context.getSharedPreferences("AppPreferences", Context.MODE_PRIVATE)
+    val editor = sharedPreferences.edit()
+    editor.putString("CAMPEONATO_INSCRITO_ID", idCampeonato)
+    editor.apply()
+    Log.d("SharedPreferences", "ID guardado: $idCampeonato")
+}
+
+fun recuperarIdCampeonatoEquipoInscrito(context: Context): String? {
+    val sharedPreferences = context.getSharedPreferences("AppPreferences", Context.MODE_PRIVATE)
+    val idCampeonato = sharedPreferences.getString("CAMPEONATO_INSCRITO_ID", null)
+
+    // Log para verificar que el ID fue recuperado
+    Log.d("SharedPreferences", "ID recuperado: $idCampeonato")
+
+    return idCampeonato
+}
+
+
+fun guardarEquipoEnSharedPreferences(context: Context, equipo: Equipo) {
+    val sharedPreferences = context.getSharedPreferences("AppPreferences", Context.MODE_PRIVATE)
+    val editor = sharedPreferences.edit()
+    val gson = Gson()
+    val equipoJson = gson.toJson(equipo)
+    editor.putString("EQUIPO_DATA", equipoJson)
+    editor.apply()
+    Log.d("SharedPreferences", "Equipo guardado: $equipoJson")
+}
+
+fun recuperarEquipo(context: Context): Equipo? {
+    val sharedPreferences = context.getSharedPreferences("AppPreferences", Context.MODE_PRIVATE)
+    val gson = Gson()
+    val equipoJson = sharedPreferences.getString("EQUIPO_DATA", null)
+    val equipo = gson.fromJson(equipoJson, Equipo::class.java)
+
+    // Log para verificar que el equipo fue recuperado
+    Log.d("SharedPreferences", "Equipo recuperado: $equipoJson")
+
+    return equipo
+}
+
+
+fun guardarIdEquipoEnSharedPreferences(context: Context, id: String) {
+    val sharedPreferences = context.getSharedPreferences("AppPreferences", Context.MODE_PRIVATE)
+    val editor = sharedPreferences.edit()
+    editor.putString("EQUIPO_ID", id)
+    editor.apply()
+    Log.d("SharedPreferences", "ID guardado: $id")
+}
+
+fun recuperarIdEquipo(context: Context): String? {
+    val sharedPreferences = context.getSharedPreferences("AppPreferences", Context.MODE_PRIVATE)
+    val id = sharedPreferences.getString("EQUIPO_ID", null)
+
+    // Log para verificar que el ID fue recuperado
+    Log.d("SharedPreferences", "ID recuperado: $id")
+
+    return id
+}
+
+fun guardarCedulaEnSharedPreferences(context: Context, cedula: String) {
+    val sharedPreferences = context.getSharedPreferences("AppPreferences", Context.MODE_PRIVATE)
+    val editor = sharedPreferences.edit()
+    editor.putString("EQUIPO_CEDULA", cedula)
+    editor.apply()
+
+    Log.d("SharedPreferences", "Cédula guardada: $cedula")
+}
+
+fun recuperarCedulaEquipo(context: Context): String? {
+    val sharedPreferences = context.getSharedPreferences("AppPreferences", Context.MODE_PRIVATE)
+    val cedula = sharedPreferences.getString("EQUIPO_CEDULA", null)
+
+    // Log para verificar que la cédula fue recuperada
+    Log.d("SharedPreferences", "Cédula recuperada: $cedula")
+
+    return cedula
+}
+
+
+//private fun obtenerIdEquipoDeSharedPreferences(context: Context): String? {
+//    val sharedPreferences = context.getSharedPreferences("AppPreferences", Context.MODE_PRIVATE)
+//    val equipoId = sharedPreferences.getString("EQUIPO_ID", null)
+//
+//    Log.d("SharedPreferences", "Equipo ID recuperado: $equipoId")
+//    return equipoId
+//
+//}
+//
+//private fun obtenerCedulaDeSharedPreferences(context: Context): String? {
+//    val sharedPreferences = context.getSharedPreferences("AppPreferences", Context.MODE_PRIVATE)
+//    val cedula = sharedPreferences.getString("CEDULA", null)
+//
+//
+//    Log.d("SharedPreferences", "Cédula recuperada: $cedula")
+//    return cedula
+//}
+
+
+//    private fun obtenerEquipoDeSharedPreferences(context: Context): Equipo? {
+//        val sharedPreferences = context.getSharedPreferences("AppPreferences", Context.MODE_PRIVATE)
+//        val gson = Gson()
+//        val equipoJson = sharedPreferences.getString("EQUIPO", null)
+//        return if (equipoJson != null) {
+//            gson.fromJson(equipoJson, Equipo::class.java)
+//        } else {
+//            null
+//        }
+//    }
+
+
 
 

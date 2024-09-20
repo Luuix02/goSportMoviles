@@ -176,7 +176,7 @@ class FragmentCrearEquipo : Fragment(), CrearEquipoContract.View {
                             idLogo = "",
                             estado = true,
                             puntos = 0,
-                            id = "",
+//                            id = "",
                             participantes = getSelectedPlayers()
                         )
 
@@ -268,7 +268,7 @@ class FragmentCrearEquipo : Fragment(), CrearEquipoContract.View {
             identificacion = perfil.identificacion,
             ficha = perfil.ficha,
             dorsal = "",
-           rol = perfil.rol
+            rol = perfil.rol
 
         )
         agregarJugadorSeleccionado(capitan)
@@ -313,7 +313,7 @@ class FragmentCrearEquipo : Fragment(), CrearEquipoContract.View {
             idLogo = imagePublicId ?: "",
             estado = true,
             puntos = 0,
-            id = "",
+//            id = "",
             participantes = getSelectedPlayers()
         )
         presenter.crearEquipo(equipo)

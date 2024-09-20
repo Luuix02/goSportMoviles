@@ -96,7 +96,7 @@ interface HomeApiService {
 
     @POST("/equipoInscripto")
     fun inscribirEquipoCampeonato(
-        @Body Equipo: EquipoInscriptoRequest
+        @Body equipoData: EquipoInscriptoRequest
     ): Call<EquipoInscriptoResponse>
 
 

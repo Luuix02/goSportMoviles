@@ -156,12 +156,28 @@ class CrearEquipoPresenter(
                     response: Response<CrearEquipoResponse>
                 ) {
                     if (response.isSuccessful) {
-                        view.showSuccess("Equipo creado exitosamente")
+                        val equipoCreado = response.body()
+
+                        // Extraer el ID del equipo creado
+                        val equipoId = equipoCreado?.equipo?.id
+
+                        if (equipoId != null) {
+                            // Guardar el ID en SharedPreferences
+                            val sharedPreferences =
+                                context.getSharedPreferences("MiAppPrefs", Context.MODE_PRIVATE)
+                            val editor = sharedPreferences.edit()
+                            editor.putString("equipo_id", equipoId)
+                            editor.apply()
+
+                            Log.d("CrearEquipoPresenter", "ID del equipo guardado: $equipoId")
+                            view.showSuccess("Equipo creado exitosamente")
+                        } else {
+                            view.showError("Error: No se pudo obtener el ID del equipo")
+                        }
                     } else {
                         view.showError("Error al crear el equipo ${response.code()}: ${response.message()}")
                     }
                 }
-
 
                 override fun onFailure(call: Call<CrearEquipoResponse>, t: Throwable) {
                     view.showError(t.message ?: "Error desconocido")
@@ -171,8 +187,6 @@ class CrearEquipoPresenter(
             view.showError("Por favor, complete todos los campos del equipo")
         }
     }
-
-
     private fun validateEquipo(equipo: Equipo): Boolean {
         return equipo.nombreEquipo.isNotEmpty() &&
                 equipo.nombreCapitan.isNotEmpty() &&
@@ -255,5 +269,10 @@ class CrearEquipoPresenter(
         } else {
             null
         }
+    }
+
+    fun obtenerEquipoIdDeSharedPreferences(context: Context): String? {
+        val sharedPreferences = context.getSharedPreferences("MiAppPrefs", Context.MODE_PRIVATE)
+        return sharedPreferences.getString("EQUIPO_ID", null)
     }
 }

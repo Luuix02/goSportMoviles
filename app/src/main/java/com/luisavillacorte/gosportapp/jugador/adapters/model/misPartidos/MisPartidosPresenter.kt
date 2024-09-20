@@ -2,6 +2,7 @@ package com.luisavillacorte.gosportapp.jugador.adapters.model.misPartidos
 
 import android.content.Context
 import com.luisavillacorte.gosportapp.jugador.adapters.apiService.misPartidosService.MisPartidosApiService
+import com.luisavillacorte.gosportapp.jugador.adapters.model.homeCampeonatos.Campeonatos
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -73,6 +74,10 @@ class MisPartidosPresenter(
         editor.putString("ID_VS", idVs)
         editor.apply()
     }
+
+
+
+
 
 
 }

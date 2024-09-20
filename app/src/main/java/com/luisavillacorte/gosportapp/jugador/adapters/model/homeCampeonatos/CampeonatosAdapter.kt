@@ -2,6 +2,7 @@ package com.luisavillacorte.gosportapp.jugador.adapters.model.homeCampeonatos
 
 import android.content.Context
 import android.sax.EndElementListener
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,19 +11,21 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
+import com.google.gson.Gson
 import com.luisavillacorte.gosportapp.R
 import com.luisavillacorte.gosportapp.jugador.adapters.model.crearEquipo.Equipo
+
 
 class CampeonatosAdapter(
 
     private val campeonatos: List<Campeonatos>,
 //    private val equipoActual: Equipo?,
 //    private val esCapitan: Boolean,
+//    private val View: HomeCampeonatosContract.View,
     private val presenter: HomeCampeonatosContract.Presenter
 
 
     ) : RecyclerView.Adapter<CampeonatosAdapter.CampeonatoViewHolder>() {
-
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CampeonatoViewHolder {
@@ -43,33 +46,45 @@ class CampeonatosAdapter(
         private val descripcion: TextView = itemView.findViewById(R.id.descripcion)
         private val btnVerDetalles: Button = itemView.findViewById(R.id.btnVerDetalles)
         private val btnincribir: TextView = itemView.findViewById(R.id.btnincribirme)
-        private  val estadocampeonato: TextView=itemView.findViewById(R.id.estado)
-        private val categoria:TextView=itemView.findViewById(R.id.categoria)
-        private val fechaini:TextView=itemView.findViewById(R.id.fechaInicio)
-        private val fechafinal:TextView=itemView.findViewById(R.id.fechaFin)
+        private val estadocampeonato: TextView = itemView.findViewById(R.id.estado)
+        private val categoria: TextView = itemView.findViewById(R.id.categoria)
+        private val fechaini: TextView = itemView.findViewById(R.id.fechaInicio)
+        private val fechafinal: TextView = itemView.findViewById(R.id.fechaFin)
+
 
         fun bind(campeonato: Campeonatos) {
             nombreCampeonato.text = campeonato.nombreCampeonato
             descripcion.text = campeonato.descripcion
-            estadocampeonato.text=campeonato.estadoCampeonato
-            categoria.text=campeonato.nombreDisciplinas
-            fechaini.text=campeonato.fechaInicio
-            fechafinal.text=campeonato.fechaFin
+            estadocampeonato.text = campeonato.estadoCampeonato
+            categoria.text = campeonato.nombreDisciplinas
+            fechaini.text = campeonato.fechaInicio
+            fechafinal.text = campeonato.fechaFin
 
-            val sharedPreferences = itemView.context.getSharedPreferences("AppPreferences", Context.MODE_PRIVATE)
-            val identificacion = sharedPreferences.getString("CEDULA", "")
+//            val sharedPreferences = itemView.context.getSharedPreferences("AppPreferences", Context.MODE_PRIVATE)
+//            val idCampeonatoInscrito = sharedPreferences.getString("CAMPEONATO_INSCRITO_ID", null)
+//            Log.d("CampeonatosAdapter", "ID del campeonato recuperado: $idCampeonatoInscrito")
 
             if (campeonato.estadoCampeonato == "Inscripcion") {
                 btnincribir.visibility = View.VISIBLE
                 btnincribir.setOnClickListener {
-                    if (identificacion.isNullOrEmpty()) {
-                        Toast.makeText(itemView.context, "Identificación no disponible", Toast.LENGTH_SHORT).show()
+                    val equipo = obtenerEquipoDeSharedPreferences(itemView.context)
+                    if (equipo == null) {
+                        Toast.makeText(
+                            itemView.context,
+                            "No tienes un equipo registrado",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     } else {
-                        presenter.verificarEquipoEnCampeonato(identificacion) { isInscrito ->
+                        // Verificar si el equipo ya está inscrito antes de mostrar el diálogo
+                        presenter.verificarEquipoEnCampeonato(equipo.cedula) { isInscrito, msg ->
                             if (isInscrito) {
-                                Toast.makeText(itemView.context, "El equipo ya está inscrito en este campeonato.", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(
+                                    itemView.context,
+                                    "El equipo ya está inscrito en otro campeonato.",
+                                    Toast.LENGTH_SHORT
+                                ).show()
                             } else {
-                                presenter.inscribirEquipoEnCampeonato(campeonato._id)
+                                mostrarModalConfirmacion(campeonato._id, equipo)
                             }
                         }
                     }
@@ -78,12 +93,53 @@ class CampeonatosAdapter(
                 btnincribir.visibility = View.GONE
             }
 
-            // Siempre ocultar el botón "Ver Detalles"
-            btnVerDetalles.visibility = View.GONE
+//            if (campeonato._id == idCampeonatoInscrito){
+//                btnincribir.text = "Ya estás inscrito"
+//                btnincribir.isEnabled = false
+//            }
+        }
 
 
+        private fun mostrarModalConfirmacion(idCampeonato: String, equipo: Equipo) {
+            AlertDialog.Builder(itemView.context)
+                .setMessage("¿Estás seguro de que deseas inscribir tu equipo a este campeonato?")
+                .setPositiveButton("Aceptar") { _, _ ->
+                    Log.d("CampeonatosAdapter", "Equipo en confirmación: $equipo")
+                    presenter.verificarEquipoEnCampeonato(equipo.cedula) { isInscrito, msg ->
+                        if (isInscrito) {
+                            Toast.makeText(itemView.context, "El equipo ya está inscrito en otro campeonato.", Toast.LENGTH_SHORT).show()
+                        } else {
+                            presenter.inscribirEquipoEnCampeonato(equipo, idCampeonato)
+                        }
+                    }
+                }
+                .setNegativeButton("Cancelar", null)
+                .show()
+        }
+
+        private fun obtenerEquipoDeSharedPreferences(context: Context): Equipo? {
+            val sharedPreferences =
+                context.getSharedPreferences("AppPreferences", Context.MODE_PRIVATE)
+            val equipoJson = sharedPreferences.getString("EQUIPO_DATA", null)
+            Log.d("SharedPreferences", "Equipo JSON recuperado: $equipoJson")
+            return if (equipoJson != null) {
+                val gson = Gson()
+                gson.fromJson(equipoJson, Equipo::class.java)
+            } else {
+                null
+            }
+        }
+    }
+    fun guardarIdCampeonatoEquipoInscrito(context: Context, idCampeonato: String) {
+        val sharedPreferences = context.getSharedPreferences("AppPreferences", Context.MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        editor.putString("CAMPEONATO_INSCRITO_ID", idCampeonato)
+        editor.apply()
+        Log.d("SharedPreferences", "ID guardado: $idCampeonato")
+    }
 
 
+}
 //            when (campeonato.estadoCampeonato) {
 //                "Ejecucion" -> {
 //                    btnVerDetalles.visibility = View.VISIBLE
@@ -103,8 +159,5 @@ class CampeonatosAdapter(
 //                    btnincribir.visibility = View.GONE
 //                }
 //            }
-        }
 
-    }
-}
 

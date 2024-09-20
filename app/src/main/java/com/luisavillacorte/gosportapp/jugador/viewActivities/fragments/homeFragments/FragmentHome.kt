@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -38,11 +39,13 @@ class FragmentHome : Fragment(), HomeCampeonatosContract.View {
     private var esCapitan: Boolean = false
 
 
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         return inflater.inflate(R.layout.fragment_home, container, false)
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -59,9 +62,8 @@ class FragmentHome : Fragment(), HomeCampeonatosContract.View {
 
         recyclerViewCampeonatos.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
 
-
-        presenter.getCampeonatos()
-        presenter.getPerfilUsuario()
+        campeonatosAdapter = CampeonatosAdapter(emptyList(), presenter)
+        recyclerViewCampeonatos.adapter = campeonatosAdapter
 
 
         btnFlotante.visibility = View.GONE
@@ -83,11 +85,31 @@ class FragmentHome : Fragment(), HomeCampeonatosContract.View {
 
         }
 
+
+        presenter.getCampeonatos()
+        presenter.getPerfilUsuario()
+
     }
+//    private fun onUnirEquipoButtonClick(idEquipo: String, idCampeonato: String){
+//        presenter.inscribirEquipoEnCampeonato(idEquipo, idCampeonato)
+//    }
+
+    override fun mostrarMensaje(mensaje: String) {
+        Toast.makeText(requireContext(), mensaje, Toast.LENGTH_SHORT).show()
+    }
+
+    override fun mostrarModalConfirmacion(mensaje: String, onAceptar: () -> Unit, onCancelar: () -> Unit) {
+        AlertDialog.Builder(requireContext())
+            .setMessage(mensaje)
+            .setPositiveButton("Aceptar") { _, _ -> onAceptar() }
+            .setNegativeButton("Cancelar") { _, _ -> onCancelar() }
+            .show()
+    }
+
     private fun handleBotonFlotanteClick() {
         if (esCapitan){
             mostrarMensajeSnackBar("Actualiza tu Equipo")
-            presenter.validarInscripcionJugador(idJugador!!)
+//            presenter.validarInscripcionJugador(idJugador!!)
         } else {
             mostrarMensajeSnackBar("Crea tu equipo")
             navigateToCrearEquipo()
@@ -204,8 +226,10 @@ class FragmentHome : Fragment(), HomeCampeonatosContract.View {
     }
 
     override fun showSuccess(message: String) {
-        TODO("Not yet implemented")
+        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
     }
 
+   override fun mostrarEstadoInscripcion(isInscrito: Boolean){
 
+   }
 }

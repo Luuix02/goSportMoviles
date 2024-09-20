@@ -1,5 +1,6 @@
 package com.luisavillacorte.gosportapp.jugador.adapters.model.homeCampeonatos
 
+import android.content.Context
 import com.luisavillacorte.gosportapp.jugador.adapters.model.auth.PerfilUsuarioResponse
 import com.luisavillacorte.gosportapp.jugador.adapters.model.crearEquipo.Equipo
 import com.luisavillacorte.gosportapp.jugador.adapters.model.crearEquipo.EquipoInscriptoRequest
@@ -22,12 +23,17 @@ interface HomeCampeonatosContract {
         fun mostrarBotonCrearEquipo()
         fun mostrarMensajeSnackBar(message: String)
         fun showValidacionInscripcion(estaInscrito: Boolean, equipo: Equipo?)
+        fun mostrarMensaje(mensaje: String)
+        fun mostrarModalConfirmacion(mensaje: String, onAceptar: () -> Unit, onCancelar: () -> Unit)
+        fun mostrarEstadoInscripcion(isInscrito: Boolean)
+        fun showSuccess(message: String)
+        fun traernombre(perfil: PerfilUsuarioResponse)
 
 //        fun actualizarEstadoInscripcion(idCampeonato: String)
 
 //        fun mostrarAlerta(mensaje: String)
-//        fun mostrarModalConfirmacion(onConfirm: () -> Unit)
-//        fun mostrarMensaje(mensaje: String)
+
+
 
 //        fun showInscripcionDetails(equipos: List<CampeonatoInscripcion>)
 //        fun mostrarMensaje(message: String)
@@ -37,8 +43,7 @@ interface HomeCampeonatosContract {
 
 //        fun navigateToCrearEquipoCampe()
 
-        fun showSuccess(message: String)
-        fun traernombre(perfil: PerfilUsuarioResponse)
+
 
     }
 
@@ -47,8 +52,12 @@ interface HomeCampeonatosContract {
 
         fun getPerfilUsuario()
         fun validarInscripcionJugador(idJugador: String)
-        fun verificarEquipoEnCampeonato(identificacion: String, callback: (Boolean) -> Unit)
-        fun inscribirEquipoEnCampeonato(idCampeonato: String)
+        fun verificarEquipoEnCampeonato(identificacion: String, callback: (Boolean, String) -> Unit)
+        fun inscribirEquipoEnCampeonato(equipo: Equipo, idCampeonato: String)
+
+
+
+
 //        fun validarInscripcionEquipo(identificacion: String)
 //        fun setCampeonatoSeleccionado(campeonatos: Campeonatos)
 //        fun redirigirCrearEquipo()

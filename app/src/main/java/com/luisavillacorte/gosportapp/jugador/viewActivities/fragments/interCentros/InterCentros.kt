@@ -20,6 +20,11 @@ class InterCentros : Fragment(), InterCentrosContract.View {
     private lateinit var presenter: InterCentrosPresenter
     private lateinit var recyclerView: RecyclerView
     private val partidosAdapter = PartidosAdapter()
+    companion object {
+        fun newInstance(): InterCentros {
+            return InterCentros()
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

@@ -25,13 +25,13 @@ interface EditarPerfilContract {
         fun actualizarPrograma(idPrograma: String, programa: Programas)// Método para obtener programas
     }
 
-    interface Model {
-        fun updatePrograma(idPrograma: String, programa: Programas, callback: (Boolean) -> Unit)
-        fun fetchPerfilUsuario(callback: (PerfilUsuarioResponse?) -> Unit)
-        fun updatePerfilUsuario(userId: String, perfilUsuarioResponse: PerfilUsuarioResponse, callback: (Boolean) -> Unit)
-        fun uploadFoto(uri: Uri, userId: String, callback: (Boolean) -> Unit)
-        fun updateFoto(uri: Uri, userId: String, callback: (Boolean) -> Unit)
-        fun deleteFoto(userId: String, callback: (Boolean) -> Unit)
-        fun fetchProgramas(callback: (List<Programas>?) -> Unit)  // Método para obtener programas
-    }
+//    interface Model {
+//        fun updatePrograma(idPrograma: String, programa: Programas, callback: (Boolean) -> Unit)
+//        fun fetchPerfilUsuario(callback: (PerfilUsuarioResponse?) -> Unit)
+//        fun updatePerfilUsuario(userId: String, perfilUsuarioResponse: PerfilUsuarioResponse, callback: (Boolean) -> Unit)
+//        fun uploadFoto(uri: Uri, userId: String, callback: (Boolean) -> Unit)
+//        fun updateFoto(uri: Uri, userId: String, callback: (Boolean) -> Unit)
+//        fun deleteFoto(userId: String, callback: (Boolean) -> Unit)
+//        fun fetchProgramas(callback: (List<Programas>?) -> Unit)  // Método para obtener programas
+//    }
 }
