@@ -26,7 +26,7 @@
             android:paddingBottom="8dp">
 
             <TextView
-                android:id="@+id/nombreCampeonato"
+                android:id="@+id/nombreCampeonat"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Nombre del Campeonato"
@@ -35,7 +35,7 @@
                 android:layout_gravity="center_horizontal" />
 
             <TextView
-                android:id="@+id/categoria"
+                android:id="@+id/categori"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Categoría"
@@ -54,7 +54,7 @@
 
             <!-- Descripción -->
             <TextView
-                android:id="@+id/descripcion"
+                android:id="@+id/descripcio"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Descripción del Campeonato"
@@ -77,7 +77,7 @@
 
 
                 <TextView
-                    android:id="@+id/fechaInicio"
+                    android:id="@+id/fechaInici"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Fecha de Inicio"/>
@@ -92,7 +92,7 @@
                     />
 
                 <TextView
-                    android:id="@+id/fechaFin"
+                    android:id="@+id/fechaFi"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Fecha de Fin"
@@ -113,7 +113,7 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/estado"
+                    android:id="@+id/estad"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Estado del Campeonato"/>
@@ -125,39 +125,29 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/tipocampeonato"
+                    android:id="@+id/tipocampeonat"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Estado del Campeonato"/>
 
-                <!-- Botones -->
-                <LinearLayout
-                    android:layout_width="0dp"
+
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <Button
+                    android:id="@+id/btnintercnetrosverdetalles"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="end">
-
-                    <Button
-                        android:id="@+id/btnVerDetalles"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Ver detalles"
-                        android:textSize="14sp"
-                        android:backgroundTint="#11A3BD"
-                        android:visibility="gone" />
-
-                    <Button
-                        android:id="@+id/btnincribirme"
-                        android:layout_width="wrap_content"
-                        android:layout_height="50dp"
-                        android:text="Inscribirme"
-                        android:visibility="gone"
-                        android:textStyle="bold"
-                        android:textSize="14sp"
-                        android:backgroundTint="#11A3BD"
-                        android:layout_marginStart="16dp"
-                        />
-                </LinearLayout>
+                    android:backgroundTint="#11A3BD"
+                    android:text="Ver detalles"
+                    android:layout_marginTop="25dp"
+                    android:textColor="@color/black"
+                    android:textSize="18dp"
+                    android:textStyle="bold"
+                    />
             </LinearLayout>
         </LinearLayout>
 

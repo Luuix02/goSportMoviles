@@ -2,6 +2,7 @@ package com.luisavillacorte.gosportapp.jugador.adapters.apiService.homeCampeonat
 
 import com.luisavillacorte.gosportapp.jugador.adapters.model.auth.NuevaContrasenaRequest
 import com.luisavillacorte.gosportapp.jugador.adapters.model.auth.PerfilUsuarioResponse
+import com.luisavillacorte.gosportapp.jugador.adapters.model.campIntercentros.CampeonatInter
 import com.luisavillacorte.gosportapp.jugador.adapters.model.crearEquipo.EquipoInscriptoRequest
 import com.luisavillacorte.gosportapp.jugador.adapters.model.crearEquipo.EquipoInscriptoResponse
 import com.luisavillacorte.gosportapp.jugador.adapters.model.crearEquipo.EquipoInscritoData
@@ -29,6 +30,9 @@ import retrofit2.http.Path
 interface HomeApiService {
     @GET("campeonato")
     fun getCampeonato(): Call<List<Campeonatos>>
+
+    @GET("campeonato")
+    fun traerCampeonatosIntercentros(): Call<List<CampeonatInter>>
 
     @GET("/usuarios/perfil")
     fun obtenerPerfilUsuario(@Header("Authorization") token: String): Call<PerfilUsuarioResponse>

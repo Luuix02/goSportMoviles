@@ -47,6 +47,7 @@ class CampeonatosAdapter(
         private val categoria:TextView=itemView.findViewById(R.id.categoria)
         private val fechaini:TextView=itemView.findViewById(R.id.fechaInicio)
         private val fechafinal:TextView=itemView.findViewById(R.id.fechaFin)
+        private val tipo:TextView=itemView.findViewById(R.id.tipocampeonato)
 
         fun bind(campeonato: Campeonatos) {
             nombreCampeonato.text = campeonato.nombreCampeonato
@@ -55,6 +56,7 @@ class CampeonatosAdapter(
             categoria.text=campeonato.nombreDisciplinas
             fechaini.text=campeonato.fechaInicio
             fechafinal.text=campeonato.fechaFin
+            tipo.text=campeonato.tipoCampeonato
 
             val sharedPreferences = itemView.context.getSharedPreferences("AppPreferences", Context.MODE_PRIVATE)
             val identificacion = sharedPreferences.getString("CEDULA", "")
