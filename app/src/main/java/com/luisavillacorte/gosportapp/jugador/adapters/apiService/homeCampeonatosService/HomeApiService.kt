@@ -114,7 +114,7 @@ fun getPosiciones(
 
     @POST("/equipoInscripto")
     fun inscribirEquipoCampeonato(
-        @Body Equipo: EquipoInscriptoRequest
+        @Body equipoData: EquipoInscriptoRequest
     ): Call<EquipoInscriptoResponse>
 
 

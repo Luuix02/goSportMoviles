@@ -27,10 +27,10 @@ interface GestionarMiEquipoApiService {
     @Multipart
     @PATCH("inscripcionEquipos/{id}/{idLogo}")
     fun actualizarLogoEquipo(
-        @Path("id") equipoId: String,
-        @Path("idLogo") publicId: String,
+        @Path("id") id: String,
+        @Path("idLogo") idLogo: String,
         @Part file: MultipartBody.Part
-    ): Call<ResponseBody>
+    ): Call<UploadResponse>
 
     @GET("/usuarios/identificacion/buscar")
     fun buscarJugadoresPorIdent(

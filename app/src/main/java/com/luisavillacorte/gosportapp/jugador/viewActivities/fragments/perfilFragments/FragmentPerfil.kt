@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.replace
 import com.bumptech.glide.Glide
@@ -152,4 +153,19 @@ class FragmentPerfil : Fragment(), HomeCampeonatosContract.View {
     override fun showValidacionInscripcion(estaInscrito: Boolean, equipo: Equipo?) {
         // Validar la inscripción del usuario y mostrar si está inscrito
     }
+    override fun mostrarMensaje(mensaje: String) {
+        Toast.makeText(requireContext(), mensaje, Toast.LENGTH_SHORT).show()
+    }
+    override fun mostrarModalConfirmacion(mensaje: String, onAceptar: () -> Unit, onCancelar: () -> Unit) {
+//        AlertDialog.Builder(requireContext())
+//            .setMessage(mensaje)
+//            .setPositiveButton("Aceptar") { _, _ -> onAceptar() }
+//            .setNegativeButton("Cancelar") { _, _ -> onCancelar() }
+//            .show()
+    }
+   override fun mostrarEstadoInscripcion(isInscrito: Boolean){
+
+    }
+
+
 }

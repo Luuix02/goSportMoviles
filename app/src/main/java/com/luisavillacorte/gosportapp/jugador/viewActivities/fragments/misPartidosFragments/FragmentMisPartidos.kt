@@ -26,6 +26,7 @@ class FragmentMisPartidos : Fragment(), MisPartidosContract.View {
     private lateinit var presenter: MisPartidosPresenter
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: VsAdapter
+//    private var tipoCampeonato: String? ?null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -73,4 +74,20 @@ class FragmentMisPartidos : Fragment(), MisPartidosContract.View {
         dialog.show(childFragmentManager, "resultadosDialog")
 
     }
+
+//    override fun redirigirAFragmentCompartido(tipoCampeonato: String) {
+//        val fragment = FragmentMisPartidos.newInstance(tipoCampeonato)
+//        supportFragmentManager.beginTransaction()
+//            .replace(R.id.fragment_container, fragment)
+//            .addToBackStack(null)
+//            .commit()
+//    }
+
+    fun redirigirAFragmentIntercentros(){
+
+    }
+
+
+
+
 }

@@ -9,13 +9,18 @@ import com.luisavillacorte.gosportapp.jugador.adapters.apiService.gestionarMiEqu
 import com.luisavillacorte.gosportapp.jugador.adapters.model.auth.User
 import com.luisavillacorte.gosportapp.jugador.adapters.model.crearEquipo.Equipo
 import com.luisavillacorte.gosportapp.jugador.adapters.model.crearEquipo.Participante
+import com.luisavillacorte.gosportapp.jugador.adapters.model.crearEquipo.UploadResponse
 import com.luisavillacorte.gosportapp.jugador.adapters.model.crearEquipo.ValidarInscripcionResponse
 import com.luisavillacorte.gosportapp.jugador.adapters.storage.TokenManager
+import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Response
 import retrofit2.Callback
+import retrofit2.http.Path
 import java.io.File
 
 class GestionarMiEquipoPresenter(
@@ -36,7 +41,7 @@ class GestionarMiEquipoPresenter(
     }
 
     private var currentQuery: String = ""
-    fun getFileFromUri(uri: Uri): File?{
+    fun getFileFromUri(uri: Uri): File? {
         val inputStream = context.contentResolver.openInputStream(uri)
         val file = File.createTempFile("temp", ".jpg", context.cacheDir)
         inputStream?.use { input ->
@@ -46,9 +51,10 @@ class GestionarMiEquipoPresenter(
         }
         return file
     }
+
     private val tokenManager = TokenManager(context)
     private val TAG = "GestionarMiEquipoPresenter"
-   override fun actualizarEquipo(equipo: Equipo, equipoId: String) {
+    override fun actualizarEquipo(equipo: Equipo, equipoId: String) {
         val call = apiService.actualizarEquipo(equipoId, equipo)
         call.enqueue(object : Callback<Equipo> {
             override fun onResponse(call: Call<Equipo>, response: Response<Equipo>) {
@@ -76,7 +82,10 @@ class GestionarMiEquipoPresenter(
         val call = apiService.validarInscripcionIntegrante(idJugador)
 
         call.enqueue(object : Callback<ValidarInscripcionResponse> {
-            override fun onResponse(call: Call<ValidarInscripcionResponse>, response: Response<ValidarInscripcionResponse>) {
+            override fun onResponse(
+                call: Call<ValidarInscripcionResponse>,
+                response: Response<ValidarInscripcionResponse>
+            ) {
                 if (response.isSuccessful) {
                     val validarResponse = response.body()
                     if (validarResponse != null) {
@@ -101,7 +110,7 @@ class GestionarMiEquipoPresenter(
         })
     }
 
-  override fun realizarBusqueda(query: String) {
+    override fun realizarBusqueda(query: String) {
         val token = tokenManager.getToken() ?: return view.showError("Token no disponible")
         val call = apiService.buscarJugadoresPorIdent("Bearer $token", query)
         Log.d(TAG, "Token enviado: Bearer $token")
@@ -145,17 +154,29 @@ class GestionarMiEquipoPresenter(
         })
     }
 
-    override fun actualizarLogoEquipo(equipoId: String, idLogo: String, logo: MultipartBody.Part) {
-        Log.d("Presenter", "Subiendo logo para equipoId: $equipoId, idLogo: $idLogo")
-        val call = apiService.actualizarLogoEquipo(equipoId, idLogo, logo)
-        call.enqueue(object : Callback<ResponseBody> {
-            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+    override fun actualizarLogoEquipo(id: String, idLogo: String, file: MultipartBody.Part) {
+        view.showLoading(true)
+        Log.d("Presenter", "Subiendo logo para equipoId: $id, idLogo: $idLogo")
+        val call = apiService.actualizarLogoEquipo(id, idLogo, file)
+        call.enqueue(object : Callback<UploadResponse> {
+            override fun onResponse(
+                call: Call<UploadResponse>,
+                response: Response<UploadResponse>
+            ) {
+                view.showLoading(false)
                 if (response.isSuccessful) {
                     Log.d("Presenter", "Logo actualizado exitosamente")
-                    view.mostrarActualizacionLogoExitosa()
+                    val uploadResponse = response.body()
+                    if (uploadResponse != null) {
+                        view.mostrarActualizacionLogoExitosa(
+                            uploadResponse.message,
+                            uploadResponse.url
+                        )
+                    } else {
+                        view.showError("Respuesta exitosa, pero no se recibió un mensaje o URL")
+                    }
                 } else {
                     Log.e("Presenter", "Error: ${response.code()} ${response.message()}")
-                    // Manejo de errores basado en el código de respuesta
                     when (response.code()) {
                         403 -> view.showError("No tienes permiso para actualizar el logo")
                         404 -> view.showError("Equipo no encontrado")
@@ -165,12 +186,14 @@ class GestionarMiEquipoPresenter(
                 }
             }
 
-            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+            override fun onFailure(call: Call<UploadResponse>, t: Throwable) {
                 Log.e("Presenter", "Error en la solicitud: ${t.message}")
                 view.showError("Error en la solicitud: ${t.message}")
+                view.showLoading(false)
             }
         })
+
+
     }
-
-
 }
+

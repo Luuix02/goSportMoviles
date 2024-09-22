@@ -11,24 +11,26 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import com.luisavillacorte.gosportapp.R
 import com.luisavillacorte.gosportapp.common.apiRetrofit.RetrofitInstance
 import com.luisavillacorte.gosportapp.jugador.adapters.apiService.homeCampeonatosService.HomeApiService
 import com.luisavillacorte.gosportapp.jugador.adapters.model.auth.NuevaContrasenaRequest
 import com.luisavillacorte.gosportapp.jugador.adapters.model.auth.PerfilUsuarioResponse
+import com.luisavillacorte.gosportapp.jugador.adapters.model.cambiarContrasena.CambiarContrasenaContract
+import com.luisavillacorte.gosportapp.jugador.adapters.model.cambiarContrasena.CambiarContrasenaPresenter
 import com.luisavillacorte.gosportapp.jugador.adapters.model.crearEquipo.Equipo
 import com.luisavillacorte.gosportapp.jugador.adapters.model.homeCampeonatos.Campeonatos
 import com.luisavillacorte.gosportapp.jugador.adapters.model.homeCampeonatos.HomeCampeonatosContract
 import com.luisavillacorte.gosportapp.jugador.adapters.model.homeCampeonatos.HomeCampeonatosPresenter
 
-class CambiarContrasena : Fragment(), HomeCampeonatosContract.View {
+class CambiarContrasena : Fragment(), CambiarContrasenaContract.View{
 
     private var isCurrentPasswordVisible = false
     private var isNewPasswordVisible = false
     private var isConfirmNewPasswordVisible = false
-    private lateinit var presenter: HomeCampeonatosPresenter
-
+    private lateinit var presenter: CambiarContrasenaPresenter
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -43,7 +45,7 @@ class CambiarContrasena : Fragment(), HomeCampeonatosContract.View {
 
         // Inicializar el presenter
         val apiService = RetrofitInstance.createService(HomeApiService::class.java)
-        presenter = HomeCampeonatosPresenter(this, requireContext(), apiService)
+        presenter = CambiarContrasenaPresenter(this, requireContext(), apiService)
 
         btnGuardarCambios.setOnClickListener {
             val nuevaContrasena = etNewPassword.text.toString()
@@ -53,7 +55,11 @@ class CambiarContrasena : Fragment(), HomeCampeonatosContract.View {
                 if (nuevaContrasena == confirmarContrasena) {
                     val nuevaContrasenaRequest = NuevaContrasenaRequest(nuevaContrasena)
 
+//                    presenter(nuevaContrasenaRequest)
+
+
                     presenter.cambiarContrasena(nuevaContrasenaRequest)
+
                 } else {
                     Toast.makeText(requireContext(), "Las contraseñas no coinciden", Toast.LENGTH_SHORT).show()
                 }
@@ -99,50 +105,55 @@ class CambiarContrasena : Fragment(), HomeCampeonatosContract.View {
     }
 
     override fun showError(message: String) {
-        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
     }
 
-    override fun traernombre(perfil: PerfilUsuarioResponse) {
-        // No aplica en este fragmento
+
     }
 
-    override fun mostrarBotonGestionarEquipo() {
-        // No aplica en este fragmento
-    }
+//    override fun traernombre(perfil: PerfilUsuarioResponse) {
+//        // No aplica en este fragmento
+//    }
+//
+//    override fun mostrarBotonGestionarEquipo() {
+//        // No aplica en este fragmento
+//    }
+//
+//    override fun mostrarBotonCrearEquipo() {
+//
+//    }
+//
+//    override fun mostrarMensajeSnackBar(message: String) {
+//
+//    }
+//
+//    override fun showValidacionInscripcion(success: Boolean, equipo: Equipo?) {
+//        // No aplica en este fragmento
+//    }
+//
+//    override fun showInscripcionError(message: String) {
+//        // No aplica en este fragmento
+//    }
+//
+//    override fun navigateToCrearEquipo() {
+//
+//    }
+//
+//    override fun navigateToGestionarEquipo(equipo: Equipo) {
+//
+//    }
+//
+//
+//    override fun showCampeonatos(campeonatos: List<Campeonatos>) {
+//        // No aplica en este fragmento
+//    }
+//
+//    override fun showLoading() {
+//        // Muestra un indicador de carga si es necesario
+//    }
+//
+//    override fun hideLoading() {
+//        // Oculta el indicador de carga si es necesario
+//    }
 
-    override fun mostrarBotonCrearEquipo() {
-        TODO("Not yet implemented")
-    }
-
-    override fun mostrarMensajeSnackBar(message: String) {
-        TODO("Not yet implemented")
-    }
-
-    override fun showValidacionInscripcion(success: Boolean, equipo: Equipo?) {
-        // No aplica en este fragmento
-    }
-
-    override fun showInscripcionError(message: String) {
-        // No aplica en este fragmento
-    }
-
-    override fun navigateToCrearEquipo() {
-        TODO("Not yet implemented")
-    }
-
-    override fun navigateToGestionarEquipo(equipo: Equipo) {
-        TODO("Not yet implemented")
-    }
-
-    override fun showCampeonatos(campeonatos: List<Campeonatos>) {
-        // No aplica en este fragmento
-    }
-
-    override fun showLoading() {
-        // Muestra un indicador de carga si es necesario
-    }
-
-    override fun hideLoading() {
-        // Oculta el indicador de carga si es necesario
-    }
-}

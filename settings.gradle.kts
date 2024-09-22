@@ -17,6 +17,12 @@ pluginManagement {
         id("kotlin-parcelize") version "1.8.10" apply false
         //alias(libs.plugins.jetbrains.kotlin.android)
 //        alias(libs.plugins.jetbrains.kotlin.android)
+//        alias(libs.plugins.jetbrains.kotlin.android)
+//        alias(libs.plugins.jetbrains.kotlin.android)
+//        alias(libs.plugins.jetbrains.kotlin.android)
+//        alias(libs.plugins.jetbrains.kotlin.android)
+//        alias(libs.plugins.jetbrains.kotlin.android)
+//        alias(libs.plugins.jetbrains.kotlin.android)
 //        alias(libs.plugins.jetbrains-kotlin.android)
     }
 }

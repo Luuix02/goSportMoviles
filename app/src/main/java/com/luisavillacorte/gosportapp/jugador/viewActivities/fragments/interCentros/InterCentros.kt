@@ -21,8 +21,16 @@ class InterCentros : Fragment(), InterCentrosContract.View {
     private lateinit var recyclerViewEquipos: RecyclerView
     private lateinit var recyclerViewPosiciones: RecyclerView // Recycler para posiciones
     private val partidosAdapter = PartidosAdapter()
+
+    companion object {
+        fun newInstance(): InterCentros {
+            return InterCentros()
+        }
+    }
+
     private val equiposAdapter = EquiposAdapter()
     private val posicionesAdapter = PosicionesAdapter() // Adapter para posiciones
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

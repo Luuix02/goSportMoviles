@@ -14,7 +14,7 @@ data class CrearEquipoResponse(
 
 @Parcelize
 data class  Equipo(
-    @SerializedName("_id") val id: String, //capturar este id junto con la cedula y lo guardo en el sharedPreferences
+    @SerializedName("_id") val id: String? = null,
     val nombreEquipo: String,
     val nombreCapitan: String,
     val contactoUno: String,
@@ -28,6 +28,8 @@ data class  Equipo(
     val participantes: List<User>,
 
     ) : Parcelable
+
+
 data class BuscarJugadoresResponse(
     val participantes: List<User>
 )
@@ -36,6 +38,7 @@ data class UploadResponse(
     val url: String,
     val public_id: String
 )
+
 data class  Participante(
     @SerializedName("_id") val id: String,
     val nombreJugador: String,
@@ -49,21 +52,27 @@ data class ValidarInscripcionResponse(
     val equipo: List<Equipo>
 )
 data class EquipoInscriptoRequest(
-    @SerializedName("_id") val id: String,
-    val equipo: Equipo, // Asegúrate de incluir todos los campos necesarios
+//    @SerializedName("_id") val id: String,
+    val Equipo: Equipo,
     val idCampeonato: String
 
 )
 
 data class VerificarEquipoResponse(
     val msg: String,
-    val data: List<List<EquipoInscritoData>>
+    val data: List<List<EquipoInscritoInfo>>
 )
-
-data class EquipoInscritoData(
+data class EquipoInscritoInfo(
     val _id: String,
     val Equipo: Equipo,
     val idCampeonato: String
+)
+
+
+data class EquipoInscritoData(
+    val Equipo: Equipo,
+    val idCampeonato: String,
+    val _id: String
 )
 
 data class EquipoInscriptoResponse(
@@ -71,5 +80,11 @@ data class EquipoInscriptoResponse(
 //    val inscripto: EquipoInscritoData
 //
     val inscripto: List<EquipoInscritoData>
+)
+data class Participantes(
+    @SerializedName("_id") val id: String,
+    val nombres: String,
+    val ficha: String,
+    val dorsal: Int
 )
 

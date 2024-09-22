@@ -3,9 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -18,8 +17,17 @@
         android:theme="@style/Theme.GoSportApp"
         tools:targetApi="31">
         <activity
+            android:name=".ActivityCambiarContrasena"
+            android:exported="false" />
+        <activity
+            android:name=".ActivitySolicitarCodigo"
+            android:exported="false" />
+        <activity
+            android:name=".ActivityVerificarCodigo"
+            android:exported="false" />
+        <activity
             android:name=".planillero.viewActivities.EquiposAsignadosPlanillero.PlanilleroFragment"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
             android:name=".jugador.viewActivities.MainActivity"
             android:exported="false" />

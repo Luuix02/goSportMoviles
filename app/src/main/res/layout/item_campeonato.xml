@@ -13,9 +13,9 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="16dp"
-        android:orientation="vertical">
+        android:layout_height="239dp"
+        android:orientation="vertical"
+        android:padding="16dp">
 
 
         <LinearLayout
@@ -29,20 +29,20 @@
                 android:id="@+id/nombreCampeonato"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
                 android:text="Nombre del Campeonato"
-                android:textStyle="bold"
                 android:textSize="20sp"
-                android:layout_gravity="center_horizontal" />
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/categoria"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Categoría"
-                android:textStyle="bold"
-                android:textSize="18sp"
+                android:layout_gravity="center_horizontal"
                 android:paddingTop="4dp"
-                android:layout_gravity="center_horizontal" />
+                android:text="Categoría"
+                android:textSize="18sp"
+                android:textStyle="bold" />
         </LinearLayout>
 
         <!-- Contenedor para Descripción, Fechas y Estado -->
@@ -57,10 +57,9 @@
                 android:id="@+id/descripcion"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Descripción del Campeonato"
                 android:paddingTop="8dp"
                 android:paddingBottom="8dp"
-                />
+                android:text="Descripción del Campeonato" />
 
             <!-- Fechas -->
             <LinearLayout
@@ -73,14 +72,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Fecha inicio: "
-                    android:textStyle="bold"/>
+                    android:textStyle="bold" />
 
 
                 <TextView
                     android:id="@+id/fechaInicio"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Fecha de Inicio"/>
+                    android:text="Fecha de Inicio" />
 
 
                 <TextView
@@ -88,15 +87,13 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
                     android:text="Fecha fin: "
-                    android:textStyle="bold"
-                    />
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/fechaFin"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Fecha de Fin"
-                    />
+                    android:text="Fecha de Fin" />
             </LinearLayout>
 
             <!-- Estado y Botones -->
@@ -116,7 +113,7 @@
                     android:id="@+id/estado"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Estado del Campeonato"/>
+                    android:text="Estado del Campeonato" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -141,22 +138,21 @@
                         android:id="@+id/btnVerDetalles"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:backgroundTint="#11A3BD"
                         android:text="Ver detalles"
                         android:textSize="14sp"
-                        android:backgroundTint="#11A3BD"
                         android:visibility="gone" />
 
                     <Button
                         android:id="@+id/btnincribirme"
                         android:layout_width="wrap_content"
                         android:layout_height="50dp"
-                        android:text="Inscribirme"
-                        android:visibility="gone"
-                        android:textStyle="bold"
-                        android:textSize="14sp"
-                        android:backgroundTint="#11A3BD"
                         android:layout_marginStart="16dp"
-                        />
+                        android:backgroundTint="#11A3BD"
+                        android:text="Inscribirme"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
+                        android:visibility="gone" />
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
