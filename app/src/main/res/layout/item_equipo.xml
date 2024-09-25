@@ -13,11 +13,11 @@
         android:id="@+id/textViewNombreEquipo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"/>
+        android:layout_marginStart="80dp"/>
 
     <TextView
         android:id="@+id/textViewpuntos"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"/>
+        android:layout_marginStart="90dp"/>
 </LinearLayout>

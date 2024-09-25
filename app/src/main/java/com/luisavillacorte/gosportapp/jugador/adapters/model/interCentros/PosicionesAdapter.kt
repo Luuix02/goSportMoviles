@@ -30,13 +30,13 @@ class PosicionesAdapter : RecyclerView.Adapter<PosicionesAdapter.PosicionViewHol
     }
 
     override fun onBindViewHolder(holder: PosicionViewHolder, position: Int) {
-        holder.bind(posiciones[position], position) // Pasa la posición al bind
+        holder.bind(posiciones[position], position)
     }
 
     override fun getItemCount(): Int = posiciones.size
 
     fun setPosiciones(newPosiciones: List<PosicionEquipoData>) {
-        // Ordena las posiciones por puntos en orden descendente
+
         posiciones = newPosiciones.sortedByDescending { it.pts }
         notifyDataSetChanged()
     }
