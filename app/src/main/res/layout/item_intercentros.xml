@@ -137,17 +137,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
+
                 <Button
                     android:id="@+id/btnintercnetrosverdetalles"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="38dp"
+                    android:layout_marginTop="25dp"
                     android:backgroundTint="#11A3BD"
                     android:text="Ver detalles"
-                    android:layout_marginTop="25dp"
                     android:textColor="@color/black"
                     android:textSize="18dp"
-                    android:textStyle="bold"
-                    />
+                    android:textStyle="bold" />
             </LinearLayout>
         </LinearLayout>
 

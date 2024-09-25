@@ -29,7 +29,7 @@ class CampeonatoInterPresenter (
                 if (response.isSuccessful) {
                     response.body()?.let { campeonatos ->
                         val campeonatoFiltrado = campeonatos.filter {
-                            it.estadoCampeonato == "Inscripcion" || it.estadoCampeonato == "Ejecucion" || it.estadoCampeonato == "Finalizacion"
+                            it.estadoCampeonato == "Inscripcion" || it.estadoCampeonato == "Ejecucion" || it.estadoCampeonato == "Finalizado"
                         }
 
                         view.mostrarCampeonatos(campeonatoFiltrado)

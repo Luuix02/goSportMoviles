@@ -13,6 +13,7 @@ import com.luisavillacorte.gosportapp.jugador.adapters.model.homeCampeonatos.Cam
 import com.luisavillacorte.gosportapp.jugador.adapters.model.interCentros.Partidos
 import com.luisavillacorte.gosportapp.jugador.adapters.model.interCentros.PosicionEquipoData
 import com.luisavillacorte.gosportapp.jugador.adapters.model.interCentros.PosicionEquipoResponse
+import com.luisavillacorte.gosportapp.jugador.adapters.model.resultadoInter.Resulatdos
 import okhttp3.MultipartBody
 import retrofit2.Call
 import retrofit2.http.Body
@@ -116,6 +117,9 @@ fun getPosiciones(
     fun inscribirEquipoCampeonato(
         @Body equipoData: EquipoInscriptoRequest
     ): Call<EquipoInscriptoResponse>
+
+    @GET("resultadosInterCentros")
+    fun getResultados(@Header("idCampeonato") idCampeonato: String): Call<List<Resulatdos>>
 
 
 
