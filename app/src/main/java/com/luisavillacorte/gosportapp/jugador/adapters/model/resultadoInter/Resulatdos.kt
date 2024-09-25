@@ -16,7 +16,10 @@ class Resulatdos(
 data class EquipoResultado(
     val equipo1: DetalleEquipo,
     val golesE1: List<Goleador>?,
+    val equipo2: DetalleEquipo,
+    val golesE2: List<Goleador>?,
     val amarillasE1: List<Amarilla>?,
+    val amarillasE2: List<Amarilla>?,
     val rojasE1: List<Roja>?,
     val puntos: Int
 )

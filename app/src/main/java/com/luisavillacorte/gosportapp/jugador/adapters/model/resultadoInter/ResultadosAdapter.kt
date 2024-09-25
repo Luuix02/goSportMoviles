@@ -27,19 +27,22 @@ class ResultadosAdapter(private val resultados: List<Resulatdos>) : RecyclerView
         private val equipo2Nombre: TextView = itemView.findViewById(R.id.nombre2)
         private val golesEquipo1: TextView = itemView.findViewById(R.id.golin1)
         private val golesEquipo2: TextView = itemView.findViewById(R.id.golin2)
+        private val amarillae1: TextView = itemView.findViewById(R.id.amain1)
+        private val amarillae2: TextView = itemView.findViewById(R.id.amain2)
+
 
         fun bind(partido: Resulatdos) {
             // Asignación de los nombres de los equipos
             // Asignación de los nombres de los equipos con verificación de null
             equipo1Nombre.text = partido.equipo1.equipo1?.nombreEquipo ?: "Equipo 1 no disponible"
-            equipo2Nombre.text = partido.equipo2.equipo1?.nombreEquipo ?: "Equipo 2 no disponible"
+            equipo2Nombre.text = partido.equipo2.equipo2 ?.nombreEquipo ?: "Equipo 2 no disponible"
 
             // Sumar los goles del equipo 1
             val goles1 = partido.equipo1.golesE1?.sumOf {
                 it.goles.toIntOrNull() ?: 0
             } ?: 0
             // Sumar los goles del equipo 2
-            val goles2 = partido.equipo2.golesE1?.sumOf {
+            val goles2 = partido.equipo2.golesE2?.sumOf {
                 it.goles.toIntOrNull() ?: 0
             } ?: 0
 
