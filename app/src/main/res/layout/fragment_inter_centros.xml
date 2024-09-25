@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -18,11 +17,26 @@
             android:textSize="30sp" />
 
         <TextView
+            android:id="@+id/textViewEquipos"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Equipos Inscritos"
+            android:textSize="15dp"
+            android:layout_marginTop="20dp"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewEquiposInscritos"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="8dp"/>
+
+        <TextView
             android:id="@+id/textViewPartidos"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Partidos Jugados"
-            android:textSize="20sp"
+            android:textSize="15sp"
             android:layout_marginTop="16dp"/>
 
         <androidx.recyclerview.widget.RecyclerView
@@ -32,47 +46,39 @@
             android:layout_marginTop="8dp"/>
 
         <TextView
-            android:id="@+id/textViewEquipos"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Equipos Inscritos"
-            android:textSize="20sp"
-            android:layout_marginTop="32dp"/>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerViewEquiposInscritos"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"/>
-
-        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Tabla de Posiciones"
             android:layout_gravity="center"
-            android:textSize="25sp"/>
+            android:textSize="18sp"/>
 
-        <!-- Encabezados de la tabla de posiciones -->
-        <LinearLayout
+        <!-- Encabezados de la tabla -->
+        <TableLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="8dp">
+            android:layout_marginTop="16dp">
 
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Posición"
-                android:textColor="@android:color/white" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="3"
-                android:text="Nombre del Equipo"
-                android:textColor="@android:color/white" />
-        </LinearLayout>
+            <TableRow>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Posición"
+                    android:padding="8dp"
+                    android:textStyle="bold"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Nombre del Equipo"
+                    android:padding="8dp"
+                    android:textStyle="bold"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Puntos"
+                    android:padding="8dp"
+                    android:textStyle="bold"/>
+            </TableRow>
+        </TableLayout>
 
         <!-- RecyclerView para las posiciones -->
         <androidx.recyclerview.widget.RecyclerView

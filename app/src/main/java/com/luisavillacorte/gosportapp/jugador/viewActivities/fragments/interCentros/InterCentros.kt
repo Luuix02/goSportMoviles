@@ -69,7 +69,7 @@ class InterCentros : Fragment(), InterCentrosContract.View {
         }
 
         recyclerViewEquipos = view.findViewById(R.id.recyclerViewEquiposInscritos)
-        recyclerViewEquipos.layoutManager = LinearLayoutManager(context)
+        recyclerViewEquipos.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         recyclerViewEquipos.adapter = equiposAdapter
 
         recyclerViewPosiciones = view.findViewById(R.id.recyclerViewPosiciones)
