@@ -16,6 +16,8 @@ import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.animation.AnimationUtils
+import com.luisavillacorte.gosportapp.ActivitySolicitarCodigo
+import com.luisavillacorte.gosportapp.ActivityVerificarCodigo
 //import com.luisavillacorte.gosportapp.DialogRecuperarContrasena1
 import com.luisavillacorte.gosportapp.R
 import com.luisavillacorte.gosportapp.common.apiRetrofit.RetrofitInstance
@@ -98,10 +100,10 @@ class ActivityLogin : AppCompatActivity(), LoginContract.View {
             startActivity(intent)
         }
 
-//        textoOlvidasteContrasena.setOnClickListener {
-//            val intent = Intent(this, DialogRecuperarContrasena1::class.java)
-//            startActivity(intent)
-//        }
+        textoOlvidasteContrasena.setOnClickListener {
+            val intent = Intent(this, ActivitySolicitarCodigo::class.java)
+            startActivity(intent)
+        }
     }
 
     private fun toggleContrasenaVisibility() {

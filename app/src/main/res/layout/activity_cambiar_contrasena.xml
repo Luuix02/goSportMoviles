@@ -50,7 +50,7 @@
             android:padding="12dp" />
 
         <Button
-            android:id="@+id/btnNewClave"
+            android:id="@+id/btnRestablecerClave"
             android:layout_width="287dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"

@@ -69,7 +69,7 @@ class FragmentCrearEquipo : Fragment(), CrearEquipoContract.View {
 
         val view = inflater.inflate(R.layout.fragment_crear_equipo, container, false)
 
-        // Inicializar las vistas
+
         nombreEquipoEditText = view.findViewById(R.id.nombreEquipo)
         nombreCapitanEditText = view.findViewById(R.id.nombreCapitan)
         celularPrincipalEditText = view.findViewById(R.id.CelularPrincipal)
@@ -122,12 +122,12 @@ class FragmentCrearEquipo : Fragment(), CrearEquipoContract.View {
                 } else {
                     if (isDorsalValid(usuario.dorsal) && !isJugadorEnEquipo(usuario)) {
                         presenter.validarInscripcion(usuario.id)
-                        //
-//                                            agregarJugadorSeleccionado(usuario)
+
+                                            agregarJugadorSeleccionado(usuario)
                     } else {
                         showError("El jugador ya está en el equipo o el dorsal no es válido.")
                     }
-//                    agregarJugadorSeleccionado(usuario)
+                    agregarJugadorSeleccionado(usuario)
                 }
             },
             onHideSuggestions = {
@@ -174,7 +174,7 @@ class FragmentCrearEquipo : Fragment(), CrearEquipoContract.View {
                             cedula = cedulaUsuario!!,
                             imgLogo = "",
                             idLogo = "",
-                            estado = true,
+                            estado = false,
                             puntos = 0,
 //                            id = "",
                             participantes = getSelectedPlayers()
@@ -207,6 +207,8 @@ class FragmentCrearEquipo : Fragment(), CrearEquipoContract.View {
         if (jugadoresSeleccionados.none { it.id == jugador.id }) {
             jugadoresSeleccionados.add(jugador)
             jugadoresSeleccionadosAdapter.notifyItemInserted(jugadoresSeleccionados.size - 1)
+            Log.d(TAG, "Jugador agregado: ${jugador.nombres} con dorsal ${jugador.dorsal}")
+            Log.d(TAG, "Jugadores seleccionados: $jugadoresSeleccionados")
         }
     }
 
@@ -220,6 +222,8 @@ class FragmentCrearEquipo : Fragment(), CrearEquipoContract.View {
         if (index != -1) {
             jugadoresSeleccionados.removeAt(index)
             jugadoresSeleccionadosAdapter.notifyItemRemoved(index)
+            Log.d(TAG, "Jugador eliminado: ${jugador.nombres}")
+            Log.d(TAG, "Jugadores seleccionados: $jugadoresSeleccionados")
         }
     }
 
@@ -267,7 +271,7 @@ class FragmentCrearEquipo : Fragment(), CrearEquipoContract.View {
             correo = perfil.correo,
             identificacion = perfil.identificacion,
             ficha = perfil.ficha,
-            dorsal = "",
+            dorsal = "1",
             rol = perfil.rol
 
         )
@@ -311,7 +315,7 @@ class FragmentCrearEquipo : Fragment(), CrearEquipoContract.View {
             cedula = cedulaUsuario!!,
             imgLogo = imageUrl ?: "",
             idLogo = imagePublicId ?: "",
-            estado = true,
+            estado = false,
             puntos = 0,
 //            id = "",
             participantes = getSelectedPlayers()

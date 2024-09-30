@@ -151,6 +151,8 @@
                 android:textSize="14dp" />
 
 
+
+
             <!--            <Button-->
             <!--                android:id="@+id/btnBuscarJug"-->
             <!--                android:layout_width="wrap_content"-->
@@ -159,6 +161,25 @@
             <!--                android:text="Buscar jugador" />-->
 
         </LinearLayout>
+<!--        <LinearLayout-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:orientation="horizontal">-->
+
+<!--            <TextView-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="Nombres"-->
+<!--                <TextView-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="Ficha"-->
+<!--            <TextView-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="Dorsal"-->
+<!--        </LinearLayout>-->
+
 
 
         <androidx.recyclerview.widget.RecyclerView

@@ -41,6 +41,7 @@ class JugadoresAdapter(
 
         fun bind(user: User) {
             Log.d("JugadorViewHolder", "Binding user: $user")
+            Log.d("JugadorViewHolder", "Nombre: ${user.nombres}, Ficha: ${user.ficha}, Dorsal: ${user.dorsal}, Seleccionado: ${user.isSelected}")
             nombreTextView.text = user.nombres
             fichaTextView.text = user.ficha
             dorsalEditText.setText(user.dorsal)
@@ -53,15 +54,18 @@ class JugadoresAdapter(
 
             //nuevaLinea
             val isInTeam = jugadoresEnEquipo.contains(user.identificacion)
+            Log.d("JugadorViewHolder", "Jugador en equipo: $isInTeam")
 
             dorsalEditText.isEnabled = !user.isSelected
             checkBox.isEnabled = !user.isSelected && dorsalEditText.text.isNotEmpty() && !isInTeam
+            Log.d("JugadorViewHolder", "Dorsal EditText habilitado: ${dorsalEditText.isEnabled}, CheckBox habilitado: ${checkBox.isEnabled}")
 
 
             dorsalEditText.addTextChangedListener(object : TextWatcher {
                 override fun afterTextChanged(s: Editable?) {
                     user.dorsal = s.toString()
                     checkBox.isEnabled = s.isNullOrEmpty().not() && !isInTeam
+                    Log.d("JugadorViewHolder", "Dorsal después de cambio: ${user.dorsal}, CheckBox habilitado: ${checkBox.isEnabled}")
                 }
 
                 override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
@@ -70,6 +74,7 @@ class JugadoresAdapter(
 
             checkBox.setOnCheckedChangeListener { _, isChecked ->
                 user.isSelected = isChecked
+                Log.d("JugadorViewHolder", "CheckBox cambiado: $isChecked para ${user.nombres}")
                 if (isChecked) {
                     onJugadorSelected(user)
                     onHideSuggestions()
@@ -81,6 +86,7 @@ class JugadoresAdapter(
             itemView.setOnClickListener {
                 if (!user.isSelected && !user.dorsal.isNullOrEmpty() && !isInTeam) {
                     checkBox.isChecked = true
+                    Log.d("JugadorViewHolder", "Item clickeado: ${user.nombres}, CheckBox marcado")
                 }
             }
         }

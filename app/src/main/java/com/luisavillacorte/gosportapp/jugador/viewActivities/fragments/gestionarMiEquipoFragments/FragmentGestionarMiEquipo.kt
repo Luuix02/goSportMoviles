@@ -68,14 +68,45 @@ class FragmentGestionarMiEquipo : Fragment(), GestionarMiEquipoContract.View {
             ?: throw IllegalArgumentException("ID del jugador no encontrado")
         mostrarDatosEquipo(equipo)
 
+        configurarCamposSegunEstadoEquipo(equipo.estado)
+
+
         view.findViewById<Button>(R.id.btnActualizarEquipo).setOnClickListener {
-            subirLogoEquipoYActualizar()
-        }
+                subirLogoEquipoYActualizar()
+            }
+
+
 
         view.findViewById<ImageView>(R.id.iconoCamara).setOnClickListener {
-            getImageLauncher.launch("image/*")
+            if (!equipo.estado) {
+                getImageLauncher.launch("image/*")
+            } else {
+                showError("No es posible cambiar el logo del equipo en este momento.")
+            }
         }
     }
+
+    private fun configurarCamposSegunEstadoEquipo(estado: Boolean) {
+        if (estado) {
+            view?.findViewById<EditText>(R.id.nombreEquipo)?.isEnabled = false
+            view?.findViewById<TextView>(R.id.nombreCapitan)?.isEnabled = false
+            view?.findViewById<EditText>(R.id.CelularSecundario)?.isEnabled = false
+            view?.findViewById<TextView>(R.id.CelularPrincipal)?.isEnabled = false
+            view?.findViewById<EditText>(R.id.buscadorCompañeros)?.isEnabled = false
+            view?.findViewById<Button>(R.id.btnActualizarEquipo)?.isEnabled = false
+            view?.findViewById<Button>(R.id.botonEliminar)?.isEnabled = false
+        } else {
+            view?.findViewById<EditText>(R.id.nombreEquipo)?.isEnabled = true
+            view?.findViewById<TextView>(R.id.nombreCapitan)?.isEnabled = true
+            view?.findViewById<EditText>(R.id.CelularSecundario)?.isEnabled = true
+            view?.findViewById<TextView>(R.id.CelularPrincipal)?.isEnabled = true
+            view?.findViewById<EditText>(R.id.buscadorCompañeros)?.isEnabled = true
+            view?.findViewById<Button>(R.id.btnActualizarEquipo)?.isEnabled = true
+            view?.findViewById<Button>(R.id.botonEliminar)?.isEnabled = true
+        }
+    }
+
+
 
 
     private val getImageLauncher = registerForActivityResult(

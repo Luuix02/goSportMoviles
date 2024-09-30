@@ -5,16 +5,28 @@ interface RecuperarContrasenaContract {
     interface SolicitarCodigoView {
         fun navigateToVerificationScreen(correo: String)
         fun showError(message: String)
+        fun showLoading()
+        fun hideLoading()
+        fun showSuccess(message: String)
+        fun showEmailInput()
+        fun showVerificationInput()
+        fun showNewPasswordInput()
     }
 
     interface VerificarCodigoView {
         fun navigateToChangePasswordScreen(correo: String)
         fun showError(message: String)
+        fun showLoading()
+        fun hideLoading()
+        fun showSuccess(message: String)
     }
 
     interface CambiarContrasenaView {
         fun navigateToLoginScreen()
         fun showError(message: String)
+        fun showLoading()
+        fun hideLoading()
+        fun showSuccess(message: String)
     }
 
     interface Presenter {

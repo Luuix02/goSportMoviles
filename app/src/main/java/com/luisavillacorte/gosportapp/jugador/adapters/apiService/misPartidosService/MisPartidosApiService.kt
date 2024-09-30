@@ -14,8 +14,8 @@ interface MisPartidosApiService {
 
 
 
-    @GET("campeonato/detalle{id}")
-    fun getDetalleCampeonato(@Path("id") id: String): Call<Campeonatos>
+    @GET("campeonato/detalle/{id}")
+    fun getDetalleCampeonato(@Path("id") idCampeonato: String): Call<Campeonatos>
 
     @GET("/vs/buscar/{equipoId}")
     fun obtenerVsMiEquipo(

@@ -23,6 +23,7 @@ class JugadoresSeleccionadosAdapter(
 
         init {
             botonEliminar.setOnClickListener {
+                Log.d("JugadoresSeleccionadosAdapter", "Eliminar jugador: ${jugadores[adapterPosition].nombres}")
                 onRemove(jugadores[adapterPosition])
             }
         }
@@ -30,15 +31,20 @@ class JugadoresSeleccionadosAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_jugadores_seleccionados, parent, false)
+        Log.d("JugadoresSeleccionadosAdapter", "Creando ViewHolder")
         return ViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val jugador = jugadores[position]
+        Log.d("JugadoresSeleccionadosAdapter", "Vinculando jugador en posición $position: ${jugador.nombres}, Ficha: ${jugador.ficha}, Dorsal: ${jugador.dorsal}")
         holder.nombreJugador.text = jugador.nombres
         holder.fichaJugador.text = jugador.ficha
         holder.dorsalJugador.text = jugador.dorsal ?: ""
     }
 
-    override fun getItemCount() = jugadores.size
+    override fun getItemCount(): Int{
+        Log.d("JugadoresSeleccionadosAdapter", "Total de jugadores: ${jugadores.size}")
+        return jugadores.size
+    }
 }

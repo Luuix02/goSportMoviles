@@ -23,7 +23,7 @@ data class  Equipo(
     val cedula: String,
     val imgLogo: String,
     val idLogo: String,
-    val estado: Boolean,
+    val estado: Boolean = false,
     val puntos: Int,
     val participantes: List<User>,
 
@@ -77,9 +77,9 @@ data class EquipoInscritoData(
 
 data class EquipoInscriptoResponse(
     val msg: String,
-//    val inscripto: EquipoInscritoData
+    val inscripto: EquipoInscritoData
 //
-    val inscripto: List<EquipoInscritoData>
+//    val inscripto: List<EquipoInscritoData>
 )
 data class Participantes(
     @SerializedName("_id") val id: String,
@@ -87,4 +87,10 @@ data class Participantes(
     val ficha: String,
     val dorsal: Int
 )
+data class EquipoEstadoRequest(
+    val estado: Boolean
+)
+
+
+
 

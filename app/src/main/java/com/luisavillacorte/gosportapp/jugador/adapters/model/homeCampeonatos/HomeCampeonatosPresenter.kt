@@ -9,7 +9,9 @@ import com.luisavillacorte.gosportapp.jugador.adapters.apiService.homeCampeonato
 import com.luisavillacorte.gosportapp.jugador.adapters.model.auth.NuevaContrasenaRequest
 import com.luisavillacorte.gosportapp.jugador.adapters.model.auth.PerfilUsuarioResponse
 import com.luisavillacorte.gosportapp.jugador.adapters.model.auth.User
+import com.luisavillacorte.gosportapp.jugador.adapters.model.crearEquipo.CrearEquipoResponse
 import com.luisavillacorte.gosportapp.jugador.adapters.model.crearEquipo.Equipo
+import com.luisavillacorte.gosportapp.jugador.adapters.model.crearEquipo.EquipoEstadoRequest
 import com.luisavillacorte.gosportapp.jugador.adapters.model.crearEquipo.EquipoInscriptoRequest
 import com.luisavillacorte.gosportapp.jugador.adapters.model.crearEquipo.EquipoInscriptoResponse
 import com.luisavillacorte.gosportapp.jugador.adapters.model.crearEquipo.Participantes
@@ -121,7 +123,8 @@ class HomeCampeonatosPresenter(
                 if (response.isSuccessful) {
                     response.body()?.let { campeonatos ->
                         val campeonatosFiltrados = campeonatos.filter {
-                            it.estadoCampeonato == "Inscripcion" || it.estadoCampeonato == "Ejecucion" || it.estadoCampeonato == "Finalizacion"
+                            (it.estadoCampeonato == "Inscripcion" || it.estadoCampeonato == "Ejecucion") &&
+                                    (it.tipoCampeonato == "Interfichas" || it.tipoCampeonato == "Recreativos")
                         }
 
                         view.showCampeonatos(campeonatosFiltrados)
@@ -211,6 +214,7 @@ class HomeCampeonatosPresenter(
                     val validarInscripcionResponse = response.body()
                     if (validarInscripcionResponse != null) {
                         guardarIdCampeonatoEquipoInscrito(context, idCampeonato)
+                        actualizarEstadoEquipo(equipo.id)
                         view.showSuccess("Equipo inscrito exitosamente en el campeonato.")
                     } else {
                         view.showError("Error al inscribir el equipo: ${response.code()} ${response.message()}")
@@ -225,6 +229,28 @@ class HomeCampeonatosPresenter(
 
 
     }
+
+    fun actualizarEstadoEquipo(idEquipo: String?) {
+        if (idEquipo != null) {
+            val estadoRequest = EquipoEstadoRequest(estado = true)
+            apiService.actualizarEstadoEquipo(idEquipo, estadoRequest).enqueue(object : Callback<CrearEquipoResponse> {
+                override fun onResponse(call: Call<CrearEquipoResponse>, response: Response<CrearEquipoResponse>) {
+                    if (response.isSuccessful) {
+                        view.showSuccess("Estado del equipo actualizado a true.")
+                    } else {
+                        view.showError("Error al actualizar el estado: ${response.message()}")
+                    }
+                }
+
+                override fun onFailure(call: Call<CrearEquipoResponse>, t: Throwable) {
+                    view.showError("Fallo al actualizar el estado: ${t.message}")
+                }
+            })
+        } else {
+            view.showError("ID de equipo no disponible.")
+        }
+    }
+
 }
 
 //        val equipo = obtenerEquipoDeSharedPreferences(context)
@@ -237,6 +263,10 @@ class HomeCampeonatosPresenter(
 //
 //
 //    }
+
+
+
+
 fun guardarIdCampeonatoEquipoInscrito(context: Context, idCampeonato: String) {
     val sharedPreferences = context.getSharedPreferences("AppPreferences", Context.MODE_PRIVATE)
     val editor = sharedPreferences.edit()

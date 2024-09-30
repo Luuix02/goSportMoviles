@@ -36,7 +36,7 @@ interface HomeCampeonatosContract {
 
 
 //        fun showInscripcionDetails(equipos: List<CampeonatoInscripcion>)
-//        fun mostrarMensaje(message: String)
+
 
 //        fun mostrarInscripcionExito(inscripto: Inscripto)
 //        fun mostrarErrorInscripcion(error: String)
@@ -54,6 +54,8 @@ interface HomeCampeonatosContract {
         fun validarInscripcionJugador(idJugador: String)
         fun verificarEquipoEnCampeonato(identificacion: String, callback: (Boolean, String) -> Unit)
         fun inscribirEquipoEnCampeonato(equipo: Equipo, idCampeonato: String)
+
+
 
 
 

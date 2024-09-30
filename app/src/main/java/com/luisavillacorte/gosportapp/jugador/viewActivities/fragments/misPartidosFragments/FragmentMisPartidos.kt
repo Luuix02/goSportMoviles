@@ -19,6 +19,7 @@ import com.luisavillacorte.gosportapp.jugador.adapters.model.misPartidos.Resulta
 import com.luisavillacorte.gosportapp.jugador.adapters.model.misPartidos.ResultadosResponse
 import com.luisavillacorte.gosportapp.jugador.adapters.model.misPartidos.VsAdapter
 import com.luisavillacorte.gosportapp.jugador.adapters.model.misPartidos.VsResponse
+import com.luisavillacorte.gosportapp.jugador.viewActivities.fragments.interCentros.InterCentros
 
 
 class FragmentMisPartidos : Fragment(), MisPartidosContract.View {
@@ -55,10 +56,7 @@ class FragmentMisPartidos : Fragment(), MisPartidosContract.View {
             RetrofitInstance.createService(MisPartidosApiService::class.java), // Corrección aquí
             requireContext()
         )
-
-        // Fetch data
-        presenter.obtenerVsEquipo()
-
+        presenter.verificarTipoCampeonatoYRedirigir()
         return view
     }
 
@@ -75,6 +73,19 @@ class FragmentMisPartidos : Fragment(), MisPartidosContract.View {
 
     }
 
+    override fun navegarAIntercentros() {
+        val fragmentIntercentros = InterCentros()
+        parentFragmentManager.beginTransaction()
+            .replace(R.id.fragment_container, fragmentIntercentros)
+            .addToBackStack(null) // Permite volver al fragmento anterior
+            .commit()
+    }
+
+    override fun navegarAMisPartidos() {
+        presenter.obtenerVsEquipo()
+
+    }
+
 //    override fun redirigirAFragmentCompartido(tipoCampeonato: String) {
 //        val fragment = FragmentMisPartidos.newInstance(tipoCampeonato)
 //        supportFragmentManager.beginTransaction()
@@ -84,6 +95,9 @@ class FragmentMisPartidos : Fragment(), MisPartidosContract.View {
 //    }
 
     fun redirigirAFragmentIntercentros(){
+
+    }
+   override fun mostrarMensaje(message: String){
 
     }
 

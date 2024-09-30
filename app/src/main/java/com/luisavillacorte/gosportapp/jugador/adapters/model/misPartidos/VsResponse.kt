@@ -8,6 +8,7 @@ data class VsResponse(
     val equipo2: EquipoResponse,
     val fecha: String,
     val hora: String,
+    val estado: Boolean = true,
     val idCampeonato: String
 
 )

@@ -19,7 +19,7 @@ data class User(
     val correo: String,
     val contrasena: String? = null,
     val rol: String,
-    var dorsal: String,
+    var dorsal: String = "",
     var isSelected: Boolean = false,
     @SerializedName("esCapitan") val esCapitan: Boolean = false
 

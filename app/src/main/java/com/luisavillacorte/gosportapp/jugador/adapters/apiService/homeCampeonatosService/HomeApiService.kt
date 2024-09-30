@@ -2,6 +2,8 @@ package com.luisavillacorte.gosportapp.jugador.adapters.apiService.homeCampeonat
 
 import com.luisavillacorte.gosportapp.jugador.adapters.model.auth.NuevaContrasenaRequest
 import com.luisavillacorte.gosportapp.jugador.adapters.model.auth.PerfilUsuarioResponse
+import com.luisavillacorte.gosportapp.jugador.adapters.model.crearEquipo.CrearEquipoResponse
+import com.luisavillacorte.gosportapp.jugador.adapters.model.crearEquipo.EquipoEstadoRequest
 import com.luisavillacorte.gosportapp.jugador.adapters.model.crearEquipo.EquipoInscriptoRequest
 import com.luisavillacorte.gosportapp.jugador.adapters.model.crearEquipo.EquipoInscriptoResponse
 import com.luisavillacorte.gosportapp.jugador.adapters.model.crearEquipo.EquipoInscritoData
@@ -119,6 +121,12 @@ fun getPosiciones(
     fun obtenerEquiposInscritos(
         @Header("id") idCampeonato: String
     ): Call<List<EquipoInscritoData>>
+
+    @PATCH("/inscripcionEquipos/estado/{id}")
+    fun actualizarEstadoEquipo(
+        @Path("id") id: String,
+        @Body equipoEstadoRequest: EquipoEstadoRequest
+    ): Call<CrearEquipoResponse>
 
 }
 
