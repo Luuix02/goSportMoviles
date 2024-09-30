@@ -21,6 +21,7 @@ import com.luisavillacorte.gosportapp.jugador.adapters.storage.TokenManager
 import com.luisavillacorte.gosportapp.jugador.adapters.model.auth.PerfilUsuarioResponse
 import com.luisavillacorte.gosportapp.jugador.adapters.model.crearEquipo.Equipo
 import com.luisavillacorte.gosportapp.jugador.adapters.model.homeCampeonatos.Campeonatos
+import com.luisavillacorte.gosportapp.jugador.viewActivities.fragments.CampeonatoIntercentro.IntercentrosCampoenato
 import com.luisavillacorte.gosportapp.jugador.viewActivities.fragments.cambiarContrasena.CambiarContrasena
 import com.luisavillacorte.gosportapp.jugador.viewActivities.fragments.editarPerfil.Editarperfil
 import com.luisavillacorte.gosportapp.jugador.viewActivities.fragments.interCentros.InterCentros
@@ -69,7 +70,7 @@ class FragmentPerfil : Fragment(), HomeCampeonatosContract.View {
             fragmentTransaction.commit()
         }
         intercentros.setOnClickListener{
-            val intercentros = InterCentros()
+            val intercentros = IntercentrosCampoenato()
             val fragmentManager= parentFragmentManager
             val fragmentTransaction=fragmentManager.beginTransaction()
 

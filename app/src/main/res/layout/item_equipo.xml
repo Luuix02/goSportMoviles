@@ -1,32 +1,23 @@
-<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
+    android:orientation="horizontal"
     android:padding="8dp">
 
     <TextView
         android:id="@+id/textViewPosicion"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="1"
-        android:textSize="18sp"
-        android:layout_marginEnd="16dp" />
+        android:layout_height="wrap_content"/>
 
     <TextView
         android:id="@+id/textViewNombreEquipo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:text="equipos"/>
+        android:layout_marginStart="80dp"/>
 
     <TextView
-        android:id="@+id/puntosview"
+        android:id="@+id/textViewpuntos"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="capitan"/>
-
-    <!-- Agrega más TextViews o elementos si es necesario -->
-
+        android:layout_marginStart="90dp"/>
 </LinearLayout>

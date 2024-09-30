@@ -2,8 +2,10 @@ package com.luisavillacorte.gosportapp.jugador.adapters.apiService.homeCampeonat
 
 import com.luisavillacorte.gosportapp.jugador.adapters.model.auth.NuevaContrasenaRequest
 import com.luisavillacorte.gosportapp.jugador.adapters.model.auth.PerfilUsuarioResponse
+
 import com.luisavillacorte.gosportapp.jugador.adapters.model.crearEquipo.CrearEquipoResponse
 import com.luisavillacorte.gosportapp.jugador.adapters.model.crearEquipo.EquipoEstadoRequest
+import com.luisavillacorte.gosportapp.jugador.adapters.model.campIntercentros.CampeonatInter
 import com.luisavillacorte.gosportapp.jugador.adapters.model.crearEquipo.EquipoInscriptoRequest
 import com.luisavillacorte.gosportapp.jugador.adapters.model.crearEquipo.EquipoInscriptoResponse
 import com.luisavillacorte.gosportapp.jugador.adapters.model.crearEquipo.EquipoInscritoData
@@ -14,6 +16,7 @@ import com.luisavillacorte.gosportapp.jugador.adapters.model.homeCampeonatos.Cam
 import com.luisavillacorte.gosportapp.jugador.adapters.model.interCentros.Partidos
 import com.luisavillacorte.gosportapp.jugador.adapters.model.interCentros.PosicionEquipoData
 import com.luisavillacorte.gosportapp.jugador.adapters.model.interCentros.PosicionEquipoResponse
+import com.luisavillacorte.gosportapp.jugador.adapters.model.resultadoInter.Resulatdos
 import okhttp3.MultipartBody
 import retrofit2.Call
 import retrofit2.http.Body
@@ -31,6 +34,9 @@ import retrofit2.http.Path
 interface HomeApiService {
     @GET("campeonato")
     fun getCampeonato(): Call<List<Campeonatos>>
+
+    @GET("campeonato")
+    fun traerCampeonatosIntercentros(): Call<List<CampeonatInter>>
 
     @GET("/usuarios/perfil")
     fun obtenerPerfilUsuario(@Header("Authorization") token: String): Call<PerfilUsuarioResponse>
@@ -114,6 +120,9 @@ fun getPosiciones(
     fun inscribirEquipoCampeonato(
         @Body equipoData: EquipoInscriptoRequest
     ): Call<EquipoInscriptoResponse>
+
+    @GET("resultadosInterCentros")
+    fun getResultados(@Header("idCampeonato") idCampeonato: String): Call<List<Resulatdos>>
 
 
 

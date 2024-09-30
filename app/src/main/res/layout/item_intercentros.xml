@@ -13,9 +13,9 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="239dp"
-        android:orientation="vertical"
-        android:padding="16dp">
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:orientation="vertical">
 
 
         <LinearLayout
@@ -26,23 +26,23 @@
             android:paddingBottom="8dp">
 
             <TextView
-                android:id="@+id/nombreCampeonato"
+                android:id="@+id/nombreCampeonat"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
                 android:text="Nombre del Campeonato"
+                android:textStyle="bold"
                 android:textSize="20sp"
-                android:textStyle="bold" />
+                android:layout_gravity="center_horizontal" />
 
             <TextView
-                android:id="@+id/categoria"
+                android:id="@+id/categori"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:paddingTop="4dp"
                 android:text="Categoría"
+                android:textStyle="bold"
                 android:textSize="18sp"
-                android:textStyle="bold" />
+                android:paddingTop="4dp"
+                android:layout_gravity="center_horizontal" />
         </LinearLayout>
 
         <!-- Contenedor para Descripción, Fechas y Estado -->
@@ -54,12 +54,13 @@
 
             <!-- Descripción -->
             <TextView
-                android:id="@+id/descripcion"
+                android:id="@+id/descripcio"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:text="Descripción del Campeonato"
                 android:paddingTop="8dp"
                 android:paddingBottom="8dp"
-                android:text="Descripción del Campeonato" />
+                />
 
             <!-- Fechas -->
             <LinearLayout
@@ -72,14 +73,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Fecha inicio: "
-                    android:textStyle="bold" />
+                    android:textStyle="bold"/>
 
 
                 <TextView
-                    android:id="@+id/fechaInicio"
+                    android:id="@+id/fechaInici"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Fecha de Inicio" />
+                    android:text="Fecha de Inicio"/>
 
 
                 <TextView
@@ -87,13 +88,15 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
                     android:text="Fecha fin: "
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    />
 
                 <TextView
-                    android:id="@+id/fechaFin"
+                    android:id="@+id/fechaFi"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Fecha de Fin" />
+                    android:text="Fecha de Fin"
+                    />
             </LinearLayout>
 
             <!-- Estado y Botones -->
@@ -110,10 +113,10 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/estado"
+                    android:id="@+id/estad"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Estado del Campeonato" />
+                    android:text="Estado del Campeonato"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -122,38 +125,29 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/tipocampeonato"
+                    android:id="@+id/tipocampeonat"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Estado del Campeonato"/>
 
-                <!-- Botones -->
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="end">
 
-                    <Button
-                        android:id="@+id/btnVerDetalles"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:backgroundTint="#11A3BD"
-                        android:text="Ver detalles"
-                        android:textSize="14sp"
-                        android:visibility="gone" />
 
-                    <Button
-                        android:id="@+id/btnincribirme"
-                        android:layout_width="wrap_content"
-                        android:layout_height="50dp"
-                        android:layout_marginStart="16dp"
-                        android:backgroundTint="#11A3BD"
-                        android:text="Inscribirme"
-                        android:textSize="14sp"
-                        android:textStyle="bold"
-                        android:visibility="gone" />
-                </LinearLayout>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <Button
+                    android:id="@+id/btnintercnetrosverdetalles"
+                    android:layout_width="wrap_content"
+                    android:layout_height="38dp"
+                    android:layout_marginTop="25dp"
+                    android:backgroundTint="#11A3BD"
+                    android:text="Ver detalles"
+                    android:textColor="@color/black"
+                    android:textSize="18dp"
+                    android:textStyle="bold" />
             </LinearLayout>
         </LinearLayout>
 

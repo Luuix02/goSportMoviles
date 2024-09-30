@@ -2,12 +2,12 @@ package com.luisavillacorte.gosportapp.jugador.viewActivities.fragments.interCen
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.luisavillacorte.gosportapp.R
@@ -19,13 +19,12 @@ class InterCentros : Fragment(), InterCentrosContract.View {
     private lateinit var presenter: InterCentrosPresenter
     private lateinit var recyclerViewPartidos: RecyclerView
     private lateinit var recyclerViewEquipos: RecyclerView
-    private lateinit var recyclerViewPosiciones: RecyclerView // Recycler para posiciones
-    private val partidosAdapter = PartidosAdapter()
-
-
-
+    private lateinit var recyclerViewPosiciones: RecyclerView
+    private lateinit var partidosAdapter: PartidosAdapter // Cambiado a lateinit
     private val equiposAdapter = EquiposAdapter()
-    private val posicionesAdapter = PosicionesAdapter() // Adapter para posiciones
+    private val posicionesAdapter = PosicionesAdapter()
+
+
 
 
     override fun onCreateView(
@@ -38,50 +37,52 @@ class InterCentros : Fragment(), InterCentrosContract.View {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Inicializar RecyclerView para partidos
+        // Inicializa el presenter aquí
+        presenter = InterCentrosPresenter(this, InterCentrosModel(), requireContext())
+
         recyclerViewPartidos = view.findViewById(R.id.recyclerViewPartidosJugados)
         recyclerViewPartidos.layoutManager = LinearLayoutManager(context)
-        recyclerViewPartidos.adapter = partidosAdapter
 
-        // Inicializar RecyclerView para equipos
+        // Obtener el ID del campeonato
+        val idCampeonato = obtenerIdCampeonato()
+        if (idCampeonato != null) {
+            partidosAdapter = PartidosAdapter(idCampeonato, parentFragmentManager) // Pasa el campeonatoId aquí
+            recyclerViewPartidos.adapter = partidosAdapter
+
+            // Cargar partidos usando el ID del equipo
+            val equipoId = obtenerEquipoId()
+            if (equipoId != null) {
+                presenter.loadPartidos(equipoId)
+            } else {
+                showError("No se encontró el ID del equipo en las preferencias.")
+            }
+
+            // Cargar equipos inscritos y posiciones
+            presenter.loadEquiposInscritos(idCampeonato)
+            presenter.loadTablaPosiciones(idCampeonato)
+        } else {
+            showError("No se encontró el ID del campeonato en las preferencias.")
+        }
+
         recyclerViewEquipos = view.findViewById(R.id.recyclerViewEquiposInscritos)
-        recyclerViewEquipos.layoutManager = LinearLayoutManager(context)
+        recyclerViewEquipos.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         recyclerViewEquipos.adapter = equiposAdapter
 
-        // Inicializar RecyclerView para posiciones
         recyclerViewPosiciones = view.findViewById(R.id.recyclerViewPosiciones)
         recyclerViewPosiciones.layoutManager = LinearLayoutManager(context)
         recyclerViewPosiciones.adapter = posicionesAdapter
+    }
 
-        presenter = InterCentrosPresenter(this, InterCentrosModel(), requireContext())
-
-        // Cargar partidos jugados
-        val equipoId = obtenerEquipoId()
-        if (equipoId != null) {
-            presenter.loadPartidos(equipoId)
-        } else {
-            showError("No se encontró el ID del equipo en las preferencias.")
-        }
-
-        // Cargar equipos inscritos en el campeonato con un ID fijo
-        val idCampeonatoFijo = "66ed067a2e301f13e6757c56" // Cambia este ID según corresponda
-        presenter.loadEquiposInscritos(idCampeonatoFijo)
-
-        // Cargar la tabla de posiciones usando un ID fijo
-        val idCampeonatoManual = "66ed067a2e301f13e6757c56" // Cambia este ID según corresponda
-        presenter.loadTablaPosiciones(idCampeonatoManual)
+    // Obtener el ID del campeonato desde SharedPreferences
+    private fun obtenerIdCampeonato(): String? {
+        val sharedPreferences = requireContext().getSharedPreferences("AppPreferences", Context.MODE_PRIVATE)
+        return sharedPreferences.getString("CAMPEONATO_ID", null)
     }
 
     // Obtener el ID del equipo desde SharedPreferences
     private fun obtenerEquipoId(): String? {
         val sharedPreferences = requireContext().getSharedPreferences("AppPreferences", Context.MODE_PRIVATE)
         return sharedPreferences.getString("EQUIPO_ID", null)
-    }
-
-    // Obtener el ID del campeonato desde SharedPreferences (aunque no se usa en este caso)
-    private fun obtenerIdCampeonato(): String? {
-        val sharedPreferences = requireContext().getSharedPreferences("AppPreferences", Context.MODE_PRIVATE)
-        return sharedPreferences.getString("CAMPEONATO_ID", null)
     }
 
     // Mostrar los partidos en el RecyclerView
@@ -96,7 +97,6 @@ class InterCentros : Fragment(), InterCentrosContract.View {
 
     // Mostrar tabla de posiciones en el RecyclerView
     override fun showTablaPosiciones(posiciones: List<PosicionEquipoData>) {
-        Log.d("InterCentros", "Posiciones a mostrar: $posiciones")
         posicionesAdapter.setPosiciones(posiciones)
     }
 

@@ -69,6 +69,16 @@
                     android:layout_marginStart="8dp"/>
             </LinearLayout>
 
+                <Button
+                    android:id="@+id/darbinverresuktadosinter"
+                    android:layout_marginTop="20dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:backgroundTint="#11A3BD"
+                    android:text="Ver Resultados"/>
+
+
         </LinearLayout>
 
         <LinearLayout
@@ -120,7 +130,10 @@
                 android:textSize="14sp"
                 android:layout_marginTop="4dp"/>
 
+
+
         </LinearLayout>
+
 
     </LinearLayout>
 
